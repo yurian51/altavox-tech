@@ -7,13 +7,22 @@ import { PageFrame } from '@/components/site-shell'
 
 const providers = [
   { name: 'Altavox Cloud', detail: 'Native runtime for bots, websites & APIs', icon: Cloud, tone: 'bg-cyan-300 text-[#08121f]', connected: true },
-  { name: 'Vercel', detail: 'Optional web hosting connection', icon: Globe2, tone: 'bg-white text-slate-900', connected: false },
 ]
 const channels = [
   { name: 'Website chat', detail: 'Embed an assistant on your site', icon: Globe2 },
   { name: 'WhatsApp', detail: 'Customer conversations & alerts', icon: MessageSquare },
   { name: 'Telegram', detail: 'Communities, support & commands', icon: Bot },
   { name: 'Slack / Discord', detail: 'Internal team operations', icon: MessageSquare },
+]
+const platformFeatures = [
+  ['Projects & teams', 'Organise workspaces, members, roles, activity, and audit history.'],
+  ['Deployments', 'Preview, production, release history, instant rollback, and deployment protection.'],
+  ['Domains & DNS', 'Connect custom domains, manage redirects, SSL, and environment-aware URLs.'],
+  ['Environment variables', 'Separate development, preview, and production secrets with protected access.'],
+  ['Logs & observability', 'Runtime logs, request logs, build logs, health checks, and incident visibility.'],
+  ['Edge delivery', 'CDN caching, image optimization, global routing, and fast static delivery.'],
+  ['Cron & background jobs', 'Schedule recurring tasks, webhooks, queues, and long-running workers.'],
+  ['Bot operations', 'Channel credentials, webhooks, knowledge sources, tools, and conversation analytics.'],
 ]
 
 export default function DeploymentsPage() {
@@ -47,6 +56,10 @@ export default function DeploymentsPage() {
         <aside className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8"><div className="flex size-11 items-center justify-center rounded-2xl bg-cyan-300/10 text-cyan-300"><ShieldCheck className="size-5" /></div><h2 className="mt-6 text-xl font-medium text-white">Built for controlled releases</h2><p className="mt-3 text-sm leading-7 text-slate-400">Each deployment can have its own environment variables, domain, logs, rollback path, and channel credentials.</p><div className="mt-8 flex flex-col gap-4">{['Preview before production','Environment-aware secrets','Logs and health checks','Rollback-ready releases'].map(item => <div key={item} className="flex items-center gap-3 text-sm text-slate-300"><CheckCircle2 className="size-4 text-cyan-300" />{item}</div>)}</div><Link href="/contact" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Talk to an engineer <ArrowUpRight className="size-4" /></Link></aside>
       </div>
       <div className="mt-20"><div className="mb-7 flex items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.22em] text-cyan-300">Runtime options</p><h2 className="mt-3 text-2xl font-medium text-white">Altavox runs the deployment.</h2></div><Settings2 className="hidden size-5 text-slate-500 sm:block" /></div><div className="grid gap-4 md:grid-cols-3">{providers.map(({name, detail, icon: Icon, tone, connected}) => <button key={name} onClick={() => setSelectedProvider(name)} className={`flex items-center gap-4 rounded-2xl border p-5 text-left transition ${selectedProvider === name ? 'border-cyan-300/70 bg-white/[0.07]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}><span className={`grid size-11 place-items-center rounded-xl ${tone}`}><Icon className="size-5" /></span><span className="min-w-0"><span className="flex items-center gap-2 text-sm font-medium text-white">{name}{connected && <span className="rounded-full bg-cyan-300/15 px-2 py-0.5 text-[10px] text-cyan-200">ready</span>}</span><span className="mt-1 block text-xs text-slate-400">{detail}</span></span></button>)}</div></div>
+      <div className="mt-16 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+        <div className="max-w-2xl"><p className="font-mono text-xs uppercase tracking-[0.22em] text-cyan-300">Altavox platform</p><h2 className="mt-3 text-2xl font-medium text-white">Vercel-level capabilities, owned by Altavox.</h2><p className="mt-3 text-sm leading-7 text-slate-400">These are native Altavox controls, not a thin wrapper around another provider. Start with the modules your project needs and expand as your system grows.</p></div>
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{platformFeatures.map(([name, detail]) => <div key={name} className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><div className="flex items-center gap-2 text-sm font-medium text-white"><CheckCircle2 className="size-4 text-cyan-300" />{name}</div><p className="mt-2 text-xs leading-5 text-slate-500">{detail}</p></div>)}</div>
+      </div>
       <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-cyan-300/[0.06] p-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-8"><div><div className="flex items-center gap-2 text-cyan-200"><Sparkles className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.18em]">Managed by Altavox</span></div><h2 className="mt-3 text-2xl font-medium text-white">Need WhatsApp approval or production secrets?</h2><p className="mt-2 max-w-2xl text-sm leading-7 text-slate-400">Altavox owns the deployment layer: runtime provisioning, domains, secrets, logs, monitoring, and releases. Vercel and other platforms can remain optional connections for features you choose to use.</p></div><Link href="/start-project" className="mt-6 inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-cyan-300/40 px-5 py-3 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-300 hover:text-[#08121f] sm:mt-0">Start setup <ArrowUpRight className="size-4" /></Link></div>
     </section>
   </PageFrame>

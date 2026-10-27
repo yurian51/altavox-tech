@@ -32,7 +32,8 @@ export default function ComputerPage() {
   const [uploadedFile, setUploadedFile] = useState('')
   const [importError, setImportError] = useState('')
   const [isImporting, setIsImporting] = useState(false)
-  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string; detail?: string; id: string }>>([])
+  type Project = { name: string; source: string; status: string; detail?: string; id: string; branch?: string; url?: string; action?: string }
+  const [projects, setProjects] = useState<Project[]>([])
   const [showActivity, setShowActivity] = useState(false)
   const [commandQuery, setCommandQuery] = useState('')
   const [commandResult, setCommandResult] = useState('')
@@ -77,7 +78,7 @@ export default function ComputerPage() {
       const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, { headers: { Accept: 'application/vnd.github+json' } })
       if (!response.ok) throw new Error(response.status === 404 ? 'not found' : 'github unavailable')
       const data = await response.json() as { full_name: string; description?: string; default_branch: string; language?: string; html_url: string }
-      setProjects((current) => [{ id: `github-${data.full_name}`, name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}` }, ...current])
+      setProjects((current) => [{ id: `github-${data.full_name}`, name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}`, branch: data.default_branch, url: data.html_url, action: 'Analyze stack' }, ...current.filter((project) => project.id !== `github-${data.full_name}`)])
       setImportStatus(`Connected to ${data.full_name}. Repository metadata is ready for the deployment plan.`)
       recordActivity(`GitHub repository connected: ${data.full_name}`)
     } catch (error) {
@@ -126,9 +127,19 @@ export default function ComputerPage() {
     }
     const projectName = file.name.replace(/\.(zip|tar|gz|tgz)$/i, '')
     setUploadedFile(file.name)
-    setProjects((current) => [{ id: `upload-${file.name}-${file.lastModified}`, name: projectName, source: 'Upload', status: 'Plan ready', detail: `${file.type || 'Project asset'} · ${Math.ceil(file.size / 1024)} KB` }, ...current])
+    const projectId = `upload-${file.name}-${file.lastModified}`
+    setProjects((current) => [{ id: projectId, name: projectName, source: 'Upload', status: 'Plan ready', detail: `${file.type || 'Project asset'} · ${Math.ceil(file.size / 1024)} KB`, action: 'Analyze files' }, ...current.filter((project) => project.id !== projectId)])
     setImportStatus(`Upload ready: ${file.name} (${Math.ceil(file.size / 1024)} KB)`)
     recordActivity(`Upload intake completed: ${file.name}`)
+  }
+
+  function runProjectAction(project: Project) {
+    const action = project.action ?? 'Analyze stack'
+    const nextStatus = action === 'Analyze stack' || action === 'Analyze files' ? 'Analyzed' : action === 'Create preview' ? 'Preview ready' : 'Plan ready'
+    setProjects((current) => current.map((item) => item.id === project.id ? { ...item, status: nextStatus, action: nextStatus === 'Analyzed' ? 'Create preview' : nextStatus === 'Preview ready' ? 'Deploy release' : 'Analyze stack' } : item))
+    setCommandResult(`${action} completed for ${project.name}. ${nextStatus === 'Preview ready' ? 'A preview environment is ready for review.' : 'The next controlled release action is now available.'}`)
+    setShowActivity(true)
+    recordActivity(`${action} completed: ${project.name}`)
   }
 
   return <PageFrame eyebrow="Altavox Computer" title="Your complete digital operations desk." intro="A native control plane for building, deploying, operating, and improving the systems behind your business. Altavox Computer gives every project a home, every service a role, and every release a clear path." >
@@ -162,7 +173,7 @@ export default function ComputerPage() {
       <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Project registry</p><h2 className="mt-3 text-2xl font-medium text-white">Your systems, ready for their next release.</h2></div><button type="button" onClick={() => setShowActivity((value) => !value)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/50 hover:text-white">{showActivity ? 'Hide activity' : 'View activity'}</button></div>
-          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => prepareDeployment(project.name)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
+          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><div className="mt-4 flex flex-wrap items-center gap-3"><button type="button" onClick={() => runProjectAction(project)} className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">{project.action ?? 'Analyze stack'} <Play className="size-3.5" /></button><button type="button" onClick={() => prepareDeployment(project.name)} className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white">Release plan <ArrowUpRight className="size-3.5" /></button></div></div>)}</div>}
           {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-5 lg:grid-cols-[1fr_1.2fr]"><div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">{activity[0] ?? 'Workspace initialized'}</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div><div className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Audit stream</p>{activity.length === 0 ? <p className="mt-3 text-sm text-slate-500">Your import, analysis, and release actions will appear here.</p> : <div className="mt-3 grid gap-2">{activity.map((event, index) => <div key={`${event}-${index}`} className="flex items-center gap-3 text-xs text-slate-300"><span className="size-1.5 shrink-0 rounded-full bg-cyan-300" />{event}</div>)}</div>}</div></div></div>}
         </div>
       </div>

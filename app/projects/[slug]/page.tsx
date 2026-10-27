@@ -1,7 +1,40 @@
 import Link from 'next/link'
-import { ArrowUpRight, ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { PageFrame } from '@/components/site-shell'
 import { projects } from '@/lib/site-data'
-export function generateStaticParams(){return projects.map(({slug})=>({slug}))}
-export default async function Project({params}:{params:Promise<{slug:string}>}){const {slug}=await params; const p=projects.find(x=>x.slug===slug); if(!p) notFound(); return <PageFrame eyebrow={p.category} title={p.name} intro={p.summary}><section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.2fr_.8fr] lg:px-8"><div><div className="aspect-[16/9] rounded-2xl border border-white/10 bg-[linear-gradient(135deg,#10273b,#08121f)] p-6"><div className="flex h-full items-end rounded-xl border border-cyan-300/20 bg-[radial-gradient(circle_at_75%_20%,rgba(34,211,238,.18),transparent_30%)] p-6"><span className="font-mono text-xs text-cyan-300">ALTAVOX / PROJECT INTERFACE</span></div></div><h2 className="mt-14 text-2xl text-white">The work behind the product</h2><p className="mt-5 max-w-2xl leading-8 text-slate-400">This project is presented as an evolving initiative. Public information reflects the current documented direction and does not imply commercial availability or completed functionality beyond what is verified.</p></div><aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-7"><p className="eyebrow">Project status</p><p className="mt-4 text-xl text-white">{p.status}</p><div className="mt-10 flex flex-wrap gap-2">{p.tags.map(tag=><span key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-300">{tag}</span>)}</div>{p.url&&<Link href={p.url} target="_blank" rel="noreferrer" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300">Visit public website <ArrowUpRight className="size-4"/></Link>}<Link href="/projects" className="mt-6 flex items-center gap-2 text-sm text-slate-400"><ArrowLeft className="size-4"/> All projects</Link></aside></div></PageFrame>}
+
+export function generateStaticParams() {
+  return projects.map(({ slug }) => ({ slug }))
+}
+
+export default async function Project({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const project = projects.find((item) => item.slug === slug)
+  if (!project) notFound()
+
+  return (
+    <PageFrame eyebrow={project.category} title={project.name} intro={project.summary}>
+      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.2fr_.8fr] lg:px-8">
+        <div>
+          <div className="aspect-[16/9] rounded-2xl border border-white/10 bg-[linear-gradient(135deg,#10273b,#08121f)] p-6">
+            <div className="flex h-full items-end rounded-xl border border-cyan-300/20 bg-[radial-gradient(circle_at_75%_20%,rgba(34,211,238,.18),transparent_30%)] p-6">
+              <span className="font-mono text-xs text-cyan-300">ALTAVOX / PROJECT INTERFACE</span>
+            </div>
+          </div>
+          <h2 className="mt-14 text-2xl text-white">The work behind the product</h2>
+          <p className="mt-5 max-w-2xl leading-8 text-slate-400">This project is presented as an evolving initiative. Public information reflects the current documented direction and does not imply commercial availability or completed functionality beyond what is verified.</p>
+        </div>
+        <aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-7">
+          <p className="eyebrow">Project status</p>
+          <p className="mt-4 text-xl text-white">{project.status}</p>
+          <div className="mt-10 flex flex-wrap gap-2">
+            {project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-300">{tag}</span>)}
+          </div>
+          {project.url && <Link href={project.url} target="_blank" rel="noreferrer" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300">Visit public website <ArrowUpRight className="size-4" /></Link>}
+          <Link href="/projects" className="mt-6 flex items-center gap-2 text-sm text-slate-400"><ArrowLeft className="size-4" /> All projects</Link>
+        </aside>
+      </section>
+    </PageFrame>
+  )
+}

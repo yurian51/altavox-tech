@@ -20,6 +20,8 @@ export default function ComputerPage() {
   const [importStatus, setImportStatus] = useState('')
   const [uploadedFile, setUploadedFile] = useState('')
   const [importError, setImportError] = useState('')
+  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string }>>([])
+  const [showActivity, setShowActivity] = useState(false)
 
   function importRepository() {
     const value = repository.trim()
@@ -36,6 +38,8 @@ export default function ComputerPage() {
       if (url.hostname !== 'github.com' || url.pathname.split('/').filter(Boolean).length < 2) {
         throw new Error('invalid repository')
       }
+      const projectName = url.pathname.split('/').filter(Boolean).pop() ?? 'Imported project'
+      setProjects((current) => [{ name: projectName, source: 'GitHub', status: 'Plan ready' }, ...current])
       setImportStatus(`Repository queued: ${url.pathname.replace(/\/$/, '')}`)
     } catch {
       setImportError('Use a valid GitHub URL, for example github.com/owner/project.')
@@ -60,6 +64,7 @@ export default function ComputerPage() {
       return
     }
     setUploadedFile(file.name)
+    setProjects((current) => [{ name: file.name.replace(/\.(zip|tar|gz|tgz)$/i, ''), source: 'Upload', status: 'Plan ready' }, ...current])
     setImportStatus(`Upload ready: ${file.name} (${Math.ceil(file.size / 1024)} KB)`)
   }
 
@@ -91,6 +96,13 @@ export default function ComputerPage() {
       </div>
       <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{modules.map(({name, detail, icon: Icon}) => <article key={name} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:-translate-y-1 hover:border-cyan-300/35"><span className="grid size-10 place-items-center rounded-xl bg-cyan-300/10 text-cyan-300"><Icon className="size-5" /></span><h2 className="mt-5 text-base font-medium text-white">{name}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{detail}</p></article>)}</div>
       <div className="mt-16 grid gap-5 lg:grid-cols-3"><div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2"><div className="flex items-center gap-2 text-cyan-300"><TerminalSquare className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Why it is different</span></div><h2 className="mt-4 max-w-2xl text-2xl font-medium text-white">Altavox Computer is the operating system for your digital company.</h2><div className="mt-7 grid gap-4 sm:grid-cols-2">{['Business context stays attached to every deployment.', 'Bots, websites, data, and infrastructure share one identity.', 'Every action has an audit trail and an owner.', 'Provider connections are optional modules, never your foundation.'].map(item => <div key={item} className="flex gap-3 text-sm leading-6 text-slate-300"><CheckCircle2 className="mt-1 size-4 shrink-0 text-cyan-300" />{item}</div>)}</div></div><div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/[0.07] p-6 sm:p-8"><Sparkles className="size-5 text-cyan-300" /><h2 className="mt-5 text-xl font-medium text-white">Start with a brief.</h2><p className="mt-3 text-sm leading-6 text-slate-400">Describe what you want to build and Altavox turns it into a launch plan.</p><Link href="/launchpad" className="mt-7 inline-flex items-center gap-2 rounded-full bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-[#08121f] hover:bg-white">Open Launchpad <ArrowUpRight className="size-4" /></Link></div></div>
+      <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2">
+          <div className="flex flex-wrap items-center justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Project registry</p><h2 className="mt-3 text-2xl font-medium text-white">Your systems, ready for their next release.</h2></div><button type="button" onClick={() => setShowActivity((value) => !value)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/50 hover:text-white">{showActivity ? 'Hide activity' : 'View activity'}</button></div>
+          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => setActiveAction(`Deploy ${project.name}`)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
+          {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-3 sm:grid-cols-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">Import intake completed</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div></div>}
+        </div>
+      </div>
       <div className="mt-16 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-cyan-300"><Workflow className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Autonomous delivery</span></div><span className="rounded-full bg-emerald-300/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-emerald-200">policy approved</span></div>

@@ -57,6 +57,10 @@ export default function DeploymentsPage() {
 
   return <PageFrame eyebrow="Altavox Launchpad" title="Deploy bots, websites, and the systems behind them." intro="A practical deployment workspace for taking a product from repository to a live URL and connecting assistants to the channels your users already trust.">
     <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300">New in Altavox</p><h2 className="mt-2 text-lg font-medium text-white">Meet Altavox Computer</h2><p className="mt-1 text-sm text-slate-400">Your native command center for projects, services, bots, data, and releases.</p></div>
+        <Link href="/computer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-cyan-300/40 px-4 py-2.5 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-300 hover:text-[#08121f]">Open Computer <ArrowUpRight className="size-4" /></Link>
+      </div>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
           <div className="flex flex-col gap-5 border-b border-white/10 pb-7 sm:flex-row sm:items-end sm:justify-between">

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/altavox-favicon.svg',
         type: 'image/svg+xml',
       },
     ],

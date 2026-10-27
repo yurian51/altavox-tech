@@ -19,18 +19,48 @@ export default function ComputerPage() {
   const [repository, setRepository] = useState('')
   const [importStatus, setImportStatus] = useState('')
   const [uploadedFile, setUploadedFile] = useState('')
+  const [importError, setImportError] = useState('')
 
   function importRepository() {
-    if (!repository.trim()) return
-    setImportStatus(`Repository queued: ${repository.trim()}`)
+    const value = repository.trim()
+    setImportError('')
+    setImportStatus('')
+
+    if (!value) {
+      setImportError('Enter a GitHub repository URL to continue.')
+      return
+    }
+
+    try {
+      const url = new URL(value)
+      if (url.hostname !== 'github.com' || url.pathname.split('/').filter(Boolean).length < 2) {
+        throw new Error('invalid repository')
+      }
+      setImportStatus(`Repository queued: ${url.pathname.replace(/\/$/, '')}`)
+    } catch {
+      setImportError('Use a valid GitHub URL, for example github.com/owner/project.')
+    }
   }
 
   function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
-    if (file) {
-      setUploadedFile(file.name)
-      setImportStatus(`Upload ready: ${file.name}`)
+    setImportError('')
+    setImportStatus('')
+
+    if (!file) return
+    const supported = /\\.(zip|tar|gz|tgz)$/i.test(file.name)
+    if (!supported) {
+      setImportError('Upload a .zip, .tar, .gz, or .tgz project archive.')
+      event.target.value = ''
+      return
     }
+    if (file.size > 250 * 1024 * 1024) {
+      setImportError('Archives must be smaller than 250 MB.')
+      event.target.value = ''
+      return
+    }
+    setUploadedFile(file.name)
+    setImportStatus(`Upload ready: ${file.name} (${Math.ceil(file.size / 1024)} KB)`)
   }
 
   return <PageFrame eyebrow="Altavox Computer" title="Your complete digital operations desk." intro="A native control plane for building, deploying, operating, and improving the systems behind your business. Altavox Computer gives every project a home, every service a role, and every release a clear path." >
@@ -45,8 +75,9 @@ export default function ComputerPage() {
           <button type="button" onClick={importRepository} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><GitBranch className="size-4" /> Import repository</button>
           <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload archive<span className="sr-only"> project archive</span><input type="file" accept=".zip,.tar,.gz,.tgz" onChange={handleUpload} className="sr-only" /></label>
         </div>
-        {(importStatus || uploadedFile) && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{importStatus || uploadedFile}</p>}
-        <p className="mt-4 text-xs text-slate-600">Supported: Next.js, React, Node.js, Python, static sites, APIs, workers, and monorepos.</p>
+        {importError && <p role="alert" className="mt-4 flex items-center gap-2 text-xs text-rose-200"><span className="grid size-4 place-items-center rounded-full border border-rose-300/70 text-[10px]">!</span>{importError}</p>}
+        {(importStatus || uploadedFile) && !importError && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{importStatus || uploadedFile}</p>}
+        <p className="mt-4 text-xs text-slate-600">Supported: Next.js, React, Node.js, Python, static sites, APIs, workers, and monorepos. Max archive size: 250 MB.</p>
       </div>
       <div className="overflow-hidden rounded-[2rem] border border-cyan-300/25 bg-[#07101b] shadow-2xl shadow-cyan-950/20">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-7">

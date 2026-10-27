@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Activity, ArrowUpRight, BarChart3, Bot, Box, CheckCircle2, Cloud, Code2, Command, Cpu, Database, GitBranch, Globe2, KeyRound, Link2, LockKeyhole, Network, Play, Radar, Server, ShieldCheck, Sparkles, TerminalSquare, Upload, Workflow } from 'lucide-react'
+import { Activity, ArrowUpRight, BarChart3, BellRing, Bot, Box, CheckCircle2, Cloud, Code2, Command, Cpu, Database, GitBranch, Globe2, KeyRound, Link2, LockKeyhole, Network, Play, Radar, Search, Server, ShieldCheck, Sparkles, TerminalSquare, Upload, WandSparkles, Workflow } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 
 const modules = [
@@ -22,6 +22,8 @@ export default function ComputerPage() {
   const [importError, setImportError] = useState('')
   const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string }>>([])
   const [showActivity, setShowActivity] = useState(false)
+  const [commandQuery, setCommandQuery] = useState('')
+  const [commandResult, setCommandResult] = useState('')
 
   function importRepository() {
     const value = repository.trim()
@@ -43,6 +45,25 @@ export default function ComputerPage() {
       setImportStatus(`Repository queued: ${url.pathname.replace(/\/$/, '')}`)
     } catch {
       setImportError('Use a valid GitHub URL, for example github.com/owner/project.')
+    }
+  }
+
+  function runCommand(command = commandQuery) {
+    const normalized = command.trim().toLowerCase()
+    if (!normalized) {
+      setCommandResult('Try: scan project, show costs, open incidents, or deploy preview.')
+      return
+    }
+    if (normalized.includes('scan') || normalized.includes('security')) {
+      setCommandResult('Security scan queued: dependency, secret, and policy checks will run before release.')
+    } else if (normalized.includes('cost') || normalized.includes('spend')) {
+      setCommandResult('FinOps view ready: current projected spend is $42.18 with no budget drift detected.')
+    } else if (normalized.includes('incident') || normalized.includes('alert')) {
+      setCommandResult('Signal Center opened: 2 low-severity signals need review, no active outage detected.')
+    } else if (normalized.includes('deploy') || normalized.includes('preview')) {
+      setCommandResult('Preview deployment prepared with an isolated environment and rollback checkpoint.')
+    } else {
+      setCommandResult(`Altavox understood “${command.trim()}”. Add it to a workflow or choose a suggested action.`)
     }
   }
 
@@ -104,6 +125,12 @@ export default function ComputerPage() {
         </div>
       </div>
       <div className="mt-16 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="rounded-3xl border border-cyan-300/25 bg-gradient-to-br from-cyan-300/[0.09] to-white/[0.03] p-6 sm:p-8 lg:col-span-2">
+          <div className="flex flex-wrap items-start justify-between gap-5"><div><div className="flex items-center gap-2 text-cyan-300"><WandSparkles className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Altavox intelligence layer</span></div><h2 className="mt-4 text-2xl font-medium text-white">Operate your stack with natural language.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Ask Computer to inspect, explain, secure, estimate, or prepare a release. Commands become auditable actions instead of chat that disappears.</p></div><div className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-xs text-emerald-200"><BellRing className="size-3.5" /> Guardrails active</div></div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label className="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Search className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">Ask Altavox Computer</span><input value={commandQuery} onChange={(event) => setCommandQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing && event.keyCode !== 229) runCommand() }} placeholder="Ask: scan my project or show spend" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label><button type="button" onClick={() => runCommand()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><WandSparkles className="size-4" /> Run command</button></div>
+          <div className="mt-4 flex flex-wrap gap-2">{['Scan project', 'Show costs', 'Open incidents', 'Deploy preview'].map((command) => <button key={command} type="button" onClick={() => { setCommandQuery(command); runCommand(command) }} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-400 transition hover:border-cyan-300/40 hover:text-cyan-200">{command}</button>)}</div>
+          {commandResult && <p role="status" className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm leading-6 text-cyan-100">{commandResult}</p>}
+        </div>
         <div className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-cyan-300"><Workflow className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Autonomous delivery</span></div><span className="rounded-full bg-emerald-300/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-emerald-200">policy approved</span></div>
           <h2 className="mt-4 text-2xl font-medium text-white">Ship safely without slowing down.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-400">Altavox Computer turns every release into a controlled workflow: preview, test, scan, approve, deploy, and observe.</p>

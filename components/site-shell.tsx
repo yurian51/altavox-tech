@@ -16,9 +16,9 @@ export function SiteHeader() {
       </Link>
       <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">{nav.map(([label, href]) => <Link key={href} href={href} className="text-sm text-slate-300 transition hover:text-cyan-300">{label}</Link>)}</nav>
       <Link href="/start-project" className="hidden items-center gap-2 rounded-full bg-cyan-300 px-5 py-2.5 text-sm font-semibold text-[#08121f] transition hover:bg-white lg:flex">Start a project <ArrowUpRight className="size-4" /></Link>
-      <button className="text-white lg:hidden" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation' : 'Open navigation'}>{open ? <X /> : <Menu />}</button>
+      <button className="rounded-md p-2 text-white transition hover:bg-white/10 lg:hidden" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation">{open ? <X /> : <Menu />}</button>
     </div>
-    {open && <nav className="flex flex-col gap-5 border-t border-white/10 bg-[#08121f] px-6 py-6 lg:hidden" aria-label="Mobile navigation">{nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className="text-base text-slate-200">{label}</Link>)}<Link href="/start-project" onClick={() => setOpen(false)} className="w-fit rounded-full bg-cyan-300 px-5 py-2.5 text-sm font-semibold text-[#08121f]">Start a project</Link></nav>}
+    {open && <nav id="mobile-navigation" className="flex flex-col gap-5 border-t border-white/10 bg-[#08121f] px-6 py-6 lg:hidden" aria-label="Mobile navigation">{nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className="text-base text-slate-200">{label}</Link>)}<Link href="/start-project" onClick={() => setOpen(false)} className="w-fit rounded-full bg-cyan-300 px-5 py-2.5 text-sm font-semibold text-[#08121f]">Start a project</Link></nav>}
   </header>
 }
 

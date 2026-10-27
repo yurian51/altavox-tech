@@ -1,0 +1,3 @@
+import { PageFrame } from '@/components/site-shell'
+import { InquiryForm } from '@/components/inquiry-form'
+export default function Contact(){return <PageFrame eyebrow="Contact" title="Start with the problem, not the proposal." intro="Share enough context for us to understand what you are trying to make clearer, faster, or more dependable."><section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[.7fr_1.3fr] lg:px-8"><div><p className="text-sm leading-7 text-slate-400">Use this form for general enquiries, service questions, or a first conversation about a project. We only ask for information needed to respond meaningfully.</p></div><InquiryForm /></section></PageFrame>}

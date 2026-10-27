@@ -1,0 +1,5 @@
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+import { PageFrame } from '@/components/site-shell'
+import { projects } from '@/lib/site-data'
+export default function Projects(){return <PageFrame eyebrow="Portfolio" title="Distinct products. One engineering practice." intro="A selection of Altavox Tech initiatives across education, connectivity, cloud technology, and network operations."><section className="mx-auto max-w-7xl px-6 py-20 lg:px-8"><div className="grid gap-5">{projects.map((p,i)=><Link href={`/projects/${p.slug}`} key={p.slug} className="group grid gap-8 rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition hover:border-cyan-300/50 md:grid-cols-[80px_1fr_1fr_auto] md:items-center"><span className="font-mono text-sm text-cyan-300">0{i+1}</span><div><p className="text-xs uppercase tracking-[0.15em] text-slate-500">{p.category}</p><h2 className="mt-2 text-2xl text-white group-hover:text-cyan-300">{p.name}</h2></div><p className="text-sm leading-7 text-slate-400">{p.summary}</p><ArrowUpRight className="text-cyan-300"/></Link>)}</div></section></PageFrame>}

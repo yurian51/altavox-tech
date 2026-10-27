@@ -14,6 +14,14 @@ const channels = [
   { name: 'Telegram', detail: 'Communities, support & commands', icon: Bot },
   { name: 'Slack / Discord', detail: 'Internal team operations', icon: MessageSquare },
 ]
+const signatureFeatures = [
+  { name: 'Mission Control', detail: 'See bot health, deploy status, incidents, conversations, and costs from one command center.', stat: 'One view' },
+  { name: 'Bot-to-Cloud Blueprints', detail: 'Turn one idea into a bot, API, database, dashboard, and channel setup with a reusable architecture blueprint.', stat: 'One brief' },
+  { name: 'Omnichannel Memory', detail: 'Keep customer context consistent as conversations move between website chat, WhatsApp, Telegram, Slack, and Discord.', stat: 'Shared context' },
+  { name: 'SafeShip Releases', detail: 'Preview changes, run health checks, compare versions, and roll back without losing live conversations.', stat: 'Zero drama' },
+  { name: 'Spend Guardrails', detail: 'Set budgets, receive usage alerts, and pause runaway workloads before they become surprise bills.', stat: 'Cost control' },
+  { name: 'Local-first Runtime', detail: 'Keep your workspace, logs, data policies, and operational controls under Altavox ownership.', stat: 'Your control' },
+]
 const platformFeatures = [
   ['Projects & teams', 'Organise services, members, roles, activity, and audit history in one workspace.'],
   ['Web services', 'Run Node, Python, Go, PHP, Ruby, Docker, and other HTTP services with health checks.'],
@@ -66,6 +74,13 @@ export default function DeploymentsPage() {
           {notice && <p role="status" className="mt-4 flex items-center gap-2 text-sm text-cyan-200"><CheckCircle2 className="size-4" />{notice}</p>}
         </div>
         <aside className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8"><div className="flex size-11 items-center justify-center rounded-2xl bg-cyan-300/10 text-cyan-300"><ShieldCheck className="size-5" /></div><h2 className="mt-6 text-xl font-medium text-white">Built for controlled releases</h2><p className="mt-3 text-sm leading-7 text-slate-400">Each deployment can have its own environment variables, domain, logs, rollback path, and channel credentials.</p><div className="mt-8 flex flex-col gap-4">{['Preview before production','Environment-aware secrets','Logs and health checks','Rollback-ready releases'].map(item => <div key={item} className="flex items-center gap-3 text-sm text-slate-300"><CheckCircle2 className="size-4 text-cyan-300" />{item}</div>)}</div><Link href="/contact" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Talk to an engineer <ArrowUpRight className="size-4" /></Link></aside>
+      </div>
+      <div className="mt-20 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.09] via-white/[0.03] to-transparent p-6 sm:p-8">
+        <div className="flex flex-col gap-5 border-b border-white/10 pb-7 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl"><p className="font-mono text-xs uppercase tracking-[0.22em] text-cyan-300">The Altavox advantage</p><h2 className="mt-3 text-2xl font-medium text-white sm:text-3xl">Not just hosting. A command center for what you build.</h2><p className="mt-3 text-sm leading-7 text-slate-400">Altavox connects the creative brief, the bot, the infrastructure, and the people operating it. These signature controls are designed around your workflow, not copied from a provider dashboard.</p></div>
+          <span className="w-fit rounded-full border border-cyan-300/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-200">Native Altavox features</span>
+        </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{signatureFeatures.map(({name, detail, stat}) => <article key={name} className="group rounded-2xl border border-white/10 bg-[#07101b]/75 p-5 transition hover:-translate-y-1 hover:border-cyan-300/40"><div className="flex items-start justify-between gap-4"><h3 className="text-base font-medium text-white">{name}</h3><span className="rounded-full bg-cyan-300/10 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-cyan-200">{stat}</span></div><p className="mt-3 text-sm leading-6 text-slate-400">{detail}</p><div className="mt-5 h-px w-10 bg-cyan-300/60 transition-all group-hover:w-20" /></article>)}</div>
       </div>
       <div className="mt-20"><div className="mb-7 flex items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.22em] text-cyan-300">Runtime options</p><h2 className="mt-3 text-2xl font-medium text-white">Altavox runs the deployment.</h2></div><Settings2 className="hidden size-5 text-slate-500 sm:block" /></div><div className="grid gap-4 md:grid-cols-3">{providers.map(({name, detail, icon: Icon, tone, connected}) => <button key={name} onClick={() => setSelectedProvider(name)} className={`flex items-center gap-4 rounded-2xl border p-5 text-left transition ${selectedProvider === name ? 'border-cyan-300/70 bg-white/[0.07]' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}><span className={`grid size-11 place-items-center rounded-xl ${tone}`}><Icon className="size-5" /></span><span className="min-w-0"><span className="flex items-center gap-2 text-sm font-medium text-white">{name}{connected && <span className="rounded-full bg-cyan-300/15 px-2 py-0.5 text-[10px] text-cyan-200">ready</span>}</span><span className="mt-1 block text-xs text-slate-400">{detail}</span></span></button>)}</div></div>
       <div className="mt-16 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">

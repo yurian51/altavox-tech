@@ -31,12 +31,13 @@ export default function ComputerPage() {
   const [importStatus, setImportStatus] = useState('')
   const [uploadedFile, setUploadedFile] = useState('')
   const [importError, setImportError] = useState('')
-  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string }>>([])
+  const [isImporting, setIsImporting] = useState(false)
+  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string; detail?: string }>>([])
   const [showActivity, setShowActivity] = useState(false)
   const [commandQuery, setCommandQuery] = useState('')
   const [commandResult, setCommandResult] = useState('')
 
-  function importRepository() {
+  async function importRepository() {
     const value = repository.trim()
     setImportError('')
     setImportStatus('')
@@ -47,15 +48,23 @@ export default function ComputerPage() {
     }
 
     try {
-      const url = new URL(value)
-      if (url.hostname !== 'github.com' || url.pathname.split('/').filter(Boolean).length < 2) {
-        throw new Error('invalid repository')
-      }
-      const projectName = url.pathname.split('/').filter(Boolean).pop() ?? 'Imported project'
-      setProjects((current) => [{ name: projectName, source: 'GitHub', status: 'Plan ready' }, ...current])
-      setImportStatus(`Repository queued: ${url.pathname.replace(/\/$/, '')}`)
-    } catch {
-      setImportError('Use a valid GitHub URL, for example github.com/owner/project.')
+      const url = new URL(value.startsWith('http') ? value : `https://${value}`)
+      const parts = url.pathname.split('/').filter(Boolean)
+      if (url.hostname !== 'github.com' || parts.length < 2) throw new Error('invalid repository')
+      const owner = parts[0]
+      const repo = parts[1].replace(/\.git$/, '')
+      setIsImporting(true)
+      setImportStatus(`Connecting directly to GitHub: ${owner}/${repo}…`)
+      const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, { headers: { Accept: 'application/vnd.github+json' } })
+      if (!response.ok) throw new Error(response.status === 404 ? 'not found' : 'github unavailable')
+      const data = await response.json() as { full_name: string; description?: string; default_branch: string; language?: string; html_url: string }
+      setProjects((current) => [{ name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}` }, ...current])
+      setImportStatus(`Connected to ${data.full_name}. Repository metadata is ready for the deployment plan.`)
+    } catch (error) {
+      setImportError(error instanceof Error && error.message === 'not found' ? 'Repository not found or private. Public repositories connect instantly; private repositories need GitHub sign-in.' : 'Use a valid public GitHub URL, for example github.com/owner/project.')
+      setImportStatus('')
+    } finally {
+      setIsImporting(false)
     }
   }
 
@@ -109,7 +118,7 @@ export default function ComputerPage() {
         </div>
         <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
           <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Link2 className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">GitHub repository URL</span><input value={repository} onChange={(event) => setRepository(event.target.value)} placeholder="https://github.com/owner/project" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label>
-          <button type="button" onClick={importRepository} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><GitBranch className="size-4" /> Import repository</button>
+          <button type="button" onClick={importRepository} disabled={isImporting} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"><GitBranch className="size-4" /> {isImporting ? 'Connecting…' : 'Import repository'}</button>
           <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload files<span className="sr-only"> project, document, data, image, or code files</span><input type="file" accept=".zip,.tar,.gz,.tgz,.pdf,.docx,.csv,.png,.jpg,.jpeg,.webp,.gif,.tsx,.ts,.jsx,.js,.py,.md" onChange={handleUpload} className="sr-only" /></label>
         </div>
         {importError && <p role="alert" className="mt-4 flex items-center gap-2 text-xs text-rose-200"><span className="grid size-4 place-items-center rounded-full border border-rose-300/70 text-[10px]">!</span>{importError}</p>}
@@ -131,7 +140,7 @@ export default function ComputerPage() {
       <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Project registry</p><h2 className="mt-3 text-2xl font-medium text-white">Your systems, ready for their next release.</h2></div><button type="button" onClick={() => setShowActivity((value) => !value)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/50 hover:text-white">{showActivity ? 'Hide activity' : 'View activity'}</button></div>
-          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => setActiveAction(`Deploy ${project.name}`)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
+          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => setActiveAction(`Deploy ${project.name}`)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
           {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-3 sm:grid-cols-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">Import intake completed</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div></div>}
         </div>
       </div>

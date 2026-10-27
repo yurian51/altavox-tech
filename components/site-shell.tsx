@@ -11,7 +11,7 @@ export function SiteHeader() {
   return <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#08121f]/85 backdrop-blur-xl">
     <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
       <Link href="/" className="flex items-center gap-3 text-white" onClick={() => setOpen(false)}>
-        <span className="grid size-9 place-items-center rounded-lg bg-cyan-400 font-mono text-sm font-bold text-[#08121f]">A</span>
+        <img src="/altavox-favicon.svg" alt="Altavox Tech" className="size-9 rounded-lg" />
         <span className="text-sm font-semibold tracking-[0.18em]">ALTAVOX<span className="text-cyan-300"> TECH</span></span>
       </Link>
       <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">{nav.map(([label, href]) => <Link key={href} href={href} className="text-sm text-slate-300 transition hover:text-cyan-300">{label}</Link>)}</nav>

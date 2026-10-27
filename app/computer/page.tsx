@@ -48,7 +48,7 @@ export default function ComputerPage() {
     setImportStatus('')
 
     if (!file) return
-    const supported = /\\.(zip|tar|gz|tgz)$/i.test(file.name)
+    const supported = /\.(zip|tar|gz|tgz)$/i.test(file.name)
     if (!supported) {
       setImportError('Upload a .zip, .tar, .gz, or .tgz project archive.')
       event.target.value = ''

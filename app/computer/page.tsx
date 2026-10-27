@@ -14,6 +14,17 @@ const modules = [
 
 const actions = ['Create a project', 'Deploy a website', 'Deploy a bot', 'Open system map']
 
+const advancedFeatures = [
+  { icon: Upload, title: 'Universal intake', detail: 'Upload PDFs, DOCX, CSVs, images, and code archives for instant project-aware analysis.' },
+  { icon: Code2, title: 'Build studio', detail: 'Generate, debug, refactor, test, and preview code with changes tracked before release.' },
+  { icon: Bot, title: 'Agent mode', detail: 'Let agents plan tasks, use approved tools, run workflows, and return verifiable results.' },
+  { icon: Database, title: 'Project intelligence', detail: 'Create a private knowledge base across docs, repositories, schemas, and operational history.' },
+  { icon: Globe2, title: 'Research desk', detail: 'Run web research with source trails, citations, and evidence attached to every answer.' },
+  { icon: Sparkles, title: 'Vision + voice', detail: 'Understand screenshots and diagrams, then capture voice notes and meeting transcripts.' },
+  { icon: Workflow, title: 'Custom skills', detail: 'Package repeatable assistants, rules, and workflows for each project or team.' },
+  { icon: ShieldCheck, title: 'Control center', detail: 'Manage roles, approvals, audit logs, usage, environments, rollbacks, and preview releases.' },
+]
+
 export default function ComputerPage() {
   const [activeAction, setActiveAction] = useState('')
   const [repository, setRepository] = useState('')
@@ -73,9 +84,9 @@ export default function ComputerPage() {
     setImportStatus('')
 
     if (!file) return
-    const supported = /\.(zip|tar|gz|tgz)$/i.test(file.name)
+    const supported = /\.(zip|tar|gz|tgz|pdf|docx|csv|png|jpg|jpeg|webp|gif|tsx|ts|jsx|js|py|md)$/i.test(file.name)
     if (!supported) {
-      setImportError('Upload a .zip, .tar, .gz, or .tgz project archive.')
+      setImportError('Upload a project archive, PDF, DOCX, CSV, image, or supported code file.')
       event.target.value = ''
       return
     }
@@ -99,7 +110,7 @@ export default function ComputerPage() {
         <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
           <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Link2 className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">GitHub repository URL</span><input value={repository} onChange={(event) => setRepository(event.target.value)} placeholder="https://github.com/owner/project" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label>
           <button type="button" onClick={importRepository} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><GitBranch className="size-4" /> Import repository</button>
-          <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload archive<span className="sr-only"> project archive</span><input type="file" accept=".zip,.tar,.gz,.tgz" onChange={handleUpload} className="sr-only" /></label>
+          <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload files<span className="sr-only"> project, document, data, image, or code files</span><input type="file" accept=".zip,.tar,.gz,.tgz,.pdf,.docx,.csv,.png,.jpg,.jpeg,.webp,.gif,.tsx,.ts,.jsx,.js,.py,.md" onChange={handleUpload} className="sr-only" /></label>
         </div>
         {importError && <p role="alert" className="mt-4 flex items-center gap-2 text-xs text-rose-200"><span className="grid size-4 place-items-center rounded-full border border-rose-300/70 text-[10px]">!</span>{importError}</p>}
         {(importStatus || uploadedFile) && !importError && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{importStatus || uploadedFile}</p>}
@@ -140,6 +151,10 @@ export default function ComputerPage() {
       </div>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[{ icon: Code2, title: 'Native runtime', copy: 'Build APIs, workers, cron jobs, and edge functions in one workspace.' }, { icon: ShieldCheck, title: 'Security posture', copy: 'Secrets, access rules, audit logs, and automated threat checks.' }, { icon: BarChart3, title: 'FinOps cockpit', copy: 'See unit cost, usage trends, and budget guardrails before surprises.' }, { icon: KeyRound, title: 'Identity graph', copy: 'Connect people, services, bots, and permissions with one identity model.' }].map(({ icon: Icon, title, copy }) => <article key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Icon className="size-5 text-cyan-300" /><h3 className="mt-4 text-sm font-medium text-white">{title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{copy}</p></article>)}
+      </div>
+      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.08] to-white/[0.03] p-6 sm:p-8">
+        <div className="flex flex-wrap items-end justify-between gap-5"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Beyond chat</p><h2 className="mt-3 max-w-2xl text-2xl font-medium text-white">One intelligence layer for the whole build lifecycle.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Altavox Computer combines the strongest ideas from modern AI workspaces with a native control plane for real software delivery.</p></div><span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan-200">8 native capabilities</span></div>
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{advancedFeatures.map(({ icon: Icon, title, detail }) => <article key={title} className="rounded-2xl border border-white/10 bg-[#07101b]/70 p-4 transition hover:-translate-y-0.5 hover:border-cyan-300/40"><span className="grid size-9 place-items-center rounded-xl bg-cyan-300/10 text-cyan-300"><Icon className="size-4" /></span><h3 className="mt-4 text-sm font-medium text-white">{title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{detail}</p></article>)}</div>
       </div>
       <div className="mt-16 flex flex-col gap-5 rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"><div className="flex items-center gap-4"><span className="grid size-11 place-items-center rounded-2xl bg-cyan-300/10 text-cyan-300"><Box className="size-5" /></span><div><h2 className="text-lg font-medium text-white">One home for every system you own.</h2><p className="mt-1 text-sm text-slate-400">Altavox Computer is built to grow with your operations.</p></div></div><Link href="/contact" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Talk to Altavox <ArrowUpRight className="size-4" /></Link></div>
     </section>

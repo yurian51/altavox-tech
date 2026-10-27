@@ -15,14 +15,22 @@ const channels = [
   { name: 'Slack / Discord', detail: 'Internal team operations', icon: MessageSquare },
 ]
 const platformFeatures = [
-  ['Projects & teams', 'Organise workspaces, members, roles, activity, and audit history.'],
-  ['Deployments', 'Preview, production, release history, instant rollback, and deployment protection.'],
-  ['Domains & DNS', 'Connect custom domains, manage redirects, SSL, and environment-aware URLs.'],
-  ['Environment variables', 'Separate development, preview, and production secrets with protected access.'],
-  ['Logs & observability', 'Runtime logs, request logs, build logs, health checks, and incident visibility.'],
-  ['Edge delivery', 'CDN caching, image optimization, global routing, and fast static delivery.'],
-  ['Cron & background jobs', 'Schedule recurring tasks, webhooks, queues, and long-running workers.'],
-  ['Bot operations', 'Channel credentials, webhooks, knowledge sources, tools, and conversation analytics.'],
+  ['Projects & teams', 'Organise services, members, roles, activity, and audit history in one workspace.'],
+  ['Web services', 'Run Node, Python, Go, PHP, Ruby, Docker, and other HTTP services with health checks.'],
+  ['Private services', 'Keep internal APIs and service-to-service workloads off the public internet.'],
+  ['Background workers', 'Run queues, consumers, agents, and long-lived processes independently from web traffic.'],
+  ['Static sites', 'Build and serve marketing sites, documentation, and frontend applications from Git.'],
+  ['Preview environments', 'Create isolated deploy previews for every branch, pull request, or review environment.'],
+  ['Deploys & rollbacks', 'Use Git, Docker, deploy hooks, release history, zero-downtime deploys, and instant rollback.'],
+  ['Autoscaling', 'Scale service instances from traffic and resource demand with health-aware routing.'],
+  ['Managed Postgres', 'Provision production databases with backups, private networking, and connection controls.'],
+  ['Managed Redis', 'Add low-latency caching, queues, sessions, rate limits, and ephemeral application state.'],
+  ['Persistent disks', 'Attach durable storage to stateful services with controlled mounts and service ownership.'],
+  ['Domains & TLS', 'Connect custom domains, redirects, automatic HTTPS certificates, and environment-aware URLs.'],
+  ['Environment groups', 'Share and protect development, preview, and production secrets across related services.'],
+  ['Logs & metrics', 'Inspect build, deploy, runtime, request, CPU, memory, bandwidth, and health signals.'],
+  ['Regions & networking', 'Choose deployment regions and connect services through private internal networking.'],
+  ['Bot operations', 'Manage channel credentials, webhooks, knowledge sources, tools, and conversation analytics.'],
 ]
 
 export default function DeploymentsPage() {

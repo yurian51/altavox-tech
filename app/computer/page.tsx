@@ -32,10 +32,29 @@ export default function ComputerPage() {
   const [uploadedFile, setUploadedFile] = useState('')
   const [importError, setImportError] = useState('')
   const [isImporting, setIsImporting] = useState(false)
-  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string; detail?: string }>>([])
+  const [projects, setProjects] = useState<Array<{ name: string; source: string; status: string; detail?: string; id: string }>>([])
   const [showActivity, setShowActivity] = useState(false)
   const [commandQuery, setCommandQuery] = useState('')
   const [commandResult, setCommandResult] = useState('')
+  const [activity, setActivity] = useState<string[]>([])
+  const [deploymentState, setDeploymentState] = useState<'idle' | 'running' | 'ready'>('idle')
+  const [selectedProject, setSelectedProject] = useState('')
+
+  function recordActivity(message: string) {
+    setActivity((current) => [message, ...current].slice(0, 8))
+  }
+
+  function prepareDeployment(projectName: string) {
+    setSelectedProject(projectName)
+    setDeploymentState('running')
+    setActiveAction(`Deploy ${projectName}`)
+    recordActivity(`Deployment plan opened for ${projectName}`)
+    window.setTimeout(() => {
+      setDeploymentState('ready')
+      setCommandResult(`Deployment plan ready for ${projectName}: preview, test, scan, approval, and release gates are configured.`)
+      recordActivity(`Deployment plan ready for ${projectName}`)
+    }, 700)
+  }
 
   async function importRepository() {
     const value = repository.trim()
@@ -58,8 +77,9 @@ export default function ComputerPage() {
       const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, { headers: { Accept: 'application/vnd.github+json' } })
       if (!response.ok) throw new Error(response.status === 404 ? 'not found' : 'github unavailable')
       const data = await response.json() as { full_name: string; description?: string; default_branch: string; language?: string; html_url: string }
-      setProjects((current) => [{ name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}` }, ...current])
+      setProjects((current) => [{ id: `github-${data.full_name}`, name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}` }, ...current])
       setImportStatus(`Connected to ${data.full_name}. Repository metadata is ready for the deployment plan.`)
+      recordActivity(`GitHub repository connected: ${data.full_name}`)
     } catch (error) {
       setImportError(error instanceof Error && error.message === 'not found' ? 'Repository not found or private. Public repositories connect instantly; private repositories need GitHub sign-in.' : 'Use a valid public GitHub URL, for example github.com/owner/project.')
       setImportStatus('')
@@ -104,9 +124,11 @@ export default function ComputerPage() {
       event.target.value = ''
       return
     }
+    const projectName = file.name.replace(/\.(zip|tar|gz|tgz)$/i, '')
     setUploadedFile(file.name)
-    setProjects((current) => [{ name: file.name.replace(/\.(zip|tar|gz|tgz)$/i, ''), source: 'Upload', status: 'Plan ready' }, ...current])
+    setProjects((current) => [{ id: `upload-${file.name}-${file.lastModified}`, name: projectName, source: 'Upload', status: 'Plan ready', detail: `${file.type || 'Project asset'} · ${Math.ceil(file.size / 1024)} KB` }, ...current])
     setImportStatus(`Upload ready: ${file.name} (${Math.ceil(file.size / 1024)} KB)`)
+    recordActivity(`Upload intake completed: ${file.name}`)
   }
 
   return <PageFrame eyebrow="Altavox Computer" title="Your complete digital operations desk." intro="A native control plane for building, deploying, operating, and improving the systems behind your business. Altavox Computer gives every project a home, every service a role, and every release a clear path." >
@@ -140,8 +162,8 @@ export default function ComputerPage() {
       <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Project registry</p><h2 className="mt-3 text-2xl font-medium text-white">Your systems, ready for their next release.</h2></div><button type="button" onClick={() => setShowActivity((value) => !value)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/50 hover:text-white">{showActivity ? 'Hide activity' : 'View activity'}</button></div>
-          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => setActiveAction(`Deploy ${project.name}`)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
-          {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-3 sm:grid-cols-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">Import intake completed</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div></div>}
+          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><button type="button" onClick={() => prepareDeployment(project.name)} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">Open deployment plan <ArrowUpRight className="size-3.5" /></button></div>)}</div>}
+          {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-5 lg:grid-cols-[1fr_1.2fr]"><div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">{activity[0] ?? 'Workspace initialized'}</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div><div className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Audit stream</p>{activity.length === 0 ? <p className="mt-3 text-sm text-slate-500">Your import, analysis, and release actions will appear here.</p> : <div className="mt-3 grid gap-2">{activity.map((event, index) => <div key={`${event}-${index}`} className="flex items-center gap-3 text-xs text-slate-300"><span className="size-1.5 shrink-0 rounded-full bg-cyan-300" />{event}</div>)}</div>}</div></div></div>}
         </div>
       </div>
       <div className="mt-16 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
@@ -150,6 +172,7 @@ export default function ComputerPage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label className="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Search className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">Ask Altavox Computer</span><input value={commandQuery} onChange={(event) => setCommandQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing && event.keyCode !== 229) runCommand() }} placeholder="Ask: scan my project or show spend" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label><button type="button" onClick={() => runCommand()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><WandSparkles className="size-4" /> Run command</button></div>
           <div className="mt-4 flex flex-wrap gap-2">{['Scan project', 'Show costs', 'Open incidents', 'Deploy preview'].map((command) => <button key={command} type="button" onClick={() => { setCommandQuery(command); runCommand(command) }} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-400 transition hover:border-cyan-300/40 hover:text-cyan-200">{command}</button>)}</div>
           {commandResult && <p role="status" className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm leading-6 text-cyan-100">{commandResult}</p>}
+          {deploymentState !== 'idle' && <div className="mt-5 rounded-2xl border border-white/10 bg-[#07101b] p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Release control</p><p className="mt-1 text-sm font-medium text-white">{selectedProject}</p></div><span className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider ${deploymentState === 'ready' ? 'bg-emerald-300/10 text-emerald-200' : 'bg-amber-300/10 text-amber-200'}`}>{deploymentState === 'ready' ? 'plan ready' : 'preparing'}</span></div><div className="mt-4 flex flex-wrap gap-2">{['Preview', 'Test', 'Security scan', 'Approval gate'].map((gate, index) => <span key={gate} className={`rounded-full border px-3 py-1.5 text-xs ${deploymentState === 'ready' || index === 0 ? 'border-cyan-300/30 bg-cyan-300/10 text-cyan-100' : 'border-white/10 text-slate-500'}`}>{gate}</span>)}</div></div>}
         </div>
         <div className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-cyan-300"><Workflow className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Autonomous delivery</span></div><span className="rounded-full bg-emerald-300/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-emerald-200">policy approved</span></div>

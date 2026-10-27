@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Activity, ArrowUpRight, BarChart3, Bot, Box, CheckCircle2, Cloud, Code2, Command, Cpu, Database, GitBranch, Globe2, KeyRound, LockKeyhole, Network, Play, Radar, Server, ShieldCheck, Sparkles, TerminalSquare, Workflow } from 'lucide-react'
+import { Activity, ArrowUpRight, BarChart3, Bot, Box, CheckCircle2, Cloud, Code2, Command, Cpu, Database, GitBranch, Globe2, KeyRound, Link2, LockKeyhole, Network, Play, Radar, Server, ShieldCheck, Sparkles, TerminalSquare, Upload, Workflow } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 
 const modules = [
@@ -16,8 +16,38 @@ const actions = ['Create a project', 'Deploy a website', 'Deploy a bot', 'Open s
 
 export default function ComputerPage() {
   const [activeAction, setActiveAction] = useState('')
+  const [repository, setRepository] = useState('')
+  const [importStatus, setImportStatus] = useState('')
+  const [uploadedFile, setUploadedFile] = useState('')
+
+  function importRepository() {
+    if (!repository.trim()) return
+    setImportStatus(`Repository queued: ${repository.trim()}`)
+  }
+
+  function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (file) {
+      setUploadedFile(file.name)
+      setImportStatus(`Upload ready: ${file.name}`)
+    }
+  }
+
   return <PageFrame eyebrow="Altavox Computer" title="Your complete digital operations desk." intro="A native control plane for building, deploying, operating, and improving the systems behind your business. Altavox Computer gives every project a home, every service a role, and every release a clear path." >
     <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <div className="mb-8 rounded-[2rem] border border-cyan-300/25 bg-cyan-300/[0.06] p-6 sm:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-5">
+          <div className="max-w-2xl"><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Bring your code</p><h2 className="mt-3 text-2xl font-medium text-white">Import a project directly into Altavox.</h2><p className="mt-2 text-sm leading-6 text-slate-400">Paste a public or private GitHub repository, or upload a project archive. Altavox will inspect the stack, create an environment, and prepare the first deployment plan.</p></div>
+          <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">GitHub + upload</span>
+        </div>
+        <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
+          <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Link2 className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">GitHub repository URL</span><input value={repository} onChange={(event) => setRepository(event.target.value)} placeholder="https://github.com/owner/project" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label>
+          <button type="button" onClick={importRepository} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><GitBranch className="size-4" /> Import repository</button>
+          <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload archive<span className="sr-only"> project archive</span><input type="file" accept=".zip,.tar,.gz,.tgz" onChange={handleUpload} className="sr-only" /></label>
+        </div>
+        {(importStatus || uploadedFile) && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{importStatus || uploadedFile}</p>}
+        <p className="mt-4 text-xs text-slate-600">Supported: Next.js, React, Node.js, Python, static sites, APIs, workers, and monorepos.</p>
+      </div>
       <div className="overflow-hidden rounded-[2rem] border border-cyan-300/25 bg-[#07101b] shadow-2xl shadow-cyan-950/20">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-7">
           <div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-xl bg-cyan-300 text-[#08121f]"><Cpu className="size-5" /></span><div><p className="text-sm font-semibold text-white">Altavox Computer</p><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Control plane / online</p></div></div>

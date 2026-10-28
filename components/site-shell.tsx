@@ -13,7 +13,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-[#dedbd3] bg-[#fbfaf7]">
       <div className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-5 lg:px-8">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 text-[#101b2b] sm:gap-3" onClick={() => setOpen(false)}>
-          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/9a8652313baf6a40b2c0a95dae45852c2566ba68ecc48f7e6919edb995c45d6f-g8RU0YUO5vv9yk01u705USST2XSTvs.png" alt="Altavox Tech lion mark" className="size-9 shrink-0 object-contain sm:size-10" />
+          <img src="/altavox-favicon.svg" alt="Altavox Tech lion mark" className="size-9 shrink-0 object-contain sm:size-10" />
           <span className="whitespace-nowrap text-sm font-extrabold tracking-[.12em] sm:text-base">ALTAVOX<span className="text-[#a36d00]"> TECH</span></span>
         </Link>
         <nav className="hidden items-center gap-5 xl:gap-7 lg:flex" aria-label="Primary navigation">{nav.map(([label, href]) => <Link key={href + label} href={href} className="text-[13px] font-medium text-[#4e5662] transition hover:text-[#8a5d00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a36d00]">{label}</Link>)}</nav>
@@ -28,7 +28,7 @@ export function SiteHeader() {
 export function SiteFooter() {
   return <footer className="border-t border-white/10 bg-[#101b2b] text-slate-300">
     <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12 lg:px-8 lg:py-16">
-      <div><Link href="/" className="mb-5 inline-flex items-center gap-3 text-white"><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/9a8652313baf6a40b2c0a95dae45852c2566ba68ecc48f7e6919edb995c45d6f-g8RU0YUO5vv9yk01u705USST2XSTvs.png" alt="" aria-hidden="true" className="size-9 object-contain" /><span className="text-sm font-extrabold tracking-[.14em]">ALTAVOX <span className="text-[#ffc247]">TECH</span></span></Link><p className="max-w-xs text-sm leading-7 text-slate-400">Software products and connected systems, designed around the work people need to get done.</p></div>
+      <div><Link href="/" className="mb-5 inline-flex items-center gap-3 text-white"><img src="/altavox-favicon.svg" alt="" aria-hidden="true" className="size-9 object-contain" /><span className="text-sm font-extrabold tracking-[.14em]">ALTAVOX <span className="text-[#ffc247]">TECH</span></span></Link><p className="max-w-xs text-sm leading-7 text-slate-400">Software products and connected systems, designed around the work people need to get done.</p></div>
       <FooterCol title="Company" links={nav.slice(0, 3)} />
       <FooterCol title="Explore" links={[["Insights", "/insights"], ["About Altavox", "/about"], ["Contact", "/contact"]]} />
       <FooterCol title="Ecosystem" links={[["Sammena School", "/projects/sammena"], ["Jaslyn Net", "/projects/jaslyn-net"], ["NetBill-NOC", "/projects/netbill-noc"], ["All projects", "/projects"]]} />

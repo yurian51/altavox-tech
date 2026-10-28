@@ -20,8 +20,8 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/altavox-favicon.svg',
-        type: 'image/svg+xml',
+        url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/9a8652313baf6a40b2c0a95dae45852c2566ba68ecc48f7e6919edb995c45d6f-g8RU0YUO5vv9yk01u705USST2XSTvs.png',
+        type: 'image/png',
       },
     ],
     apple: '/apple-icon.png',

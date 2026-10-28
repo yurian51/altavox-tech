@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { URL } from "node:url";
 import { pool, ensureSchema, closePool } from "./db.mjs";
+import { validSlug, validRepoUrl, validGitRef, validCommit } from "./validation.mjs";
 
 const port = Number.parseInt(process.env.PORT ?? "8787", 10);
 const apiToken = process.env.ALTAVOX_CONTROL_PLANE_TOKEN;
@@ -51,32 +52,6 @@ async function readJson(req) {
   }
 }
 
-function validSlug(value) {
-  return typeof value === "string" && /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(value);
-}
-
-function validRepoUrl(value) {
-  if (typeof value !== "string") return false;
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" &&
-      url.hostname === "github.com" &&
-      url.username === "" && url.password === "" &&
-      /^\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/.test(url.pathname);
-  } catch {
-    return false;
-  }
-}
-
-function validGitRef(value) {
-  return typeof value === "string" && value.length > 0 && value.length <= 255 &&
-    !value.startsWith("-") && !/[\s\\~^:?*\[\]]/.test(value) && !value.includes("..");
-}
-
-function validCommit(value) {
-  return typeof value === "string" && /^[a-f0-9]{40}$/i.test(value);
-}
-
 const server = createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", "http://localhost");
   try {
@@ -109,10 +84,13 @@ const server = createServer(async (req, res) => {
 
     if (req.method === "POST" && url.pathname === "/v1/deployments") {
       const body = await readJson(req);
+      if (!body || typeof body !== "object" || Array.isArray(body)) {
+        return send(res, 400, { error: "json_object_required" });
+      }
       const projectSlug = body.projectSlug;
       const repositoryUrl = body.repositoryUrl;
       const gitRef = body.gitRef;
-      const commitSha = body.commitSha?.toLowerCase();
+      const commitSha = typeof body.commitSha === "string" ? body.commitSha.toLowerCase() : body.commitSha;
       const idempotencyKey = req.headers["idempotency-key"];
 
       if (!validSlug(projectSlug)) return send(res, 400, { error: "invalid_project_slug" });

@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -22,20 +23,23 @@ type VercelDeployment = {
 }
 
 function unauthorized() {
-  return NextResponse.json({ error: 'Deployment desk access is not configured or authorized.' }, { status: 401 })
+  return NextResponse.json(
+    { error: 'Deployment desk access is not configured or authorized.' },
+    { status: 401, headers: { 'Cache-Control': 'no-store' } },
+  )
 }
 
 export async function GET(request: Request) {
   const expectedKey = process.env.DEPLOYMENT_DESK_KEY
   const supplied = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
 
-  if (!expectedKey || !supplied || supplied.length !== expectedKey.length) return unauthorized()
+  if (!expectedKey || !supplied) return unauthorized()
 
-  let authorized = true
-  for (let i = 0; i < expectedKey.length; i++) {
-    if (expectedKey.charCodeAt(i) !== supplied.charCodeAt(i)) authorized = false
+  const expectedBytes = Buffer.from(expectedKey)
+  const suppliedBytes = Buffer.from(supplied)
+  if (expectedBytes.length !== suppliedBytes.length || !timingSafeEqual(expectedBytes, suppliedBytes)) {
+    return unauthorized()
   }
-  if (!authorized) return unauthorized()
 
   const token = process.env.VERCEL_TOKEN
   const projectId = process.env.VERCEL_PROJECT_ID

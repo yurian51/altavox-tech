@@ -4,7 +4,7 @@ This directory is the infrastructure starting point for hosting workloads on Alt
 
 ## Target architecture
 
-- **Control plane:** Altavox-owned API for projects, Git integrations, deployment state, access control, audit events and usage limits.
+- **Control plane:** a starter Node.js API and PostgreSQL deployment registry now exist under `control-plane/`. The API has liveness/readiness checks, token-protected listing and idempotent deployment-request creation. It is not yet a complete customer control plane.
 - **Build plane:** isolated build workers create OCI images from pinned source revisions. Build jobs must not run with unrestricted host privileges.
 - **Runtime plane:** Docker/containerd hosts run customer workloads with CPU, memory, disk and network limits.
 - **Ingress:** managed reverse proxy routes project domains and provisions TLS certificates.

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -11,6 +12,12 @@ import {
 } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 import { projects } from '@/lib/site-data'
+
+export const metadata: Metadata = {
+  title: 'Solutions',
+  description: 'Explore Altavox Tech solution areas across education technology, ISP operations, network operations, and cloud foundations.',
+  alternates: { canonical: '/solutions' },
+}
 
 const solutionAreas = [
   {

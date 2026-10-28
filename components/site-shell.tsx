@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 
-const nav = [['Services','/services'],['Solutions','/projects'],['Projects','/projects'],['Insights','/insights'],['About','/about'],['Contact','/contact']]
+const nav = [['Services','/services'],['Solutions','/solutions'],['Projects','/projects'],['Insights','/insights'],['About','/about'],['Contact','/contact']]
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)

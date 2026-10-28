@@ -13,7 +13,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-[#dedbd3] bg-[#fbfaf7]">
       <div className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-5 lg:px-8">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 text-[#101b2b] sm:gap-3" onClick={() => setOpen(false)}>
-          <img src="/altavox-favicon.svg" alt="Altavox Tech lion mark" className="size-9 shrink-0 object-contain sm:size-10" />
+          <img src="/altavox-favicon.svg" alt="Altavox Tech mark" className="size-9 shrink-0 object-contain sm:size-10" />
           <span className="whitespace-nowrap text-sm font-extrabold tracking-[.12em] sm:text-base">ALTAVOX<span className="text-[#a36d00]"> TECH</span></span>
         </Link>
         <nav className="hidden items-center gap-5 xl:gap-7 lg:flex" aria-label="Primary navigation">{nav.map(([label, href]) => <Link key={href + label} href={href} className="text-[13px] font-medium text-[#4e5662] transition hover:text-[#8a5d00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a36d00]">{label}</Link>)}</nav>

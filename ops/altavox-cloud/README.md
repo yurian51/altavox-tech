@@ -22,9 +22,9 @@ Use a fresh Ubuntu 22.04/24.04 x86_64 server with a public IP. For an initial pr
    ```sh
    sudo bash ops/altavox-cloud/bootstrap-ubuntu.sh
    ```
-5. To install the initial self-hosted deployment control plane, explicitly opt in:
+5. To install the initial self-hosted deployment control plane, explicitly opt in and confirm server ownership:
    ```sh
-   sudo env ALTAVOX_INSTALL_COOLIFY=YES bash ops/altavox-cloud/bootstrap-ubuntu.sh
+   sudo env ALTAVOX_INSTALL_COOLIFY=YES ALTAVOX_CONFIRM_HOSTING_INSTALL=I_CONTROL_THIS_SERVER bash ops/altavox-cloud/bootstrap-ubuntu.sh
    ```
    This downloads and executes Coolify's official installer. Coolify is an initial self-hosted deployment engine, not Altavox's final product identity. Altavox's customer-facing control plane and APIs must be built and owned in this repository.
 6. Configure DNS only after the server IP and intended domain are known. Do not publish an admin console openly without access restrictions.

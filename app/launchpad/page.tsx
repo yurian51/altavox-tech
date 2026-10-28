@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import ProjectsPage from '@/app/projects/page'
 
 export default function LaunchpadPage() {
-  redirect('/deployments')
+  return <ProjectsPage />
 }

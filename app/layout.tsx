@@ -4,10 +4,10 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Altavox Tech — Technology Built to Solve Real Problems',
+    default: 'Altavox Tech — Software & Systems Engineering',
     template: '%s | Altavox Tech',
   },
-  description: 'Altavox Tech designs and develops software platforms, digital experiences, and connected systems for real operational problems.',
+  description: 'Altavox Tech builds software products and connected systems for education, connectivity, and business operations.',
   generator: 'Next.js',
   icons: {
     icon: [
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#08121f',
+  colorScheme: 'light',
+  themeColor: '#101b2b',
 }
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ on:
       - "ops/altavox-cloud/**"
       - ".github/workflows/altavox-cloud.yml"
   push:
-    branches: [main]
+    branches: ["**"]
     paths:
       - "ops/altavox-cloud/**"
       - ".github/workflows/altavox-cloud.yml"

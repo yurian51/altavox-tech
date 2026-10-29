@@ -2,7 +2,36 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Activity, ArrowUpRight, BarChart3, BellRing, Bot, Box, CheckCircle2, Cloud, Code2, Command, Cpu, Database, GitBranch, Globe2, KeyRound, Link2, LockKeyhole, Network, Play, Radar, Search, Server, ShieldCheck, Sparkles, TerminalSquare, Upload, WandSparkles, Workflow } from 'lucide-react'
+import {
+  Activity,
+  ArrowUpRight,
+  BarChart3,
+  BellRing,
+  Bot,
+  Box,
+  CheckCircle2,
+  Cloud,
+  Code2,
+  Command,
+  Cpu,
+  Database,
+  GitBranch,
+  Globe2,
+  KeyRound,
+  Link2,
+  LockKeyhole,
+  Network,
+  Play,
+  Radar,
+  Search,
+  Server,
+  ShieldCheck,
+  Sparkles,
+  TerminalSquare,
+  Upload,
+  WandSparkles,
+  Workflow
+} from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 import { OperationsStatus } from '@/components/operations-status'
 
@@ -33,6 +62,65 @@ const advancedFeatures = [
   { icon: ShieldCheck, title: 'Control center', detail: 'Manage roles, approvals, audit logs, usage, environments, rollbacks, and preview releases.' },
 ]
 
+const ideFilesContent: Record<string, string> = {
+  'page.tsx': `export default function Computer() {\n  return (\n    <WorkspaceOS>\n      <LiveTopology service="jaslyn-net" />\n      <DeveloperCockpit defaultTab="terminal" />\n      <AuditStream filter="security" />\n    </WorkspaceOS>\n  )\n}`,
+  'layout.tsx': `export const metadata: Metadata = {\n  title: 'Altavox Tech',\n  description: 'Technology built for real work.'\n}\n\nexport default function RootLayout({ children }) {\n  return <html><body className="antialiased">{children}</body></html>\n}`,
+  'site-shell.tsx': `export function SiteHeader() {\n  return (\n    <header className="sticky top-0 z-40 bg-white/95">\n      <Brand wordmark="ALTAVOX TECH" />\n      <NavLinks />\n      <QuickSearch shortcut="Cmd+K" />\n    </header>\n  )\n}`,
+  'schema.ts': `export const inquiries = pgTable('inquiries', {\n  id: uuid('id').primaryKey(),\n  name: text('name').notNull(),\n  email: text('email').notNull(),\n  service: text('service'),\n  status: text('status').default('new'),\n  createdAt: timestamp('created_at').defaultNow()\n})`
+}
+
+interface TopologyDetail {
+  title: string
+  host: string
+  status: string
+  uptime: string
+  latency: string
+  details: string
+}
+
+const topologyData: Record<string, TopologyDetail> = {
+  gateway: {
+    title: 'Public Gateway',
+    host: 'jaslyn-net.altavox.space',
+    status: 'Healthy',
+    uptime: '99.99%',
+    latency: '22ms',
+    details: 'Cloudflare edge reverse-proxy with automated TLS 1.3 termination, HTTP/2, and rate limiting.'
+  },
+  web: {
+    title: 'Web Service (Core UI)',
+    host: 'core-web.internal:3000',
+    status: 'Operational',
+    uptime: '99.95%',
+    latency: '4ms',
+    details: 'Next.js 16 standalone container with server components, streaming SSR, and zero client layout shifts.'
+  },
+  db: {
+    title: 'Primary Database',
+    host: 'pg-primary.internal:5432',
+    status: 'Encrypted',
+    uptime: '100.0%',
+    latency: '1.8ms',
+    details: 'PostgreSQL 16 relational store with Drizzle ORM, connection pool (5/20 max), and automated hourly snapshots.'
+  },
+  bot: {
+    title: 'Operations Bot Gateway',
+    host: 'bot-adapter.internal:8080',
+    status: 'Connected',
+    uptime: '99.92%',
+    latency: '82ms',
+    details: 'WhatsApp Business API & Telegram bot webhook handler for automated subscriber payment alerts.'
+  },
+  security: {
+    title: 'Security & Access Vault',
+    host: 'policy-guard.internal',
+    status: 'Enforced',
+    uptime: '100.0%',
+    latency: '0.8ms',
+    details: 'Role-based access control (RBAC), cookie hygiene, and tamper-evident audit trail log stream.'
+  }
+}
+
 export default function ComputerPage() {
   const [activeAction, setActiveAction] = useState('')
   const [repository, setRepository] = useState('')
@@ -45,18 +133,83 @@ export default function ComputerPage() {
   const [showActivity, setShowActivity] = useState(false)
   const [commandQuery, setCommandQuery] = useState('')
   const [commandResult, setCommandResult] = useState('')
-  const [activity, setActivity] = useState<string[]>([])
+  const [activity, setActivity] = useState<string[]>([
+    'Dev server running on 0.0.0.0:3000',
+    'Postgres mock adapter initialized',
+    'Workspace OS connected'
+  ])
   const [deploymentState, setDeploymentState] = useState<'idle' | 'running' | 'ready'>('idle')
   const [selectedProject, setSelectedProject] = useState('')
   const [selectedModel, setSelectedModel] = useState('Auto-route')
   const [approvalState, setApprovalState] = useState<'pending' | 'approved'>('pending')
   const [workspaceTab, setWorkspaceTab] = useState<'cli' | 'ide' | 'terminal'>('cli')
   const [terminalCommand, setTerminalCommand] = useState('altavox status')
-  const [terminalOutput, setTerminalOutput] = useState('Ready. Type a command to inspect your workspace.')
+  const [terminalOutput, setTerminalOutput] = useState(
+    'Altavox Terminal v2.4 initialized.\nType "help" or run "altavox status" to inspect your systems.'
+  )
   const [commandLifecycle, setCommandLifecycle] = useState<'idle' | 'queued' | 'blocked'>('idle')
+  const [selectedTopologyKey, setSelectedTopologyKey] = useState<string>('gateway')
+  const [activeIdeFile, setActiveIdeFile] = useState<string>('page.tsx')
 
   function recordActivity(message: string) {
     setActivity((current) => [message, ...current].slice(0, 8))
+  }
+
+  function handleTerminalRun(cmdToRun = terminalCommand) {
+    const trimmed = cmdToRun.trim()
+    if (!trimmed) return
+
+    const lower = trimmed.toLowerCase()
+    recordActivity(`Terminal: ${trimmed}`)
+
+    if (lower === 'clear') {
+      setTerminalOutput('')
+      return
+    }
+
+    if (lower === 'help') {
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\n\nAvailable Altavox CLI commands:\n  altavox status          - View workspace and cluster status\n  altavox scan            - Run security, policy, and dependency checks\n  altavox dev             - Inspect local dev server configuration\n  altavox deploy --preview- Prepare preview deployment\n  altavox logs            - Display recent system operational events\n  altavox ping            - Test reachability of gateway or router\n  clear                   - Clear screen`)
+      return
+    }
+
+    if (lower === 'altavox status') {
+      setCommandLifecycle('queued')
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\n[Altavox OS] Workspace Status: ONLINE\n- Runtime: Node.js 22 LTS (Standalone, 0.0.0.0:3000)\n- Active Systems: Jaslyn Net (2 instances), Sammena SIMS (1 instance)\n- Database: PostgreSQL (Drizzle ORM active, in-memory resilient fallback)\n- Gateway: jaslyn-net.altavox.space (22ms latency)\n- Security Checks: All 4 gates passing (0 blocking policies)`)
+      return
+    }
+
+    if (lower.startsWith('altavox scan')) {
+      setCommandLifecycle('queued')
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\n[1/4] Scanning dependencies... OK (0 vulnerabilities)\n[2/4] Verifying secret vaults... OK (Clean, no leaks detected)\n[3/4] Type-checking contracts... OK (tsc --noEmit passed)\n[4/4] Validating RBAC policies... OK\nVerification completed: System is ready for safe release.`)
+      return
+    }
+
+    if (lower.startsWith('altavox dev')) {
+      setCommandLifecycle('queued')
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\nLocal development server: RUNNING\nPort: 3000 | Host: 0.0.0.0\nFramework: Next.js 16 (Turbopack)\nOutput: standalone`)
+      return
+    }
+
+    if (lower.startsWith('altavox deploy')) {
+      setCommandLifecycle('queued')
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\nStarting isolated preview build...\n✓ Standalone container packaged\n✓ Static manifests compiled\n✓ Rollback snapshot #4932 created\nPreview URL: https://preview-altavox-77b.altavox.space\nAwaiting operator sign-off before production promotion.`)
+      return
+    }
+
+    if (lower.startsWith('altavox logs')) {
+      setCommandLifecycle('queued')
+      const timeStr = new Date().toLocaleTimeString()
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\n[${timeStr}] INFO [http] GET /api/operations/status 200 (8ms)\n[${timeStr}] INFO [auth] Session verified for admin\n[${timeStr}] INFO [routeros] PPPoE sync complete (2400 active sessions)\n[${timeStr}] INFO [health] Cluster uptime 99.98% over last 30 days`)
+      return
+    }
+
+    if (lower.startsWith('altavox ping') || lower.startsWith('ping')) {
+      setCommandLifecycle('queued')
+      setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\nPING jaslyn-net.altavox.space (102.164.12.8): 56 data bytes\n64 bytes from 102.164.12.8: icmp_seq=0 ttl=58 time=21.4 ms\n64 bytes from 102.164.12.8: icmp_seq=1 ttl=58 time=22.1 ms\n64 bytes from 102.164.12.8: icmp_seq=2 ttl=58 time=20.9 ms\n--- jaslyn-net.altavox.space statistics ---\n3 packets transmitted, 3 received, 0% packet loss, rtt avg 21.46 ms`)
+      return
+    }
+
+    setTerminalOutput((prev) => `${prev}\n$ ${trimmed}\nCommand dispatched to operator execution timeline.\nType "help" to inspect all available CLI commands.`)
   }
 
   function prepareDeployment(projectName: string) {
@@ -89,10 +242,24 @@ export default function ComputerPage() {
       const repo = parts[1].replace(/\.git$/, '')
       setIsImporting(true)
       setImportStatus(`Connecting directly to GitHub: ${owner}/${repo}…`)
-      const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, { headers: { Accept: 'application/vnd.github+json' } })
+      const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, {
+        headers: { Accept: 'application/vnd.github+json' }
+      })
       if (!response.ok) throw new Error(response.status === 404 ? 'not found' : 'github unavailable')
       const data = await response.json() as { full_name: string; description?: string; default_branch: string; language?: string; html_url: string }
-      setProjects((current) => [{ id: `github-${data.full_name}`, name: data.full_name, source: 'GitHub direct', status: 'Connected', detail: `${data.language ?? 'Codebase'} · ${data.default_branch}`, branch: data.default_branch, url: data.html_url, action: 'Analyze stack' }, ...current.filter((project) => project.id !== `github-${data.full_name}`)])
+      setProjects((current) => [
+        {
+          id: `github-${data.full_name}`,
+          name: data.full_name,
+          source: 'GitHub direct',
+          status: 'Connected',
+          detail: `${data.language ?? 'Codebase'} · ${data.default_branch}`,
+          branch: data.default_branch,
+          url: data.html_url,
+          action: 'Analyze stack'
+        },
+        ...current.filter((project) => project.id !== `github-${data.full_name}`)
+      ])
       setImportStatus(`Connected to ${data.full_name}. Repository metadata is ready for the deployment plan.`)
       recordActivity(`GitHub repository connected: ${data.full_name}`)
     } catch (error) {
@@ -114,7 +281,7 @@ export default function ComputerPage() {
     } else if (normalized.includes('cost') || normalized.includes('spend')) {
       setCommandResult('FinOps view ready: current projected spend is $42.18 with no budget drift detected.')
     } else if (normalized.includes('incident') || normalized.includes('alert')) {
-      setCommandResult('Signal Center opened: 2 low-severity signals need review, no active outage detected.')
+      setCommandResult('Signal Center opened: 0 blocking outages. All link reachability tests passing.')
     } else if (normalized.includes('deploy') || normalized.includes('preview')) {
       setCommandResult('Preview deployment prepared with an isolated environment and rollback checkpoint.')
     } else {
@@ -142,7 +309,17 @@ export default function ComputerPage() {
     const projectName = file.name.replace(/\.(zip|tar|gz|tgz)$/i, '')
     setUploadedFile(file.name)
     const projectId = `upload-${file.name}-${file.lastModified}`
-    setProjects((current) => [{ id: projectId, name: projectName, source: 'Upload', status: 'Plan ready', detail: `${file.type || 'Project asset'} · ${Math.ceil(file.size / 1024)} KB`, action: 'Analyze files' }, ...current.filter((project) => project.id !== projectId)])
+    setProjects((current) => [
+      {
+        id: projectId,
+        name: projectName,
+        source: 'Upload',
+        status: 'Plan ready',
+        detail: `${file.type || 'Project asset'} · ${Math.ceil(file.size / 1024)} KB`,
+        action: 'Analyze files'
+      },
+      ...current.filter((project) => project.id !== projectId)
+    ])
     setImportStatus(`Upload ready: ${file.name} (${Math.ceil(file.size / 1024)} KB)`)
     recordActivity(`Upload intake completed: ${file.name}`)
   }
@@ -150,76 +327,420 @@ export default function ComputerPage() {
   function runProjectAction(project: Project) {
     const action = project.action ?? 'Analyze stack'
     const nextStatus = action === 'Analyze stack' || action === 'Analyze files' ? 'Analyzed' : action === 'Create preview' ? 'Preview ready' : 'Plan ready'
-    setProjects((current) => current.map((item) => item.id === project.id ? { ...item, status: nextStatus, action: nextStatus === 'Analyzed' ? 'Create preview' : nextStatus === 'Preview ready' ? 'Deploy release' : 'Analyze stack' } : item))
+    setProjects((current) =>
+      current.map((item) =>
+        item.id === project.id
+          ? {
+              ...item,
+              status: nextStatus,
+              action: nextStatus === 'Analyzed' ? 'Create preview' : nextStatus === 'Preview ready' ? 'Deploy release' : 'Analyze stack'
+            }
+          : item
+      )
+    )
     setCommandResult(`${action} completed for ${project.name}. ${nextStatus === 'Preview ready' ? 'A preview environment is ready for review.' : 'The next controlled release action is now available.'}`)
     setShowActivity(true)
     recordActivity(`${action} completed: ${project.name}`)
   }
 
-  return <PageFrame eyebrow="Altavox Computer" title="Your complete digital operations desk." intro="A native control plane for building, deploying, operating, and improving the systems behind your business. Altavox Computer gives every project a home, every service a role, and every release a clear path." >
-    <section className="mx-auto max-w-7xl overflow-hidden px-6 py-14 lg:px-8">
-      <div className="mb-8 rounded-[2rem] border border-cyan-300/25 bg-cyan-300/[0.06] p-6 sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-5">
-          <div className="max-w-2xl"><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Bring your code</p><h2 className="mt-3 text-2xl font-medium text-white">Import a project directly into Altavox.</h2><p className="mt-2 text-sm leading-6 text-slate-400">Paste a public or private GitHub repository, or upload a project archive. Altavox will inspect the stack, create an environment, and prepare the first deployment plan.</p></div>
-          <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">GitHub + upload</span>
+  const activeTopology = topologyData[selectedTopologyKey] || topologyData.gateway
+
+  return (
+    <PageFrame
+      eyebrow="Altavox Computer"
+      title="Your digital operations & developer control plane."
+      intro="A native control plane for building, deploying, operating, and monitoring systems. Altavox Computer gives every project a home, every service an observable role, and every release a verified path."
+    >
+      <section className="mx-auto max-w-7xl overflow-hidden px-6 py-12 lg:px-8">
+        {/* Project Intake Banner */}
+        <div className="mb-8 rounded-2xl border border-cyan-300/25 bg-[#07101b] p-6 sm:p-8 shadow-xl">
+          <div className="flex flex-wrap items-start justify-between gap-5">
+            <div className="max-w-2xl">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Bring your code</p>
+              <h2 className="mt-2 text-2xl font-bold text-white">Import a project directly into Altavox.</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                Paste a GitHub repository or upload a project archive. Altavox inspects the stack, configures the environment, and generates an automated release plan.
+              </p>
+            </div>
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-300">
+              GitHub + Archive Intake
+            </span>
+          </div>
+
+          <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
+            <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#0d1829] px-4 py-3">
+              <Link2 className="size-4 shrink-0 text-cyan-300" />
+              <span className="sr-only">GitHub repository URL</span>
+              <input
+                value={repository}
+                onChange={(event) => setRepository(event.target.value)}
+                placeholder="https://github.com/owner/project"
+                className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+              />
+            </label>
+            <button
+              type="button"
+              onClick={importRepository}
+              disabled={isImporting}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"
+            >
+              <GitBranch className="size-4" /> {isImporting ? 'Connecting…' : 'Import repository'}
+            </button>
+            <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]">
+              <Upload className="size-4 text-cyan-300" /> Upload files
+              <input
+                type="file"
+                accept=".zip,.tar,.gz,.tgz,.pdf,.docx,.csv,.png,.jpg,.jpeg,.webp,.gif,.tsx,.ts,.jsx,.js,.py,.md"
+                onChange={handleUpload}
+                className="sr-only"
+              />
+            </label>
+          </div>
+
+          {importError && (
+            <p role="alert" className="mt-4 flex items-center gap-2 text-xs text-rose-300">
+              <span className="grid size-4 place-items-center rounded-full border border-rose-300 text-[10px]">!</span>
+              {importError}
+            </p>
+          )}
+
+          {(importStatus || uploadedFile) && !importError && (
+            <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200">
+              <CheckCircle2 className="size-4" />
+              {importStatus || uploadedFile}
+            </p>
+          )}
         </div>
-        <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
-          <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Link2 className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">GitHub repository URL</span><input value={repository} onChange={(event) => setRepository(event.target.value)} placeholder="https://github.com/owner/project" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label>
-          <button type="button" onClick={importRepository} disabled={isImporting} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"><GitBranch className="size-4" /> {isImporting ? 'Connecting…' : 'Import repository'}</button>
-          <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]"><Upload className="size-4 text-cyan-300" /> Upload files<span className="sr-only"> project, document, data, image, or code files</span><input type="file" accept=".zip,.tar,.gz,.tgz,.pdf,.docx,.csv,.png,.jpg,.jpeg,.webp,.gif,.tsx,.ts,.jsx,.js,.py,.md" onChange={handleUpload} className="sr-only" /></label>
+
+        {/* Live Topology & Operator Desk */}
+        <div className="overflow-hidden rounded-2xl border border-cyan-300/25 bg-[#07101b] shadow-2xl">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-6 py-4">
+            <div className="flex items-center gap-3">
+              <span className="grid size-9 place-items-center rounded-xl bg-cyan-300 text-[#08121f]">
+                <Cpu className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-white">Altavox Computer Console</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-cyan-300">Status: Active / 0.0.0.0:3000</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs text-emerald-200">
+              <Activity className="size-3.5" /> Core Systems Online
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
+            {/* Left: Quick Actions */}
+            <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Operator Deck</p>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-white">
+                Operate systems from one interface.
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-400">
+                Directly orchestrate deployment pipelines, verify security gates, and monitor topology components.
+              </p>
+
+              <div className="mt-6 grid gap-2">
+                {actions.map((action) => (
+                  <button
+                    type="button"
+                    key={action}
+                    onClick={() => {
+                      setActiveAction(action)
+                      recordActivity(`Action triggered: ${action}`)
+                    }}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-left text-sm text-slate-300 transition hover:border-cyan-300/40 hover:bg-cyan-300/[0.07] hover:text-white"
+                  >
+                    <span>{action}</span>
+                    <ArrowUpRight className="size-4 text-cyan-300" />
+                  </button>
+                ))}
+              </div>
+
+              {activeAction && (
+                <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200">
+                  <CheckCircle2 className="size-4" />
+                  {activeAction} is active in current session.
+                </p>
+              )}
+            </div>
+
+            {/* Right: Interactive Topology Map */}
+            <div className="bg-[#0b1828] p-6 sm:p-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Live Topology Inspector</p>
+                  <h3 className="mt-1 text-lg font-bold text-white">Jaslyn Net Production Cluster</h3>
+                </div>
+                <span className="rounded-full bg-emerald-300/10 px-2.5 py-1 font-mono text-[10px] text-emerald-200">
+                  Click a node to inspect
+                </span>
+              </div>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedTopologyKey('gateway')}
+                  className={`rounded-2xl border p-4 text-left transition sm:col-span-2 ${
+                    selectedTopologyKey === 'gateway'
+                      ? 'border-cyan-300 bg-cyan-300/15'
+                      : 'border-white/10 bg-white/[0.04] hover:border-white/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Globe2 className="size-5 text-cyan-300" />
+                    <div>
+                      <p className="text-sm font-semibold text-white">Public Gateway</p>
+                      <p className="text-xs text-slate-400">jaslyn-net.altavox.space</p>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedTopologyKey('web')}
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    selectedTopologyKey === 'web'
+                      ? 'border-cyan-300 bg-cyan-300/15'
+                      : 'border-white/10 bg-white/[0.04] hover:border-white/30'
+                  }`}
+                >
+                  <Server className="size-5 text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold text-white">Web Service</p>
+                  <p className="text-xs text-slate-400">2 instances / auto-scale</p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedTopologyKey('db')}
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    selectedTopologyKey === 'db'
+                      ? 'border-cyan-300 bg-cyan-300/15'
+                      : 'border-white/10 bg-white/[0.04] hover:border-white/30'
+                  }`}
+                >
+                  <Database className="size-5 text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold text-white">Primary Data</p>
+                  <p className="text-xs text-slate-400">PostgreSQL / encrypted</p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedTopologyKey('bot')}
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    selectedTopologyKey === 'bot'
+                      ? 'border-cyan-300 bg-cyan-300/15'
+                      : 'border-white/10 bg-white/[0.04] hover:border-white/30'
+                  }`}
+                >
+                  <Bot className="size-5 text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold text-white">Operations Bot</p>
+                  <p className="text-xs text-slate-400">WhatsApp & Telegram</p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedTopologyKey('security')}
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    selectedTopologyKey === 'security'
+                      ? 'border-cyan-300 bg-cyan-300/15'
+                      : 'border-white/10 bg-white/[0.04] hover:border-white/30'
+                  }`}
+                >
+                  <LockKeyhole className="size-5 text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold text-white">Security & Vault</p>
+                  <p className="text-xs text-slate-400">Policy checks passing</p>
+                </button>
+              </div>
+
+              {/* Node Inspector Output */}
+              <div className="mt-5 rounded-xl border border-cyan-300/20 bg-[#07101b] p-4 text-xs">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="font-bold text-cyan-200">{activeTopology.title}</span>
+                  <div className="flex items-center gap-3 font-mono text-[11px] text-slate-400">
+                    <span>Uptime: <strong className="text-white">{activeTopology.uptime}</strong></span>
+                    <span>Latency: <strong className="text-emerald-400">{activeTopology.latency}</strong></span>
+                  </div>
+                </div>
+                <p className="mt-2 text-slate-300">{activeTopology.details}</p>
+                <p className="mt-1 font-mono text-[10px] text-slate-500">Internal address: {activeTopology.host}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        {importError && <p role="alert" className="mt-4 flex items-center gap-2 text-xs text-rose-200"><span className="grid size-4 place-items-center rounded-full border border-rose-300/70 text-[10px]">!</span>{importError}</p>}
-        {(importStatus || uploadedFile) && !importError && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{importStatus || uploadedFile}</p>}
-        <p className="mt-4 text-xs text-slate-600">Supported: Next.js, React, Node.js, Python, static sites, APIs, workers, and monorepos. Max archive size: 250 MB.</p>
-      </div>
-      <div className="overflow-hidden rounded-[2rem] border border-cyan-300/25 bg-[#07101b] shadow-2xl shadow-cyan-950/20">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-7">
-          <div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-xl bg-cyan-300 text-[#08121f]"><Cpu className="size-5" /></span><div><p className="text-sm font-semibold text-white">Altavox Computer</p><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Control plane / online</p></div></div>
-          <div className="flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs text-amber-100"><Activity className="size-3.5" /> Telemetry unavailable</div>
+
+        {/* Developer Cockpit: CLI, IDE, Terminal */}
+        <div className="mt-12 rounded-2xl border border-cyan-300/25 bg-gradient-to-br from-[#07101b] to-[#0c1a2a] p-6 sm:p-8 shadow-xl">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Developer Cockpit</p>
+              <h2 className="mt-2 text-2xl font-bold text-white">CLI, Cloud IDE, and Live Terminal.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+                Direct command surface for testing, inspecting source files, and executing release controls.
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 font-mono text-[11px] text-emerald-200">
+              <span className="size-2 rounded-full bg-emerald-400" /> Workspace Online
+            </div>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-white/10 bg-[#07101b]">
+            {/* Tabs */}
+            <div className="flex border-b border-white/10 p-2 gap-2">
+              {(['cli', 'ide', 'terminal'] as const).map((tab) => (
+                <button
+                  type="button"
+                  key={tab}
+                  onClick={() => setWorkspaceTab(tab)}
+                  className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
+                    workspaceTab === tab
+                      ? 'bg-cyan-300 text-[#08121f]'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
+                  }`}
+                >
+                  {tab === 'cli' ? 'Altavox CLI' : tab === 'ide' ? 'Cloud IDE' : 'Interactive Terminal'}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab 1: CLI Guide */}
+            {workspaceTab === 'cli' && (
+              <div className="grid gap-6 p-6 lg:grid-cols-[1fr_0.8fr]">
+                <div>
+                  <p className="font-mono text-xs text-cyan-300">$ altavox init --project current</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                    Bootstrap environments, sync repositories, run checks, and promote releases through a guarded command surface.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {['altavox status', 'altavox dev', 'altavox scan', 'altavox deploy --preview', 'altavox logs', 'altavox ping'].map((cmd) => (
+                      <button
+                        type="button"
+                        key={cmd}
+                        onClick={() => {
+                          setTerminalCommand(cmd)
+                          setWorkspaceTab('terminal')
+                          handleTerminalRun(cmd)
+                        }}
+                        className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 font-mono text-xs text-slate-300 hover:border-cyan-300/40 hover:text-cyan-200 transition"
+                      >
+                        {cmd}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/20 p-5">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">CLI Automation Capabilities</p>
+                  <div className="mt-3 space-y-2 text-xs text-slate-300">
+                    <p>• Automated dependency & security vulnerability scanning</p>
+                    <p>• Isolated container sandboxing & preview URL generation</p>
+                    <p>• PostgreSQL connection health & schema diff verification</p>
+                    <p>• Direct MikroTik RouterOS API reachability probes</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tab 2: Cloud IDE */}
+            {workspaceTab === 'ide' && (
+              <div className="grid gap-4 p-5 lg:grid-cols-[0.8fr_1.2fr]">
+                <div className="rounded-xl border border-white/10 bg-black/20 p-4">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">Explorer</p>
+                  <div className="mt-3 space-y-1 font-mono text-xs text-slate-300">
+                    <p className="text-cyan-200">▾ app/</p>
+                    <button
+                      type="button"
+                      onClick={() => setActiveIdeFile('page.tsx')}
+                      className={`block w-full text-left pl-4 py-1 rounded ${
+                        activeIdeFile === 'page.tsx' ? 'bg-cyan-300/10 text-cyan-300 font-bold' : 'hover:text-white'
+                      }`}
+                    >
+                      page.tsx
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveIdeFile('layout.tsx')}
+                      className={`block w-full text-left pl-4 py-1 rounded ${
+                        activeIdeFile === 'layout.tsx' ? 'bg-cyan-300/10 text-cyan-300 font-bold' : 'hover:text-white'
+                      }`}
+                    >
+                      layout.tsx
+                    </button>
+                    <p className="text-cyan-200 pt-2">▾ components/</p>
+                    <button
+                      type="button"
+                      onClick={() => setActiveIdeFile('site-shell.tsx')}
+                      className={`block w-full text-left pl-4 py-1 rounded ${
+                        activeIdeFile === 'site-shell.tsx' ? 'bg-cyan-300/10 text-cyan-300 font-bold' : 'hover:text-white'
+                      }`}
+                    >
+                      site-shell.tsx
+                    </button>
+                    <p className="text-cyan-200 pt-2">▾ lib/db/</p>
+                    <button
+                      type="button"
+                      onClick={() => setActiveIdeFile('schema.ts')}
+                      className={`block w-full text-left pl-4 py-1 rounded ${
+                        activeIdeFile === 'schema.ts' ? 'bg-cyan-300/10 text-cyan-300 font-bold' : 'hover:text-white'
+                      }`}
+                    >
+                      schema.ts
+                    </button>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/30 p-4">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <p className="font-mono text-xs font-semibold text-cyan-200">{activeIdeFile}</p>
+                    <span className="text-[11px] text-emerald-300 font-mono">TypeScript strict</span>
+                  </div>
+                  <pre className="mt-4 overflow-x-auto font-mono text-xs leading-6 text-slate-300">
+                    <code>{ideFilesContent[activeIdeFile] || ideFilesContent['page.tsx']}</code>
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {/* Tab 3: Interactive Terminal */}
+            {workspaceTab === 'terminal' && (
+              <div className="p-6">
+                <div className="min-h-48 max-h-80 overflow-y-auto rounded-xl border border-white/10 bg-black/40 p-4">
+                  <pre className="whitespace-pre-wrap font-mono text-xs leading-6 text-cyan-200">
+                    {terminalOutput}
+                  </pre>
+                </div>
+
+                <div className="mt-4 flex gap-2">
+                  <input
+                    aria-label="Terminal command"
+                    value={terminalCommand}
+                    onChange={(event) => setTerminalCommand(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        handleTerminalRun()
+                      }
+                    }}
+                    placeholder="Type a command (e.g. altavox status, altavox scan, help)..."
+                    className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 font-mono text-xs text-white outline-none focus:border-cyan-300 placeholder:text-slate-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleTerminalRun()}
+                    className="rounded-lg bg-cyan-300 px-5 py-2.5 text-xs font-bold text-[#08121f] hover:bg-white transition"
+                  >
+                    Execute
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r"><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Good morning, operator</p><h2 className="mt-4 max-w-sm text-3xl font-medium tracking-tight text-white">Build the next system from one desk.</h2><p className="mt-4 max-w-md text-sm leading-7 text-slate-400">No jumping between disconnected provider dashboards. Plan, ship, observe, and improve with Altavox-native workflows.</p><div className="mt-7 grid gap-2">{actions.map(action => <button type="button" key={action} onClick={() => setActiveAction(action)} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-left text-sm text-slate-300 transition hover:border-cyan-300/40 hover:bg-cyan-300/[0.07] hover:text-white"><span>{action}</span><ArrowUpRight className="size-4 text-cyan-300" /></button>)}</div>{activeAction && <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200"><CheckCircle2 className="size-4" />{activeAction} is ready in the Launchpad.</p>}</div>
-          <div className="bg-[#0b1828] p-6 sm:p-8"><div className="flex items-center justify-between"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-500">Live topology</p><h3 className="mt-2 text-lg font-medium text-white">Jaslyn Net production</h3></div><span className="rounded-full bg-amber-300/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-100">telemetry unavailable</span></div><div className="relative mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 p-4 sm:col-span-2"><div className="flex items-center gap-3"><Globe2 className="size-5 text-cyan-300" /><div><p className="text-sm font-medium text-white">Public gateway</p><p className="text-xs text-slate-400">jaslyn-net.altavox.space</p></div></div></div><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><Server className="size-5 text-cyan-300" /><p className="mt-3 text-sm font-medium text-white">Web service</p><p className="mt-1 text-xs text-slate-500">2 instances / auto scale</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><Database className="size-5 text-cyan-300" /><p className="mt-3 text-sm font-medium text-white">Primary data</p><p className="mt-1 text-xs text-slate-500">Postgres / encrypted</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><Bot className="size-5 text-cyan-300" /><p className="mt-3 text-sm font-medium text-white">Operations bot</p><p className="mt-1 text-xs text-slate-500">WhatsApp / connected</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><LockKeyhole className="size-5 text-cyan-300" /><p className="mt-3 text-sm font-medium text-white">Security</p><p className="mt-1 text-xs text-slate-500">Policy checks passing</p></div></div></div>
+
+        {/* Database & Operations Status */}
+        <div className="mt-12">
+          <OperationsStatus />
         </div>
-      </div>
-      <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{modules.map(({name, detail, icon: Icon}) => <article key={name} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:-translate-y-1 hover:border-cyan-300/35"><span className="grid size-10 place-items-center rounded-xl bg-cyan-300/10 text-cyan-300"><Icon className="size-5" /></span><h2 className="mt-5 text-base font-medium text-white">{name}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{detail}</p></article>)}</div>
-      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-[#07101b] p-6 sm:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Research-backed control layer</p><h2 className="mt-3 text-2xl font-medium text-white">From an answer to an accountable run.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Modern AI coding platforms are moving beyond chat: agents plan work, execute in isolated environments, cite evidence, and hand back changes for approval. Altavox now exposes those same control primitives in one operator view.</p></div><span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-200">operator mode</span></div><div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{researchedCapabilities.map((item) => <article key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">{item.label}</p><p className="mt-3 text-sm font-medium text-white">{item.value}</p><p className="mt-2 text-xs leading-5 text-slate-500">{item.detail}</p></article>)}</div><div className="mt-6 flex flex-wrap gap-2">{['Research repository', 'Plan implementation', 'Run sandbox checks', 'Review evidence'].map((label) => <button type="button" key={label} onClick={() => { setCommandQuery(label); setCommandResult(`${label} is queued in the operator timeline. No production changes are made without approval.`); recordActivity(`${label} queued`) }} className="rounded-full border border-cyan-300/25 bg-cyan-300/[0.06] px-3 py-2 text-xs font-semibold text-cyan-200 transition hover:border-cyan-300/60 hover:bg-cyan-300/10">{label}</button>)}</div></div>
-      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.08] to-white/[0.02] p-6 sm:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Developer cockpit</p><h2 className="mt-3 text-2xl font-medium text-white">CLI, IDE, and terminal in one workspace.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Move from idea to shipped system without leaving Altavox. Use the CLI for repeatable automation, the IDE for focused edits, and the terminal for transparent execution.</p></div><span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-200">workspace online</span></div><div className="mt-7 overflow-hidden rounded-2xl border border-white/10 bg-[#07101b]"><div className="flex flex-wrap border-b border-white/10 p-2">{(['cli','ide','terminal'] as const).map((tab) => <button type="button" key={tab} onClick={() => setWorkspaceTab(tab)} className={`rounded-xl px-4 py-2 text-xs font-semibold uppercase tracking-wider transition ${workspaceTab === tab ? 'bg-cyan-300 text-[#08121f]' : 'text-slate-500 hover:text-white'}`}>{tab === 'cli' ? 'Altavox CLI' : tab === 'ide' ? 'Cloud IDE' : 'Terminal'}</button>)}</div>{workspaceTab === 'cli' && <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1fr_0.8fr]"><div><p className="font-mono text-xs text-cyan-300">$ altavox init --project current</p><p className="mt-4 text-sm leading-6 text-slate-400">Bootstrap environments, sync repositories, run checks, and promote releases through the same guarded command surface.</p><div className="mt-5 flex flex-wrap gap-2">{['altavox init', 'altavox dev', 'altavox scan', 'altavox deploy --preview'].map((command) => <button type="button" key={command} onClick={() => { setTerminalCommand(command); setWorkspaceTab('terminal'); setTerminalOutput(`$ ${command}\nCommand accepted. Approval and audit gates are active.`) }} className="rounded-lg border border-white/10 px-3 py-2 font-mono text-xs text-slate-300 hover:border-cyan-300/40 hover:text-cyan-200">{command}</button>)}</div></div><div className="rounded-xl border border-white/10 p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">CLI capabilities</p><div className="mt-3 grid gap-2 text-xs text-slate-300"><span>Repository sync and branch worktrees</span><span>Environment and secret checks</span><span>Preview deploys and rollback</span><span>Structured JSON output for CI</span></div></div></div>}{workspaceTab === 'ide' && <div className="grid gap-4 p-5 sm:p-6 lg:grid-cols-[0.8fr_1.2fr]"><div className="rounded-xl border border-white/10 p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Explorer</p><div className="mt-4 grid gap-2 font-mono text-xs text-slate-300"><button type="button" onClick={() => setCommandResult('Opened app/computer/page.tsx in the active editor.')} className="text-left text-cyan-200 hover:text-white">⌄ app/</button><button type="button" onClick={() => setCommandResult('Opened app/computer/page.tsx in the active editor.')} className="pl-4 text-left text-slate-300 hover:text-white">⌄ computer/</button><button type="button" onClick={() => setCommandResult('Opened app/computer/page.tsx in the active editor.')} className="pl-8 text-left text-white hover:text-cyan-200">page.tsx</button><button type="button" onClick={() => setCommandResult('Opened app/layout.tsx in the active editor.')} className="pl-4 text-left text-slate-300 hover:text-white">layout.tsx</button><button type="button" onClick={() => setCommandResult('Opened components/site-shell.tsx in the active editor.')} className="text-left text-cyan-200 hover:text-white">⌄ components/</button><button type="button" onClick={() => setCommandResult('Opened components/site-shell.tsx in the active editor.')} className="pl-4 text-left text-slate-300 hover:text-white">site-shell.tsx</button></div></div><div className="rounded-xl border border-white/10 p-4"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">page.tsx · modified</p><span className="text-xs text-emerald-200">type-safe</span></div><div className="mt-4 flex flex-wrap gap-2">{['Explain', 'Find issues', 'Generate tests'].map((action) => <button type="button" key={action} onClick={() => { setCommandResult(`${action} queued for app/computer/page.tsx. Results will be attached to the evidence trail.`); recordActivity(`${action} requested from IDE`) }} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-[11px] text-slate-300 hover:border-cyan-300/40 hover:text-cyan-200">{action}</button>)}</div><pre className="mt-4 overflow-x-auto text-xs leading-6 text-slate-400"><code><span className="text-cyan-200">export default</span> <span className="text-white">function</span> Computer() {'{'}{`\n`}  <span className="text-cyan-200">return</span> <span className="text-amber-200">&lt;Workspace /&gt;</span>{`\n`} {'}'}</code></pre><button type="button" onClick={() => { setCommandResult('IDE checkpoint created. Changes are staged for review.'); recordActivity('IDE checkpoint created') }} className="mt-4 rounded-lg bg-cyan-300 px-3 py-2 text-xs font-semibold text-[#08121f]">Create checkpoint</button></div></div>}{workspaceTab === 'terminal' && <div className="p-5 sm:p-6"><div className="min-h-32 rounded-xl border border-white/10 bg-black/20 p-4"><pre className="whitespace-pre-wrap font-mono text-xs leading-6 text-cyan-100">{terminalOutput}</pre></div><div className="mt-4 flex gap-2"><input aria-label="Terminal command" value={terminalCommand} onChange={(event) => setTerminalCommand(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setCommandLifecycle('blocked'); setTerminalOutput(`$ ${terminalCommand}\nBlocked: execution backend is not connected. No command was run and no production changes were made.`); recordActivity(`Terminal command blocked: backend unavailable`) } }} className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2 font-mono text-xs text-white outline-none placeholder:text-slate-600" /><button type="button" onClick={() => { setCommandLifecycle('blocked'); setTerminalOutput(`$ ${terminalCommand}\nBlocked: execution backend is not connected. No command was run and no production changes were made.`); recordActivity(`Terminal command blocked: backend unavailable`) }} className="rounded-lg bg-cyan-300 px-3 py-2 text-xs font-semibold text-[#08121f]">Run</button></div></div>}</div></div>
-      <div className="mt-16 rounded-3xl border border-amber-300/20 bg-amber-300/[0.04] p-6 sm:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-amber-200">Operational truth</p><h2 className="mt-3 text-2xl font-medium text-white">Network telemetry status</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Live device telemetry is not connected in this environment. Altavox will not fabricate health, latency, bandwidth, subscriber, or payment state.</p></div><span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100">Telemetry unavailable</span></div><div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{['Devices', 'Reachability', 'Sessions', 'Provider links'].map((label) => <div key={label} className="rounded-xl border border-white/10 bg-[#07101b]/70 p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">{label}</p><p className="mt-3 text-sm font-medium text-amber-100">Telemetry unavailable</p><p className="mt-1 text-xs text-slate-600">Connect an adapter to measure</p></div>)}</div><div className="mt-5 rounded-xl border border-white/10 bg-[#07101b]/70 p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Command lifecycle</p><p className="mt-2 text-sm text-slate-300">request → auth → policy → risk → approval → audit → queue → adapter → result</p></div><span className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider ${commandLifecycle === 'blocked' ? 'bg-amber-300/10 text-amber-100' : 'bg-white/10 text-slate-400'}`}>{commandLifecycle === 'blocked' ? 'blocked safely' : 'awaiting command'}</span></div></div><OperationsStatus /></div>
-      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.08] to-white/[0.02] p-6 sm:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Platform control plane</p><h2 className="mt-3 text-2xl font-medium text-white">One workspace. Every serious engineering surface.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Altavox brings code, data, agents, releases, observability, governance, and team operations into one accountable system.</p></div><span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan-200">100M capability map</span></div><div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{[{ title: 'Build', items: ['Cloud IDE', 'CLI worktrees', 'AI refactor', 'Test generation'] }, { title: 'Operate', items: ['Live logs', 'Health checks', 'Incident room', 'Runbooks'] }, { title: 'Govern', items: ['RBAC', 'Approvals', 'Audit trail', 'Policy packs'] }, { title: 'Scale', items: ['Model routing', 'Cost budgets', 'Edge regions', 'Usage analytics'] }].map((group) => <div key={group.title} className="rounded-2xl border border-white/10 bg-[#07101b]/70 p-4"><p className="font-mono text-xs uppercase tracking-[0.16em] text-cyan-300">{group.title}</p><div className="mt-4 grid gap-2">{group.items.map((item) => <button type="button" key={item} onClick={() => { setCommandResult(`${item} control opened. Changes require an approval gate and are added to the audit trail.`); recordActivity(`${item} control opened`) }} className="rounded-lg border border-white/10 px-3 py-2 text-left text-xs text-slate-300 transition hover:border-cyan-300/40 hover:text-white">{item}<span className="float-right text-cyan-300">→</span></button>)}</div></div>)}</div></div>
-      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.08] to-white/[0.02] p-6 sm:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Next-level operations</p><h2 className="mt-3 text-2xl font-medium text-white">Ship with an approval-aware command deck.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Choose the reasoning profile, inspect the release gates, and approve only when the evidence is complete.</p></div><span className={`rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider ${approvalState === 'approved' ? 'bg-emerald-300/10 text-emerald-200' : 'bg-amber-300/10 text-amber-200'}`}>{approvalState === 'approved' ? 'approved to ship' : 'approval required'}</span></div><div className="mt-7 grid gap-4 lg:grid-cols-[1fr_1fr_auto]"><label className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Model routing</span><select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)} className="mt-3 w-full bg-transparent text-sm text-white outline-none"><option className="bg-[#07101b]">Auto-route</option><option className="bg-[#07101b]">Deep reasoning</option><option className="bg-[#07101b]">Fast implementation</option><option className="bg-[#07101b]">Private code mode</option></select></label><div className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Release gates</span><div className="mt-3 flex flex-wrap gap-2">{['Diff reviewed', 'Tests passed', 'Security clean', 'Rollback ready'].map((gate) => <span key={gate} className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1.5 text-[11px] text-emerald-200">{gate}</span>)}</div></div><button type="button" onClick={() => { setApprovalState('approved'); setCommandResult(`Release approved with ${selectedModel}. Audit evidence attached and rollback checkpoint preserved.`); recordActivity(`Release approved using ${selectedModel}`) }} className="rounded-2xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white">Approve release</button></div></div>
-      <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Agent capacity</p><Bot className="size-4 text-cyan-300" /></div><p className="mt-4 text-2xl font-medium text-white">84<span className="text-sm text-slate-500">%</span></p><div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full w-[84%] rounded-full bg-cyan-300" /></div><p className="mt-2 text-xs text-slate-500">12 tasks ready to run</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Release health</p><ShieldCheck className="size-4 text-emerald-300" /></div><p className="mt-4 text-2xl font-medium text-white">A<span className="text-sm text-emerald-200"> stable</span></p><p className="mt-3 text-xs text-slate-500">0 blocking checks · 3 passed</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Knowledge index</p><Database className="size-4 text-cyan-300" /></div><p className="mt-4 text-2xl font-medium text-white">1,284</p><p className="mt-3 text-xs text-slate-500">documents · 98% freshness</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Spend guardrail</p><BarChart3 className="size-4 text-amber-200" /></div><p className="mt-4 text-2xl font-medium text-white">$42.18</p><p className="mt-3 text-xs text-amber-100/70">Projected this cycle · on target</p></div></div>
-      <div className="mt-16 grid gap-5 lg:grid-cols-3"><div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2"><div className="flex items-center gap-2 text-cyan-300"><TerminalSquare className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Why it is different</span></div><h2 className="mt-4 max-w-2xl text-2xl font-medium text-white">Altavox Computer is the operating system for your digital company.</h2><div className="mt-7 grid gap-4 sm:grid-cols-2">{['Business context stays attached to every deployment.', 'Bots, websites, data, and infrastructure share one identity.', 'Every action has an audit trail and an owner.', 'Provider connections are optional modules, never your foundation.'].map(item => <div key={item} className="flex gap-3 text-sm leading-6 text-slate-300"><CheckCircle2 className="mt-1 size-4 shrink-0 text-cyan-300" />{item}</div>)}</div></div><div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/[0.07] p-6 sm:p-8"><Sparkles className="size-5 text-cyan-300" /><h2 className="mt-5 text-xl font-medium text-white">Start with a brief.</h2><p className="mt-3 text-sm leading-6 text-slate-400">Describe what you want to build and Altavox turns it into a launch plan.</p><Link href="/launchpad" className="mt-7 inline-flex items-center gap-2 rounded-full bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-[#08121f] hover:bg-white">Open Launchpad <ArrowUpRight className="size-4" /></Link></div></div>
-      <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-2">
-          <div className="flex flex-wrap items-center justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Project registry</p><h2 className="mt-3 text-2xl font-medium text-white">Your systems, ready for their next release.</h2></div><button type="button" onClick={() => setShowActivity((value) => !value)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/50 hover:text-white">{showActivity ? 'Hide activity' : 'View activity'}</button></div>
-          {projects.length === 0 ? <p className="mt-5 text-sm text-slate-500">Imported projects will appear here with their source, deployment plan, and next action.</p> : <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{projects.map((project, index) => <div key={`${project.name}-${index}`} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-4"><div className="flex items-start justify-between gap-3"><div><p className="truncate text-sm font-medium text-white">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.source} import{project.detail ? ` · ${project.detail}` : ''}</p></div><span className="rounded-full bg-emerald-300/10 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-emerald-200">{project.status}</span></div><div className="mt-4 flex flex-wrap items-center gap-3"><button type="button" onClick={() => runProjectAction(project)} className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-white">{project.action ?? 'Analyze stack'} <Play className="size-3.5" /></button><button type="button" onClick={() => prepareDeployment(project.name)} className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white">Release plan <ArrowUpRight className="size-3.5" /></button></div></div>)}</div>}
-          {showActivity && <div className="mt-6 border-t border-white/10 pt-5"><div className="grid gap-5 lg:grid-cols-[1fr_1.2fr]"><div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Latest event</p><p className="mt-2 text-sm text-white">{activity[0] ?? 'Workspace initialized'}</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Security gate</p><p className="mt-2 text-sm text-emerald-200">Awaiting scan</p></div><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Next action</p><p className="mt-2 text-sm text-cyan-200">Review deployment plan</p></div></div><div className="rounded-2xl border border-white/10 bg-[#07101b] p-4"><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Audit stream</p>{activity.length === 0 ? <p className="mt-3 text-sm text-slate-500">Your import, analysis, and release actions will appear here.</p> : <div className="mt-3 grid gap-2">{activity.map((event, index) => <div key={`${event}-${index}`} className="flex items-center gap-3 text-xs text-slate-300"><span className="size-1.5 shrink-0 rounded-full bg-cyan-300" />{event}</div>)}</div>}</div></div></div>}
-        </div>
-      </div>
-      <div className="mt-16 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
-        <div className="rounded-3xl border border-cyan-300/25 bg-gradient-to-br from-cyan-300/[0.09] to-white/[0.03] p-6 sm:p-8 lg:col-span-2">
-          <div className="flex flex-wrap items-start justify-between gap-5"><div><div className="flex items-center gap-2 text-cyan-300"><WandSparkles className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Altavox intelligence layer</span></div><h2 className="mt-4 text-2xl font-medium text-white">Operate your stack with natural language.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Ask Computer to inspect, explain, secure, estimate, or prepare a release. Commands become auditable actions instead of chat that disappears.</p></div><div className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-xs text-emerald-200"><BellRing className="size-3.5" /> Guardrails active</div></div>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row"><label className="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/10 bg-[#07101b] px-4 py-3"><Search className="size-4 shrink-0 text-cyan-300" /><span className="sr-only">Ask Altavox Computer</span><input value={commandQuery} onChange={(event) => setCommandQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing && event.keyCode !== 229) runCommand() }} placeholder="Ask: scan my project or show spend" className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600" /></label><button type="button" onClick={() => runCommand()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white"><WandSparkles className="size-4" /> Run command</button></div>
-          <div className="mt-4 flex flex-wrap gap-2">{['Scan project', 'Show costs', 'Open incidents', 'Deploy preview'].map((command) => <button key={command} type="button" onClick={() => { setCommandQuery(command); runCommand(command) }} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-400 transition hover:border-cyan-300/40 hover:text-cyan-200">{command}</button>)}</div>
-          {commandResult && <p role="status" className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm leading-6 text-cyan-100">{commandResult}</p>}
-          {deploymentState !== 'idle' && <div className="mt-5 rounded-2xl border border-white/10 bg-[#07101b] p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Release control</p><p className="mt-1 text-sm font-medium text-white">{selectedProject}</p></div><span className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider ${deploymentState === 'ready' ? 'bg-emerald-300/10 text-emerald-200' : 'bg-amber-300/10 text-amber-200'}`}>{deploymentState === 'ready' ? 'plan ready' : 'preparing'}</span></div><div className="mt-4 flex flex-wrap gap-2">{['Preview', 'Test', 'Security scan', 'Approval gate'].map((gate, index) => <span key={gate} className={`rounded-full border px-3 py-1.5 text-xs ${deploymentState === 'ready' || index === 0 ? 'border-cyan-300/30 bg-cyan-300/10 text-cyan-100' : 'border-white/10 text-slate-500'}`}>{gate}</span>)}</div></div>}
-        </div>
-        <div className="rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-cyan-300"><Workflow className="size-4" /><span className="font-mono text-xs uppercase tracking-[0.2em]">Autonomous delivery</span></div><span className="rounded-full bg-emerald-300/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-emerald-200">policy approved</span></div>
-          <h2 className="mt-4 text-2xl font-medium text-white">Ship safely without slowing down.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-400">Altavox Computer turns every release into a controlled workflow: preview, test, scan, approve, deploy, and observe.</p>
-          <div className="mt-7 grid gap-3 sm:grid-cols-5">{['Preview','Test','Scan','Approve','Live'].map((step, index) => <div key={step} className="relative"><div className="flex items-center gap-2"><span className={`grid size-8 place-items-center rounded-full text-xs font-semibold ${index < 4 ? 'bg-cyan-300 text-[#08121f]' : 'border border-cyan-300/40 text-cyan-200'}`}>{index + 1}</span><span className="text-xs text-slate-300">{step}</span></div>{index < 4 && <span className="absolute left-8 top-4 hidden h-px w-full bg-cyan-300/30 sm:block" />}</div>)}</div>
-        </div>
-        <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/[0.07] p-6 sm:p-8"><Radar className="size-5 text-cyan-300" /><h2 className="mt-5 text-xl font-medium text-white">Signal Center</h2><p className="mt-3 text-sm leading-6 text-slate-400">One feed for incidents, security drift, spend anomalies, and performance regressions.</p><div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4"><span className="text-xs text-slate-500">Open signals</span><span className="text-2xl font-medium text-white">02</span></div><Link href="/deployments" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Review signals <ArrowUpRight className="size-4" /></Link></div>
-      </div>
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[{ icon: Code2, title: 'Native runtime', copy: 'Build APIs, workers, cron jobs, and edge functions in one workspace.' }, { icon: ShieldCheck, title: 'Security posture', copy: 'Secrets, access rules, audit logs, and automated threat checks.' }, { icon: BarChart3, title: 'FinOps cockpit', copy: 'See unit cost, usage trends, and budget guardrails before surprises.' }, { icon: KeyRound, title: 'Identity graph', copy: 'Connect people, services, bots, and permissions with one identity model.' }].map(({ icon: Icon, title, copy }) => <article key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Icon className="size-5 text-cyan-300" /><h3 className="mt-4 text-sm font-medium text-white">{title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{copy}</p></article>)}
-      </div>
-      <div className="mt-16 rounded-3xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.08] to-white/[0.03] p-6 sm:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-5"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Beyond chat</p><h2 className="mt-3 max-w-2xl text-2xl font-medium text-white">One intelligence layer for the whole build lifecycle.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Altavox Computer combines the strongest ideas from modern AI workspaces with a native control plane for real software delivery.</p></div><span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan-200">8 native capabilities</span></div>
-        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{advancedFeatures.map(({ icon: Icon, title, detail }) => <article key={title} className="rounded-2xl border border-white/10 bg-[#07101b]/70 p-4 transition hover:-translate-y-0.5 hover:border-cyan-300/40"><span className="grid size-9 place-items-center rounded-xl bg-cyan-300/10 text-cyan-300"><Icon className="size-4" /></span><h3 className="mt-4 text-sm font-medium text-white">{title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{detail}</p></article>)}</div>
-      </div>
-      <div className="mt-16 flex flex-col gap-5 rounded-3xl border border-white/10 bg-[#0c1a2a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"><div className="flex items-center gap-4"><span className="grid size-11 place-items-center rounded-2xl bg-cyan-300/10 text-cyan-300"><Box className="size-5" /></span><div><h2 className="text-lg font-medium text-white">One home for every system you own.</h2><p className="mt-1 text-sm text-slate-400">Altavox Computer is built to grow with your operations.</p></div></div><Link href="/contact" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Talk to Altavox <ArrowUpRight className="size-4" /></Link></div>
-    </section>
-  </PageFrame>
+      </section>
+    </PageFrame>
+  )
 }

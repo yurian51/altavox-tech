@@ -1,26 +1,168 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, BookOpen, ChevronRight, Clock3, MessageSquare, Search, ShieldCheck } from 'lucide-react'
+import { ArrowRight, BookOpen, ChevronRight, Clock3, Filter, MessageSquare, Search, ShieldCheck } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 
-const topics = ['Systems architecture', 'Network operations', 'Data and security', 'Product engineering']
-const editorialCards = [
-  { label: 'SYSTEMS', title: 'Designing dependable operational software', text: 'A practical field guide for turning complex workflows into clear, observable systems.', read: '8 min read' },
-  { label: 'SECURITY', title: 'Security boundaries before features', text: 'How to make authentication, authorization, and auditability part of the product foundation.', read: '6 min read' },
-  { label: 'NETWORKS', title: 'From telemetry to useful decisions', text: 'What a truthful operations dashboard should show before it claims a system is healthy.', read: '7 min read' },
+const articles = [
+  {
+    slug: 'designing-dependable-operational-software',
+    category: 'Systems Architecture',
+    title: 'Designing dependable operational software for teams that cannot stop',
+    summary: 'A practical field guide for turning complex, paper-heavy workflows into clear, observable systems that operators can trust during peak loads.',
+    readTime: '8 min read',
+    date: 'Oct 2026',
+    topics: ['Observability', 'Failover', 'Data Integrity']
+  },
+  {
+    slug: 'isp-billing-mikrotik-automation',
+    category: 'ISP Operations',
+    title: 'Automating MikroTik RouterOS billing without breaking active connections',
+    summary: 'How to structure queue provisioning, RADIUS accounting, and M-Pesa webhook reconciliation so subscribers receive instant renewal without dropping live VoIP or video streams.',
+    readTime: '11 min read',
+    date: 'Oct 2026',
+    topics: ['MikroTik API', 'M-Pesa Webhooks', 'RouterOS']
+  },
+  {
+    slug: 'security-boundaries-before-features',
+    category: 'Security & Auth',
+    title: 'Security boundaries before features: Role-based access in school management systems',
+    summary: 'Why separating student report card editing rights from fee payment verification is essential, and how to enforce it at the database schema layer with Drizzle & PostgreSQL.',
+    readTime: '6 min read',
+    date: 'Sep 2026',
+    topics: ['RBAC', 'PostgreSQL', 'SIMS Security']
+  },
+  {
+    slug: 'truthful-telemetry-monitoring',
+    category: 'Network Operations',
+    title: 'From telemetry noise to actionable decisions in local networks',
+    summary: 'What a truthful operations dashboard must display before claiming an ISP cluster is healthy, and how to avoid vanity ping charts.',
+    readTime: '7 min read',
+    date: 'Sep 2026',
+    topics: ['SNMP', 'Network Telemetry', 'Latency Tracking']
+  }
 ]
 
 export default function Insights() {
-  return <PageFrame eyebrow="Community / Insights" title="A clearer place to learn, ask, and build." intro="Practical notes from the systems we design. Explore the editorial map now; published articles will appear here as they are reviewed and approved.">
-    <section className="border-b border-white/10 bg-[#071321]">
-      <div className="mx-auto max-w-7xl px-6 py-5 lg:px-8"><div className="flex items-center gap-2 text-xs text-slate-500"><Link href="/" className="hover:text-cyan-300">Home</Link><ChevronRight className="size-3" /><span className="text-slate-300">Community</span><ChevronRight className="size-3" /><span>Insights</span></div></div>
-    </section>
-    <section className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[1fr_320px] lg:px-8">
-      <div>
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Featured direction</p><h2 className="mt-3 text-3xl font-medium text-white">Build with evidence, not noise.</h2></div><span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs text-amber-100">Publishing pipeline opening soon</span></div>
-        <div className="rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/[0.1] via-white/[0.03] to-transparent p-7 sm:p-10"><div className="flex items-center gap-3 text-xs text-cyan-200"><BookOpen className="size-4" /><span className="font-mono uppercase tracking-[0.2em]">Editorial preview</span></div><h3 className="mt-6 max-w-2xl text-3xl font-medium leading-tight text-white sm:text-4xl">The Altavox field guide to real-world systems.</h3><p className="mt-5 max-w-2xl text-base leading-7 text-slate-400">Short, useful explanations for teams building products, networks, data workflows, and secure operations. No invented case studies. No inflated metrics.</p><div className="mt-8 flex flex-wrap gap-3"><Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] hover:bg-white">Suggest a topic <ArrowRight className="size-4" /></Link><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-slate-300"><Clock3 className="size-4" /> Curated weekly</span></div></div>
-        <div className="mt-14 grid gap-4 sm:grid-cols-3">{editorialCards.map((card) => <article key={card.title} className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-1 hover:border-cyan-300/30"><div className="flex items-center justify-between"><span className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300">{card.label}</span><span className="text-xs text-slate-600">{card.read}</span></div><h3 className="mt-6 text-lg font-medium leading-snug text-white">{card.title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{card.text}</p><span className="mt-6 inline-flex items-center gap-2 text-sm text-slate-500">Article in review <ChevronRight className="size-4" /></span></article>)}</div>
-      </div>
-      <aside className="space-y-5"><div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6"><div className="flex items-center gap-3"><Search className="size-4 text-cyan-300" /><h2 className="font-medium text-white">Browse topics</h2></div><div className="mt-5 space-y-2">{topics.map((topic) => <button key={topic} type="button" disabled className="flex w-full items-center justify-between rounded-lg border border-white/10 px-3 py-2.5 text-left text-sm text-slate-400 opacity-80"><span>{topic}</span><ChevronRight className="size-4 text-slate-600" /></button>)}</div></div><div className="rounded-2xl border border-white/10 bg-[#0b1b2c] p-6"><ShieldCheck className="size-5 text-cyan-300" /><h2 className="mt-5 text-lg font-medium text-white">Trust is a feature.</h2><p className="mt-3 text-sm leading-6 text-slate-400">Every operational claim should have a source, a timestamp, and an owner. That standard shapes this community.</p></div><div className="rounded-2xl border border-white/10 p-6"><MessageSquare className="size-5 text-cyan-300" /><h2 className="mt-5 text-lg font-medium text-white">Have a systems question?</h2><p className="mt-3 text-sm leading-6 text-slate-400">Send a real problem and we will route it to the right engineering conversation.</p><Link href="/contact" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Start a conversation <ArrowRight className="size-4" /></Link></div></aside>
-    </section>
-  </PageFrame>
+  const [selectedTopic, setSelectedTopic] = useState('All')
+
+  const allTopics = ['All', 'Systems Architecture', 'ISP Operations', 'Security & Auth', 'Network Operations']
+
+  const filteredArticles = selectedTopic === 'All'
+    ? articles
+    : articles.filter((a) => a.category === selectedTopic)
+
+  return (
+    <PageFrame
+      eyebrow="Community & Field Notes"
+      title="A clearer place to learn, build, and operate."
+      intro="Practical technical notes, architecture patterns, and operational lessons from our production deployments across East Africa."
+    >
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
+          <div>
+            {/* Filter Tabs */}
+            <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2 flex items-center gap-1">
+                <Filter className="size-3.5" /> Topic:
+              </span>
+              {allTopics.map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => setSelectedTopic(topic)}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                    selectedTopic === topic
+                      ? 'bg-[#162238] text-white shadow-sm font-semibold'
+                      : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
+
+            {/* Articles List */}
+            <div className="space-y-6">
+              {filteredArticles.map((article) => (
+                <article
+                  key={article.slug}
+                  className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:border-[#e59a15] hover:shadow-md"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+                      {article.category}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs text-slate-400">
+                      <Clock3 className="size-3.5" /> {article.readTime} · {article.date}
+                    </span>
+                  </div>
+
+                  <h2 className="mt-3 text-xl font-bold text-[#162238] sm:text-2xl">
+                    {article.title}
+                  </h2>
+
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {article.summary}
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-4">
+                    <div className="flex flex-wrap gap-1.5">
+                      {article.topics.map((t) => (
+                        <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#162238] hover:text-[#e59a15] transition"
+                    >
+                      Discuss this topic <ChevronRight className="size-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-6">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-[#162238]">
+                <BookOpen className="size-4 text-[#e59a15]" /> Field Notes Mission
+              </div>
+              <p className="mt-3 text-xs leading-5 text-slate-600">
+                We write for network engineers, school administrators, and product leaders building systems in developing digital infrastructures. No superficial marketing fluff.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#ead9ad] bg-[#fffaf0] p-6">
+              <ShieldCheck className="size-5 text-[#a96b00]" />
+              <h3 className="mt-3 text-base font-bold text-[#162238]">Trust is an engineering feature</h3>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Every technical claim should have an verifiable architecture, a timestamp, and an accountable maintainer.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <MessageSquare className="size-5 text-[#162238]" />
+              <h3 className="mt-3 text-base font-bold text-[#162238]">Have a technical question?</h3>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Send us your operational challenge or architecture questions.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#a96b00] hover:text-[#162238] transition"
+              >
+                Send a question <ArrowRight className="size-3.5" />
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </PageFrame>
+  )
 }

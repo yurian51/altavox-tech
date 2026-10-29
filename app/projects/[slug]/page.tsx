@@ -22,11 +22,11 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
       title={project.name}
       intro={project.summary}
     >
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         <div className="mb-6">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#162238] transition"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#07294d] transition"
           >
             <ArrowLeft className="size-4" /> Back to all projects
           </Link>
@@ -35,7 +35,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.7fr]">
           <div>
             {/* System Visual Preview */}
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-slate-200 bg-[#0c1626] shadow-sm">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-slate-200 bg-[#07294d] shadow-sm">
               {hasScreenshot ? (
                 <Image
                   src={`/projects/${project.slug}-live.png`}
@@ -46,46 +46,46 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
                   priority
                 />
               ) : (
-                <div className="flex h-full w-full flex-col justify-between p-8 bg-gradient-to-br from-[#162238] to-[#08121f]">
+                <div className="flex h-full w-full flex-col justify-between p-8 bg-gradient-to-br from-[#07294d] via-[#093563] to-[#051c36]">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs uppercase tracking-wider text-[#f3a923]">
+                    <span className="font-mono text-xs uppercase tracking-wider text-[#f26522] font-bold">
                       {project.category}
                     </span>
-                    <span className="rounded bg-white/10 px-2.5 py-1 font-mono text-xs text-slate-300">
+                    <span className="rounded-full bg-white/10 px-3 py-1 font-mono text-xs text-white border border-white/20">
                       {project.status}
                     </span>
                   </div>
                   <div>
                     <h3 className="text-3xl font-extrabold text-white">{project.name}</h3>
-                    <p className="mt-2 text-sm text-slate-400">{project.description}</p>
+                    <p className="mt-2 text-sm text-slate-300">{project.description}</p>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Problem & Context */}
-            <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-xs">
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                 Context & Operational Scope
               </span>
-              <h2 className="mt-2 text-2xl font-bold text-[#162238]">The problem behind the build</h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">
+              <h2 className="mt-2 text-2xl font-bold text-[#07294d]">The problem behind the build</h2>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">
                 {project.description}
               </p>
             </div>
 
             {/* Key Delivered Capabilities */}
             {project.keyFeatures && (
-              <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+              <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-xs">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Delivered Capabilities
                 </span>
-                <h3 className="mt-2 text-xl font-bold text-[#162238]">Core functional modules</h3>
+                <h3 className="mt-2 text-xl font-bold text-[#07294d]">Core functional modules</h3>
                 <div className="mt-6 space-y-3">
                   {project.keyFeatures.map((feat) => (
-                    <div key={feat} className="flex items-start gap-3 rounded-lg bg-slate-50 p-3.5 border border-slate-100">
-                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#e59a15]" />
-                      <span className="text-sm text-slate-700 leading-5">{feat}</span>
+                    <div key={feat} className="flex items-start gap-3 rounded-xl bg-slate-50 p-3.5 border border-slate-200">
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#f26522]" />
+                      <span className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">{feat}</span>
                     </div>
                   ))}
                 </div>
@@ -96,17 +96,17 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
           {/* Aside Information */}
           <aside className="space-y-6">
             {/* Status & Quick Specs */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
                 Project Status
               </span>
-              <p className="mt-2 text-xl font-extrabold text-[#162238]">{project.status}</p>
+              <p className="mt-2 text-xl font-extrabold text-[#07294d]">{project.status}</p>
 
               <div className="mt-6 border-t border-slate-100 pt-5">
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
                   Client / Operator
                 </span>
-                <p className="mt-1 text-sm font-semibold text-[#162238]">{project.client}</p>
+                <p className="mt-1 text-sm font-bold text-[#07294d]">{project.client}</p>
               </div>
 
               {project.url && (
@@ -115,7 +115,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
                     href={project.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#162238] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#e59a15]"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#f26522] px-4 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] shadow-sm"
                   >
                     Open Live Deployment <ExternalLink className="size-4" />
                   </Link>
@@ -125,26 +125,26 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 
             {/* Architecture Specifications */}
             {project.architecture && (
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Architecture Specification
                 </span>
                 <div className="mt-4 space-y-4 text-xs">
                   <div>
-                    <p className="font-bold text-slate-500 uppercase tracking-wider">Frontend</p>
-                    <p className="mt-1 font-mono text-slate-800">{project.architecture.frontend}</p>
+                    <p className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Frontend</p>
+                    <p className="mt-1 font-mono text-slate-800 font-semibold">{project.architecture.frontend}</p>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-500 uppercase tracking-wider">Backend & Workers</p>
-                    <p className="mt-1 font-mono text-slate-800">{project.architecture.backend}</p>
+                    <p className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Backend & Workers</p>
+                    <p className="mt-1 font-mono text-slate-800 font-semibold">{project.architecture.backend}</p>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-500 uppercase tracking-wider">Database & Storage</p>
-                    <p className="mt-1 font-mono text-slate-800">{project.architecture.database}</p>
+                    <p className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Database & Storage</p>
+                    <p className="mt-1 font-mono text-slate-800 font-semibold">{project.architecture.database}</p>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-500 uppercase tracking-wider">Infrastructure</p>
-                    <p className="mt-1 font-mono text-slate-800">{project.architecture.infrastructure}</p>
+                    <p className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Infrastructure</p>
+                    <p className="mt-1 font-mono text-slate-800 font-semibold">{project.architecture.infrastructure}</p>
                   </div>
                 </div>
               </div>
@@ -152,15 +152,15 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 
             {/* Operational Metrics */}
             {project.metrics && (
-              <div className="rounded-2xl border border-[#ead9ad] bg-[#fffaf0] p-6">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+              <div className="rounded-2xl border border-orange-200 bg-orange-50/70 p-6 shadow-xs">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Operational Metrics
                 </span>
                 <div className="mt-4 space-y-3">
                   {project.metrics.map((m) => (
-                    <div key={m.label} className="border-b border-[#ead9ad]/50 pb-2.5 last:border-0 last:pb-0">
-                      <p className="text-2xl font-extrabold text-[#162238]">{m.value}</p>
-                      <p className="text-xs text-slate-600">{m.label}</p>
+                    <div key={m.label} className="border-b border-orange-200/60 pb-2.5 last:border-0 last:pb-0">
+                      <p className="text-2xl font-extrabold text-[#07294d]">{m.value}</p>
+                      <p className="text-xs text-slate-600 font-medium">{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -168,13 +168,13 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
             )}
 
             {/* Tags */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
                 Technology Tags
               </span>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="rounded bg-slate-100 px-2.5 py-1 text-xs text-slate-600">
+                  <span key={tag} className="rounded-md bg-slate-100 border border-slate-200 px-2.5 py-1 text-xs text-slate-600 font-medium">
                     {tag}
                   </span>
                 ))}

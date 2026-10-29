@@ -7,38 +7,49 @@ export default function TermsPage() {
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       <JanBaskHeader />
       <main className="flex-1 pb-24">
-        <section className="bg-[#07294d] text-white py-12 border-b border-white/10">
+        <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-12 border-b border-white/10">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">JanBask Policies</span>
-            <h1 className="mt-2 text-3xl font-extrabold">Terms & Conditions</h1>
-            <p className="mt-2 text-xs text-slate-300">Effective Date: January 2025</p>
+            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">Altavox Tech Standards</span>
+            <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold">Terms of Engineering & Service</h1>
+            <p className="mt-2 text-xs text-slate-300">Effective Date: October 2026 · Altavox Systems</p>
           </div>
         </section>
 
         <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-10">
           <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xs space-y-6 text-xs text-slate-700 leading-6">
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">1. Enrollment & Access Guarantee</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">1. Scope of Systems & Software Delivery</h2>
               <p className="mt-2">
-                Upon enrollment in a JanBask certification course, students are granted admission to live interactive cohorts, access to sandbox laboratory environments, and lifetime access to high-definition video archives on the JanBask Learning Management System (LMS).
+                Altavox Tech delivers production software, ISP billing architectures, SIMS database platforms, and custom integrations adhering to defined technical specifications, milestone verification, and staging sign-off.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">2. Free Batch Retake Policy</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">2. Operational Continuity & Uptime SLA</h2>
               <p className="mt-2">
-                Enrolled students have the right to attend an upcoming live batch for the same course within six (6) months of enrollment at no additional tuition fee if they need revision or missed consecutive classes.
+                Managed deployments on Altavox Cloud or on-premise MikroTik carrier infrastructure are maintained for continuous operations. Critical patch rollouts and database schema migrations follow zero-downtime blue-green strategies.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">3. Intellectual Property</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">3. Code Ownership & IP Governance</h2>
               <p className="mt-2">
-                All training curriculum, project sandboxes, problem sets, and code repositories are proprietary intellectual property of JanBask Training, Inc. Materials may not be duplicated or distributed without prior written consent.
+                Upon project completion and settlement of contracted milestones, clients receive full operational deployment rights and assigned software licenses as stipulated in individual service level agreements.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">4. Refund & Cancellation Terms</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">4. Support & Direct Operations Inquiries</h2>
               <p className="mt-2">
-                Students may request a refund prior to attending the second scheduled live class of their cohort. Once 2 or more classes are attended or custom sandbox credentials are issued, tuition fees are non-refundable but transferable to other upcoming batches or courses.
+                For contract amendments, active system escalation, or enterprise support, call our Direct Desk at{' '}
+                <a href="tel:+255750227073" className="font-bold text-[#f26522] hover:underline">
+                  +255 750 227 073
+                </a>{' '}
+                /{' '}
+                <a href="tel:+255708227073" className="font-bold text-[#f26522] hover:underline">
+                  +255 708 227 073
+                </a>{' '}
+                or reach{' '}
+                <a href="mailto:engineering@altavox.space" className="font-bold text-[#f26522] hover:underline">
+                  engineering@altavox.space
+                </a>.
               </p>
             </div>
           </div>

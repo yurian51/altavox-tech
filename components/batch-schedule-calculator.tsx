@@ -97,6 +97,26 @@ export function BatchScheduleCalculator({
           <div className="inline-block rounded-xl bg-orange-50 border border-orange-200 px-4 py-2 text-xs font-bold text-[#f26522]">
             Total Payable at Checkout: ${finalPrice} (You saved ${course.originalPrice - finalPrice}!)
           </div>
+          <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 max-w-md mx-auto text-xs text-left space-y-2">
+            <p className="font-bold text-[#07294d]">Direct Payment & Activation:</p>
+            <p className="text-slate-600">Lipa kwa <strong>M-Pesa / Tigo Pesa / Airtel Money</strong> au Card. Tuma uthibitisho kwa Direct Desk:</p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <a
+                href="https://wa.me/255750227073?text=Habari%20Altavox%2C%20nimechagua%20batch%20ya%20mafunzo%20na%20nahitaji%20kulipa."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-emerald-600 text-white px-3 py-1.5 font-bold hover:bg-emerald-700 transition"
+              >
+                Thibitisha WhatsApp (+255 750 227 073)
+              </a>
+              <a
+                href="tel:+255750227073"
+                className="rounded-lg bg-[#07294d] text-white px-3 py-1.5 font-bold hover:bg-[#051c36] transition"
+              >
+                Piga Direct Desk (+255 750 227 073)
+              </a>
+            </div>
+          </div>
           <div>
             <button
               type="button"

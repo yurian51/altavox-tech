@@ -34,6 +34,7 @@ import {
 } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 import { OperationsStatus } from '@/components/operations-status'
+import { LiveTerminalSandbox } from '@/components/live-terminal-sandbox'
 
 const modules = [
   { name: 'Workspace OS', detail: 'One visual workspace for projects, environments, deployments, and team permissions.', icon: Command },
@@ -351,43 +352,45 @@ export default function ComputerPage() {
       title="Your digital operations & developer control plane."
       intro="A native control plane for building, deploying, operating, and monitoring systems. Altavox Computer gives every project a home, every service an observable role, and every release a verified path."
     >
-      <section className="mx-auto max-w-7xl overflow-hidden px-6 py-12 lg:px-8">
+      <section className="mx-auto max-w-7xl overflow-hidden px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         {/* Project Intake Banner */}
-        <div className="mb-8 rounded-2xl border border-cyan-300/25 bg-[#07101b] p-6 sm:p-8 shadow-xl">
+        <div className="mb-8 rounded-2xl border border-white/15 bg-gradient-to-r from-[#07294d] to-[#093563] p-6 sm:p-8 shadow-xl text-white">
           <div className="flex flex-wrap items-start justify-between gap-5">
             <div className="max-w-2xl">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Bring your code</p>
-              <h2 className="mt-2 text-2xl font-bold text-white">Import a project directly into Altavox.</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-400">
+              <span className="rounded-full bg-[#f26522] px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-white font-bold">
+                Repository & Archive Intake
+              </span>
+              <h2 className="mt-3 text-2xl font-bold text-white">Import a Project Directly Into Altavox.</h2>
+              <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-300">
                 Paste a GitHub repository or upload a project archive. Altavox inspects the stack, configures the environment, and generates an automated release plan.
               </p>
             </div>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-300">
-              GitHub + Archive Intake
+            <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white">
+              Sovereign Runtime
             </span>
           </div>
 
           <div className="mt-6 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
-            <label className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#0d1829] px-4 py-3">
-              <Link2 className="size-4 shrink-0 text-cyan-300" />
+            <label className="flex items-center gap-3 rounded-xl border border-white/15 bg-black/20 px-4 py-3">
+              <Link2 className="size-4 shrink-0 text-[#f26522]" />
               <span className="sr-only">GitHub repository URL</span>
               <input
                 value={repository}
                 onChange={(event) => setRepository(event.target.value)}
                 placeholder="https://github.com/owner/project"
-                className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-400"
               />
             </label>
             <button
               type="button"
               onClick={importRepository}
               disabled={isImporting}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#08121f] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#f26522] px-5 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] disabled:cursor-wait disabled:opacity-60 shadow-sm"
             >
               <GitBranch className="size-4" /> {isImporting ? 'Connecting…' : 'Import repository'}
             </button>
-            <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50 hover:bg-white/[0.05]">
-              <Upload className="size-4 text-cyan-300" /> Upload files
+            <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-xs font-bold text-white transition hover:bg-white/10">
+              <Upload className="size-4 text-[#f26522]" /> Upload files
               <input
                 type="file"
                 accept=".zip,.tar,.gz,.tgz,.pdf,.docx,.csv,.png,.jpg,.jpeg,.webp,.gif,.tsx,.ts,.jsx,.js,.py,.md"
@@ -405,7 +408,7 @@ export default function ComputerPage() {
           )}
 
           {(importStatus || uploadedFile) && !importError && (
-            <p role="status" className="mt-4 flex items-center gap-2 text-xs text-cyan-200">
+            <p role="status" className="mt-4 flex items-center gap-2 text-xs text-emerald-300">
               <CheckCircle2 className="size-4" />
               {importStatus || uploadedFile}
             </p>
@@ -413,30 +416,30 @@ export default function ComputerPage() {
         </div>
 
         {/* Live Topology & Operator Desk */}
-        <div className="overflow-hidden rounded-2xl border border-cyan-300/25 bg-[#07101b] shadow-2xl">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-6 py-4">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 px-6 py-4 bg-slate-50">
             <div className="flex items-center gap-3">
-              <span className="grid size-9 place-items-center rounded-xl bg-cyan-300 text-[#08121f]">
+              <span className="grid size-9 place-items-center rounded-xl bg-orange-100 text-[#f26522]">
                 <Cpu className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-semibold text-white">Altavox Computer Console</p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-cyan-300">Status: Active / 0.0.0.0:3000</p>
+                <p className="text-sm font-bold text-[#07294d]">Altavox Computer Console</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Status: Active / 0.0.0.0:3000</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs text-emerald-200">
+            <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs text-emerald-700 font-semibold">
               <Activity className="size-3.5" /> Core Systems Online
             </div>
           </div>
 
           <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
             {/* Left: Quick Actions */}
-            <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Operator Deck</p>
-              <h2 className="mt-3 text-2xl font-bold tracking-tight text-white">
+            <div className="border-b border-slate-100 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#f26522] font-bold">Operator Deck</p>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-[#07294d]">
                 Operate systems from one interface.
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-400">
+              <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600">
                 Directly orchestrate deployment pipelines, verify security gates, and monitor topology components.
               </p>
 
@@ -734,6 +737,30 @@ export default function ComputerPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Live Multi-Cluster Telemetry Sandbox */}
+        <div className="mt-12 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <span className="inline-block rounded-full bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                Multi-Cluster Sandbox
+              </span>
+              <h2 className="mt-2 text-2xl font-extrabold text-[#07294d]">
+                Live Systems Runtime & Protocol Simulator
+              </h2>
+              <p className="mt-1 text-xs text-slate-600">
+                Direct interactive telemetry from active MikroTik RouterOS gateways, Sammena SIMS academic ledgers, and Nexora cloud runtimes.
+              </p>
+            </div>
+            <a
+              href="tel:+255750227073"
+              className="text-xs font-bold text-[#f26522] hover:underline"
+            >
+              Direct Desk: +255 750 227 073 →
+            </a>
+          </div>
+          <LiveTerminalSandbox />
         </div>
 
         {/* Database & Operations Status */}

@@ -138,9 +138,10 @@ export default function AboutPage() {
                     <p>Bridgewater, New Jersey 08807, United States</p>
                   </div>
                 </div>
-                <div className="pt-2 border-t border-slate-100">
+                <div className="pt-2 border-t border-slate-100 space-y-1">
                   <p><strong>Primary Engineering:</strong> yurianarshad@gmail.com</p>
-                  <p><strong>Direct Desk:</strong> +1 908-652-6151</p>
+                  <p><strong>Direct Desk 1:</strong> <a href="tel:+255750227073" className="text-[#f26522] hover:underline font-bold">+255 750 227 073</a></p>
+                  <p><strong>Direct Desk 2:</strong> <a href="tel:+255708227073" className="text-[#f26522] hover:underline font-bold">+255 708 227 073</a></p>
                   <p><strong>Telecom Integration:</strong> MikroTik RouterOS & M-Pesa</p>
                 </div>
               </div>

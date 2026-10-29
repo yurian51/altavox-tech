@@ -7,11 +7,11 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       <JanBaskHeader />
       <main className="flex-1 pb-24">
-        <section className="bg-[#07294d] text-white py-12 border-b border-white/10">
+        <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-12 border-b border-white/10">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">JanBask Policies</span>
-            <h1 className="mt-2 text-3xl font-extrabold">Privacy Policy</h1>
-            <p className="mt-2 text-xs text-slate-300">Last updated: January 2025</p>
+            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">Altavox Tech Governance</span>
+            <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold">Privacy Policy & System Data Notice</h1>
+            <p className="mt-2 text-xs text-slate-300">Last updated: October 2026 · Altavox Systems</p>
           </div>
         </section>
 
@@ -20,27 +20,35 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-sm font-bold text-[#07294d]">1. Information We Collect</h2>
               <p className="mt-2">
-                JanBask Training collects personal details provided voluntarily when you enroll in a course, book a free live demo session, request an enterprise proposal, or contact admissions advisors. This includes full name, email, phone number, career background, and payment details.
+                Altavox Tech collects contact details, enterprise system specifications, and operational parameters provided voluntarily when requesting proposals, technical demonstrations, or initiating system deployments. This includes company name, email address, direct telephone number, and architectural requirements.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">2. How We Protect Student Data</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">2. How We Protect Operational & Client Data</h2>
               <p className="mt-2">
-                We implement industry-standard 256-bit SSL encryption, secure PCI-compliant payment gateways, and strict database access controls. We never sell or lease your personal identifiable information to external third parties.
+                We implement industry-standard 256-bit SSL encryption, automated TLS certificates, database constraint security, and strict role-based access control (RBAC). We never sell, lease, or monetize client data, subscriber lists, or proprietary network topologies.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">3. LMS & Classroom Recordings</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">3. Production Telemetry & Confidentiality</h2>
               <p className="mt-2">
-                Classroom recordings are shared solely within the authenticated student LMS portal for educational review purposes by registered cohort peers.
+                Telemetry and performance logs gathered from ISP billing gateways, SIMS databases, or container runtimes remain strictly isolated to the operating client. Mutual NDAs are executed prior to code and infrastructure audits.
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#07294d]">4. Contact Our Privacy Officer</h2>
+              <h2 className="text-sm font-bold text-[#07294d]">4. Contact Our Operations & Privacy Desk</h2>
               <p className="mt-2">
-                For privacy inquiries or account deletion requests, email{' '}
-                <a href="mailto:privacy@janbasktraining.com" className="font-bold text-[#f26522] hover:underline">
-                  privacy@janbasktraining.com
+                For privacy inquiries or data governance requests, contact our direct desk at{' '}
+                <a href="tel:+255750227073" className="font-bold text-[#f26522] hover:underline">
+                  +255 750 227 073
+                </a>{' '}
+                /{' '}
+                <a href="tel:+255708227073" className="font-bold text-[#f26522] hover:underline">
+                  +255 708 227 073
+                </a>{' '}
+                or email{' '}
+                <a href="mailto:engineering@altavox.space" className="font-bold text-[#f26522] hover:underline">
+                  engineering@altavox.space
                 </a>.
               </p>
             </div>

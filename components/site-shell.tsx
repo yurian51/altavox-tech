@@ -1,10 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { ArrowUpRight, Search, X, Menu, Terminal, Layers, FolderKanban, ShieldCheck, BookOpen, Mail } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { projects, services } from '@/lib/site-data'
+import { JanBaskHeader } from '@/components/janbask-header'
+import { JanBaskFooter } from '@/components/janbask-footer'
 
 const navLinks = [
   { label: 'Services', href: '/services' },
@@ -58,14 +61,17 @@ export function SiteHeader() {
 
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8">
-          {/* Zone 1: Single text element wordmark */}
-          <Link href="/" className="flex items-center gap-2.5 text-[#162238] whitespace-nowrap shrink-0" onClick={() => setMobileOpen(false)}>
-            <div className="flex size-9 items-center justify-center rounded-lg bg-[#162238] text-white font-extrabold text-sm shadow-sm">
-              AV
-            </div>
-            <span className="text-base font-extrabold tracking-[0.14em] text-[#162238]">
-              ALTAVOX<span className="text-[#e59a15]"> TECH</span>
-            </span>
+          {/* Zone 1: Authentic Altavox Tech Logo */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 group" onClick={() => setMobileOpen(false)}>
+            <Image
+              src="/altavox-logo.svg"
+              alt="Altavox Tech"
+              width={160}
+              height={40}
+              className="h-9 w-auto rounded-lg shadow-xs transition group-hover:opacity-90"
+              priority
+              referrerPolicy="no-referrer"
+            />
           </Link>
 
           {/* Zone 2: Navigation Links */}
@@ -241,19 +247,23 @@ export function SiteFooter() {
     <footer className="border-t border-slate-800 bg-[#0c1626] text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="sm:col-span-2 lg:col-span-1">
-          <div className="mb-4 flex items-center gap-2.5 text-white">
-            <div className="flex size-8 items-center justify-center rounded bg-[#e59a15] text-[#162238] font-extrabold text-sm">
-              AV
-            </div>
-            <span className="text-sm font-extrabold tracking-[0.14em]">ALTAVOX TECH</span>
-          </div>
+          <Link href="/" className="mb-4 inline-block group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <Image
+              src="/altavox-logo.svg"
+              alt="Altavox Tech"
+              width={160}
+              height={40}
+              className="h-9 w-auto rounded-lg shadow-sm border border-white/10 transition group-hover:opacity-90"
+              referrerPolicy="no-referrer"
+            />
+          </Link>
           <p className="max-w-xs text-sm leading-6 text-slate-400">
             Software engineering, ISP digital platforms, and connected systems built for operational clarity.
           </p>
           <div className="mt-6 flex flex-col gap-1 text-xs text-slate-400">
-            <span className="text-white font-medium">Headquarters</span>
+            <span className="text-white font-medium">Headquarters & Direct Desks</span>
             <span>Dar es Salaam, Tanzania</span>
-            <span className="text-[#f3a923]">Serving East Africa & Remote Global</span>
+            <span className="text-[#f26522] font-semibold">+255 750 227 073 / +255 708 227 073</span>
           </div>
         </div>
 
@@ -298,6 +308,14 @@ export function SiteFooter() {
   )
 }
 
+export function SiteHeader() {
+  return <JanBaskHeader />
+}
+
+export function SiteFooter() {
+  return <JanBaskFooter />
+}
+
 export function PageFrame({
   children,
   eyebrow,
@@ -310,22 +328,23 @@ export function PageFrame({
   intro?: string
 }) {
   return (
-    <>
-      <SiteHeader />
-      <main className="min-h-screen overflow-x-hidden bg-[#f8fafc] text-[#162238]">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+      <JanBaskHeader />
+      <main className="flex-1 overflow-x-hidden pb-20">
         {title && (
-          <section className="border-b border-slate-200 bg-white px-6 py-14 lg:px-8 lg:py-18">
-            <div className="mx-auto max-w-7xl">
+          <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-12 lg:py-16 border-b border-white/10 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               {eyebrow && (
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#a96b00]">
+                <span className="inline-block rounded-full bg-[#f26522] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white mb-3 shadow-xs">
                   {eyebrow}
-                </p>
+                </span>
               )}
-              <h1 className="max-w-4xl text-3xl font-extrabold tracking-tight text-[#162238] sm:text-5xl">
+              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl leading-tight">
                 {title}
               </h1>
               {intro && (
-                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                <p className="mt-4 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-200">
                   {intro}
                 </p>
               )}
@@ -334,7 +353,7 @@ export function PageFrame({
         )}
         {children}
       </main>
-      <SiteFooter />
-    </>
+      <JanBaskFooter />
+    </div>
   )
 }

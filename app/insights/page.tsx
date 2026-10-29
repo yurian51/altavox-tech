@@ -56,10 +56,10 @@ export default function Insights() {
   return (
     <PageFrame
       eyebrow="Community & Field Notes"
-      title="A clearer place to learn, build, and operate."
-      intro="Practical technical notes, architecture patterns, and operational lessons from our production deployments across East Africa."
+      title="Practical Insights for Real Operations."
+      intro="Technical notes, architecture patterns, and operational lessons from our production software and ISP deployments across East Africa."
     >
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
           <div>
             {/* Filter Tabs */}
@@ -72,9 +72,9 @@ export default function Insights() {
                   key={topic}
                   type="button"
                   onClick={() => setSelectedTopic(topic)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                  className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                     selectedTopic === topic
-                      ? 'bg-[#162238] text-white shadow-sm font-semibold'
+                      ? 'bg-[#07294d] text-white shadow-xs'
                       : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
                   }`}
                 >
@@ -88,29 +88,29 @@ export default function Insights() {
               {filteredArticles.map((article) => (
                 <article
                   key={article.slug}
-                  className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:border-[#e59a15] hover:shadow-md"
+                  className="rounded-2xl border border-slate-200 bg-white p-7 shadow-xs transition hover:border-[#f26522] hover:shadow-lg"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                       {article.category}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-xs text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
                       <Clock3 className="size-3.5" /> {article.readTime} · {article.date}
                     </span>
                   </div>
 
-                  <h2 className="mt-3 text-xl font-bold text-[#162238] sm:text-2xl">
+                  <h2 className="mt-3 text-xl font-bold text-[#07294d] sm:text-2xl leading-snug">
                     {article.title}
                   </h2>
 
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600">
                     {article.summary}
                   </p>
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-4">
                     <div className="flex flex-wrap gap-1.5">
                       {article.topics.map((t) => (
-                        <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">
+                        <span key={t} className="rounded-md bg-slate-100 border border-slate-200 px-2.5 py-1 text-[11px] text-slate-600 font-medium">
                           {t}
                         </span>
                       ))}
@@ -118,7 +118,7 @@ export default function Insights() {
 
                     <Link
                       href="/contact"
-                      className="inline-flex items-center gap-1 text-xs font-bold text-[#162238] hover:text-[#e59a15] transition"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#f26522] hover:underline transition"
                     >
                       Discuss this topic <ChevronRight className="size-3.5" />
                     </Link>
@@ -130,32 +130,32 @@ export default function Insights() {
 
           {/* Sidebar */}
           <aside className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-[#162238]">
-                <BookOpen className="size-4 text-[#e59a15]" /> Field Notes Mission
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+              <div className="flex items-center gap-2 text-sm font-bold text-[#07294d]">
+                <BookOpen className="size-4 text-[#f26522]" /> Field Notes Mission
               </div>
-              <p className="mt-3 text-xs leading-5 text-slate-600">
+              <p className="mt-3 text-xs leading-relaxed text-slate-600">
                 We write for network engineers, school administrators, and product leaders building systems in developing digital infrastructures. No superficial marketing fluff.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#ead9ad] bg-[#fffaf0] p-6">
-              <ShieldCheck className="size-5 text-[#a96b00]" />
-              <h3 className="mt-3 text-base font-bold text-[#162238]">Trust is an engineering feature</h3>
-              <p className="mt-2 text-xs leading-5 text-slate-600">
-                Every technical claim should have an verifiable architecture, a timestamp, and an accountable maintainer.
+            <div className="rounded-2xl border border-orange-200 bg-orange-50/70 p-6 shadow-xs">
+              <ShieldCheck className="size-5 text-[#f26522]" />
+              <h3 className="mt-3 text-sm font-bold text-[#07294d]">Trust is an engineering feature</h3>
+              <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                Every technical claim should have a verifiable architecture, a timestamp, and an accountable maintainer.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <MessageSquare className="size-5 text-[#162238]" />
-              <h3 className="mt-3 text-base font-bold text-[#162238]">Have a technical question?</h3>
-              <p className="mt-2 text-xs leading-5 text-slate-600">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+              <MessageSquare className="size-5 text-[#07294d]" />
+              <h3 className="mt-3 text-sm font-bold text-[#07294d]">Have a technical question?</h3>
+              <p className="mt-2 text-xs leading-relaxed text-slate-600">
                 Send us your operational challenge or architecture questions.
               </p>
               <Link
                 href="/contact"
-                className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#a96b00] hover:text-[#162238] transition"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#f26522] hover:underline transition"
               >
                 Send a question <ArrowRight className="size-3.5" />
               </Link>

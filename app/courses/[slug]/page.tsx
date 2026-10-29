@@ -386,11 +386,28 @@ export default function CourseDetailPage({
                   Speak directly with an Admissions Counselor for customized scheduling or payment installment options.
                 </p>
                 <div className="mt-4 space-y-2">
+                  <div className="flex gap-2">
+                    <a
+                      href="tel:+255750227073"
+                      className="flex-1 rounded-xl bg-[#07294d] py-2.5 text-xs font-bold text-white hover:bg-[#051c36] transition text-center"
+                    >
+                      Call: +255 750 227 073
+                    </a>
+                    <a
+                      href="https://wa.me/255750227073?text=Habari%20Altavox%2C%20nahitaji%20maelezo%20kuhusu%20mfumo%20huu"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-xl bg-[#25D366] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#1ebd5b] transition text-center flex items-center justify-center"
+                      title="WhatsApp Direct"
+                    >
+                      WhatsApp
+                    </a>
+                  </div>
                   <a
-                    href="tel:+19086526151"
-                    className="block w-full rounded-xl bg-[#07294d] py-2.5 text-xs font-bold text-white hover:bg-[#051c36] transition"
+                    href="tel:+255708227073"
+                    className="block w-full rounded-xl border border-slate-200 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition text-center"
                   >
-                    Call: +1 908-652-6151
+                    Desk 2: +255 708 227 073
                   </a>
                   <button
                     onClick={() => setDemoModalOpen(true)}

@@ -59,12 +59,12 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
 
   if (state === 'sent') {
     return (
-      <div className="rounded-2xl border border-emerald-300/40 bg-emerald-50/50 p-8 text-center sm:p-12">
+      <div className="rounded-2xl border border-emerald-300/40 bg-emerald-50/50 p-8 text-center sm:p-12 shadow-xs">
         <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
           <CheckCircle2 className="size-6" />
         </div>
-        <h3 className="mt-4 text-2xl font-bold text-[#162238]">Inquiry Received</h3>
-        <p className="mx-auto mt-2 max-w-md text-sm text-slate-600 leading-6">
+        <h3 className="mt-4 text-2xl font-bold text-[#07294d]">Inquiry Received</h3>
+        <p className="mx-auto mt-2 max-w-md text-sm text-slate-600 leading-relaxed">
           Thank you, <span className="font-semibold text-slate-900">{name || 'there'}</span>. Your inquiry has been registered in our operational backlog. An engineer will review your requirements and reach out via <span className="font-semibold text-slate-900">{email}</span> within 24 hours.
         </p>
         <button
@@ -76,7 +76,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
             setDescription('')
             setOrganization('')
           }}
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#162238] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#e59a15] transition"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#07294d] px-6 py-3 text-xs font-bold text-white hover:bg-[#051c36] transition shadow-xs"
         >
           Submit another inquiry
         </button>
@@ -85,7 +85,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs">
       {/* Quick Presets */}
       <div className="mb-6 border-b border-slate-100 pb-5">
         <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-400">
@@ -116,7 +116,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
               key={preset.label}
               type="button"
               onClick={() => applyPreset(preset)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-[#e59a15] hover:bg-[#fffaf0] hover:text-[#a96b00] transition"
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-[#f26522] hover:bg-orange-50/60 hover:text-[#f26522] transition"
             >
               + {preset.label}
             </button>
@@ -133,7 +133,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Alex Mwangi"
-              className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
             />
           </label>
 
@@ -145,7 +145,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="alex@organization.com"
-              className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
             />
           </label>
         </div>
@@ -157,7 +157,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
               placeholder="e.g. Horizon ISP Ltd."
-              className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
             />
           </label>
 
@@ -166,7 +166,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
             <select
               value={selectedService}
               onChange={(e) => setSelectedService(e.target.value)}
-              className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
             >
               <option value="">Select a capability...</option>
               {services.map((svc) => (
@@ -186,7 +186,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
                 value={projectType}
                 onChange={(e) => setProjectType(e.target.value)}
                 placeholder="e.g. Green-field build, System refactor"
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
               />
             </label>
 
@@ -195,7 +195,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
               <select
                 value={timeline}
                 onChange={(e) => setTimeline(e.target.value)}
-                className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
               >
                 <option value="">Select timeline...</option>
                 <option value="Immediate (1-2 weeks)">Immediate (1-2 weeks)</option>
@@ -215,12 +215,12 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Tell us what is slowing the team down, which systems need to be connected, or what functionality you need to ship..."
-            className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+            className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
           />
         </label>
 
         {state === 'error' && (
-          <div className="flex items-center gap-2 rounded-lg bg-rose-50 p-3 text-xs text-rose-700">
+          <div className="flex items-center gap-2 rounded-xl bg-rose-50 p-3 text-xs text-rose-700">
             <AlertCircle className="size-4 shrink-0" />
             <span>{errorMessage}</span>
           </div>
@@ -234,7 +234,7 @@ export function InquiryForm({ detailed = false }: { detailed?: boolean }) {
           <button
             type="submit"
             disabled={state === 'sending'}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#162238] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#e59a15] disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#f26522] px-6 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] disabled:opacity-50 shadow-sm"
           >
             {state === 'sending' ? (
               'Submitting brief…'

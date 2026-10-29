@@ -155,7 +155,7 @@ export function DemoModal({
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+255 750 227 073"
                   className="w-full rounded-xl border border-slate-300 bg-slate-50 pl-9 pr-3 py-2.5 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
                 />
               </div>

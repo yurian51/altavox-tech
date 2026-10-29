@@ -39,6 +39,8 @@ import { JanBaskCourseCard } from '@/components/janbask-course-card'
 import { DemoModal } from '@/components/demo-modal'
 import { CurriculumModal } from '@/components/curriculum-modal'
 import { CareerAdvisorModal } from '@/components/career-advisor-modal'
+import { ArchitectureCalculator } from '@/components/architecture-calculator'
+import { LiveTerminalSandbox } from '@/components/live-terminal-sandbox'
 import { coursesData, courseCategories, CourseItem } from '@/lib/courses-data'
 
 export default function HomePage() {
@@ -154,10 +156,14 @@ export default function HomePage() {
               {/* Left Column: Mission & Core Value */}
               <div className="lg:col-span-7 space-y-6">
                 
-                {/* Live Badge in JanBask Style */}
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold backdrop-blur-md border border-white/15 text-orange-200">
+                {/* Live Urgency & Cohort Onboarding Strip in JanBask Style */}
+                <div className="flex flex-wrap items-center gap-2.5 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold backdrop-blur-md border border-white/15 text-orange-200">
                   <span className="flex size-2 rounded-full bg-[#f26522] animate-pulse" />
-                  <span>Software Engineering · Systems Development · ISP Operations</span>
+                  <span className="text-white font-bold">⚡ Next Systems Cohort:</span>
+                  <span className="bg-[#f26522] text-white px-2 py-0.5 rounded font-mono font-bold text-[11px]">
+                    Starts in 2 Days · 14h : 22m
+                  </span>
+                  <span className="text-slate-300 hidden sm:inline">· 3 Enterprise Slots Remaining</span>
                 </div>
 
                 {/* Main Hero Headline */}
@@ -377,6 +383,34 @@ export default function HomePage() {
         </section>
 
         {/* ======================================================== */}
+        {/* INTERACTIVE PRODUCTION COCKPIT & LIVE TERMINAL SANDBOX */}
+        {/* ======================================================== */}
+        <section className="bg-[#030d17] py-16 border-b border-slate-800 text-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+              <div>
+                <span className="inline-block rounded-full bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                  Live Interactive Sandbox
+                </span>
+                <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold text-white">
+                  Test Altavox Engineering in Action
+                </h2>
+                <p className="mt-2 text-sm text-slate-300 max-w-2xl">
+                  Simulate real-time MikroTik RouterOS API queue execution, Sammena School SIMS academic batch compilation, and Nexora Cloud database diagnostics right in your browser.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
+                <span>Simulated Production Socket Connected</span>
+              </div>
+            </div>
+
+            <LiveTerminalSandbox />
+          </div>
+        </section>
+
+        {/* ======================================================== */}
         {/* PRODUCTION SYSTEMS & TRACKS GRID (JANBASK COURSE CARD STYLE) */}
         {/* ======================================================== */}
         <section id="systems-section" className="py-16 sm:py-24 bg-slate-50">
@@ -448,6 +482,29 @@ export default function HomePage() {
                 </button>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* INTERACTIVE ARCHITECTURE & ROI CALCULATOR SECTION */}
+        {/* ======================================================== */}
+        <section className="bg-gradient-to-b from-white to-slate-50 py-16 sm:py-20 border-b border-slate-200">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                Enterprise Planning & ROI Tool
+              </span>
+              <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold text-[#07294d]">
+                Calculate Your Infrastructure ROI & Architecture Sizing
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-slate-600">
+                Model your organization&apos;s workload across ISP billing, education SIMS, or enterprise cloud platforms to estimate monthly labor saved and recommended deployment hardware.
+              </p>
+            </div>
+
+            <ArchitectureCalculator
+              onSelectSetup={(summary) => handleOpenDemo(summary)}
+            />
           </div>
         </section>
 
@@ -762,13 +819,23 @@ export default function HomePage() {
                   >
                     Start a Project with Altavox
                   </Link>
-                  <a
-                    href="tel:+19086526151"
-                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition"
-                  >
-                    <PhoneCall className="size-4 text-[#f26522]" />
-                    <span>Call Engineering Desk: +1 908-652-6151</span>
-                  </a>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <a
+                      href="tel:+255750227073"
+                      className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+                    >
+                      <PhoneCall className="size-4 text-[#f26522]" />
+                      <span>Direct Desk: +255 750 227 073 / +255 708 227 073</span>
+                    </a>
+                    <a
+                      href="https://wa.me/255750227073?text=Habari%20Altavox%20Engineering%2C%20nahitaji%20maelezo%20kuhusu%20kuanza%20mradi."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-3.5 text-sm font-bold text-white hover:bg-emerald-700 transition shadow-md"
+                    >
+                      <span>WhatsApp Direct</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

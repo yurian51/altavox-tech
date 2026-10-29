@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import {
   Search,
@@ -24,6 +25,7 @@ import {
 import { coursesData, courseCategories } from '@/lib/courses-data'
 import { DemoModal } from '@/components/demo-modal'
 import { CareerAdvisorModal } from '@/components/career-advisor-modal'
+import { QuickContactWidget } from '@/components/quick-contact-widget'
 
 export function JanBaskHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -45,22 +47,33 @@ export function JanBaskHeader() {
       {/* 1. Top Utility Strip */}
       <div className="bg-[#07294d] text-slate-200 text-[11px] font-medium border-b border-white/10">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-6">
-            <a
-              href="tel:+19086526151"
-              className="flex items-center gap-1.5 hover:text-[#f26522] transition"
-            >
-              <Phone className="size-3 text-[#f26522]" />
-              <span>Direct Desk: +1 908-652-6151</span>
-            </a>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-2">
+              <a
+                href="tel:+255750227073"
+                className="flex items-center gap-1.5 hover:text-[#f26522] transition font-bold"
+                title="Direct Desk 1"
+              >
+                <Phone className="size-3 text-[#f26522]" />
+                <span>Direct Desk: +255 750 227 073</span>
+              </a>
+              <span className="text-white/30 hidden md:inline">/</span>
+              <a
+                href="tel:+255708227073"
+                className="hidden md:inline hover:text-[#f26522] transition font-semibold"
+                title="Direct Desk 2"
+              >
+                <span>+255 708 227 073</span>
+              </a>
+            </div>
             <a
               href="mailto:engineering@altavox.space"
-              className="hidden sm:flex items-center gap-1.5 hover:text-[#f26522] transition"
+              className="hidden lg:flex items-center gap-1.5 hover:text-[#f26522] transition"
             >
               <Mail className="size-3 text-[#f26522]" />
               <span>engineering@altavox.space</span>
             </a>
-            <div className="hidden lg:flex items-center gap-1.5 text-emerald-400">
+            <div className="hidden xl:flex items-center gap-1.5 text-emerald-400">
               <span className="flex size-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Systems: 100% Operational</span>
             </div>
@@ -97,16 +110,17 @@ export function JanBaskHeader() {
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           
-          {/* Brand Logo - Altavox in JanBask Style */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center">
-              <span className="text-2xl font-black tracking-tight text-[#07294d]">
-                Alta<span className="text-[#f26522]">vox</span>
-              </span>
-              <span className="ml-1.5 rounded bg-[#07294d] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-white shadow-xs">
-                TECH
-              </span>
-            </div>
+          {/* Authentic Altavox Tech Logo */}
+          <Link href="/" className="flex items-center gap-3 shrink-0 group py-1" aria-label="Altavox Tech Home">
+            <Image
+              src="/altavox-logo.svg"
+              alt="Altavox Tech"
+              width={160}
+              height={40}
+              className="h-9 sm:h-10 w-auto rounded-lg shadow-xs transition group-hover:opacity-90"
+              priority
+              referrerPolicy="no-referrer"
+            />
           </Link>
 
           {/* All Solutions & Systems Mega Button */}
@@ -431,6 +445,9 @@ export function JanBaskHeader() {
           window.location.href = `/courses/${slug}`
         }}
       />
+
+      {/* Floating Direct Desk & WhatsApp Widget */}
+      <QuickContactWidget />
     </>
   )
 }

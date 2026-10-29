@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Phone, Mail, MapPin, ShieldCheck, Award, Star, CheckCircle2, Terminal, Network, Server, Layers } from 'lucide-react'
 import { coursesData } from '@/lib/courses-data'
 
@@ -55,30 +56,55 @@ export function JanBaskFooter() {
           
           {/* Col 1: Brand & Contacts */}
           <div>
-            <div className="flex items-center">
-              <span className="text-2xl font-black tracking-tight text-white">
-                Alta<span className="text-[#f26522]">vox</span>
-              </span>
-              <span className="ml-1.5 rounded bg-[#f26522] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-white">
-                TECH
-              </span>
-            </div>
+            <Link href="/" className="inline-block group" aria-label="Altavox Tech Home">
+              <Image
+                src="/altavox-logo.svg"
+                alt="Altavox Tech Logo"
+                width={170}
+                height={42}
+                className="h-10 w-auto rounded-lg shadow-sm border border-white/10 transition group-hover:opacity-90"
+                referrerPolicy="no-referrer"
+              />
+            </Link>
             <p className="mt-3 text-slate-400 leading-relaxed text-xs">
               Altavox Tech designs software platforms, ISP billing systems, and connected operational tools that help organizations run smoothly, reliably, and without guesswork.
             </p>
 
-            <div className="mt-5 space-y-2 text-slate-300">
+            <div className="mt-5 space-y-2.5 text-slate-300">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <Phone className="size-3.5 text-[#f26522]" />
+                  <a href="tel:+255750227073" className="font-bold hover:text-[#f26522] transition">
+                    Direct Desk 1: +255 750 227 073
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 pl-5.5 text-slate-400">
+                  <span>Desk 2:</span>
+                  <a href="tel:+255708227073" className="hover:text-white transition">
+                    +255 708 227 073
+                  </a>
+                </div>
+              </div>
               <div className="flex items-center gap-2">
-                <Phone className="size-3.5 text-[#f26522]" />
-                <span>US Desk: +1 908-652-6151</span>
+                <span className="flex size-3.5 items-center justify-center rounded-full bg-emerald-500 text-white text-[9px] font-bold">W</span>
+                <a
+                  href="https://wa.me/255750227073?text=Habari%20Altavox%20Engineering%2C%20nahitaji%20maelezo%20kuhusu%20mifumo%20yenu."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 hover:underline font-semibold"
+                >
+                  WhatsApp: +255 750 227 073
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="size-3.5 text-[#f26522]" />
-                <span>engineering@altavox.space</span>
+                <a href="mailto:engineering@altavox.space" className="hover:text-[#f26522] transition">
+                  engineering@altavox.space
+                </a>
               </div>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-2 pt-1 text-slate-400">
                 <MapPin className="size-3.5 text-[#f26522] shrink-0 mt-0.5" />
-                <span>HQ: 1050 Route 22 West, Bridgewater, NJ 08807</span>
+                <span>East Africa Operations & Global Desk</span>
               </div>
             </div>
           </div>

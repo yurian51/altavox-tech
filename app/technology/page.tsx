@@ -44,37 +44,37 @@ export default function Technology() {
   return (
     <PageFrame
       eyebrow="Technology Architecture"
-      title="A practical, battle-tested stack chosen for real work."
+      title="A Practical, Battle-Tested Stack."
       intro="We prioritize reliability, maintainability, and operational transparency over hype. Our architectural choices are shaped by real production constraints."
     >
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         <div className="grid gap-6">
           {stackLayers.map((item, idx) => {
             const Icon = item.icon
             return (
               <div
                 key={item.layer}
-                className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:border-[#e59a15]"
+                className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-xs transition hover:border-[#f26522] hover:shadow-lg"
               >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div className="flex items-start gap-4">
-                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-[#162238]">
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-[#f26522]">
                       <Icon className="size-6" />
                     </span>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-[#a96b00]">Layer 0{idx + 1}</span>
+                        <span className="font-mono text-xs font-bold text-[#f26522]">Layer 0{idx + 1}</span>
                         <span className="text-slate-300">/</span>
-                        <h3 className="text-xl font-bold text-[#162238]">{item.layer}</h3>
+                        <h3 className="text-xl font-bold text-[#07294d]">{item.layer}</h3>
                       </div>
-                      <p className="mt-1 font-mono text-xs font-semibold text-[#a96b00]">{item.tech}</p>
-                      <p className="mt-3 text-sm leading-6 text-slate-600 max-w-3xl">{item.focus}</p>
+                      <p className="mt-1 font-mono text-xs font-semibold text-[#f26522]">{item.tech}</p>
+                      <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600 max-w-3xl">{item.focus}</p>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-2 lg:flex-col lg:items-end">
                     {item.tools.map((t) => (
-                      <span key={t} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600">
+                      <span key={t} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 font-medium">
                         {t}
                       </span>
                     ))}
@@ -86,12 +86,12 @@ export default function Technology() {
         </div>
 
         {/* Technical Governance Standards */}
-        <div className="mt-16 rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 shadow-sm">
+        <div className="mt-16 rounded-2xl border border-slate-200 bg-white p-7 sm:p-10 shadow-xs">
           <div className="max-w-2xl">
-            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#a96b00]">
+            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#f26522]">
               Engineering Standards
             </span>
-            <h2 className="mt-2 text-2xl font-extrabold text-[#162238] sm:text-3xl">
+            <h2 className="mt-2 text-2xl font-extrabold text-[#07294d] sm:text-3xl">
               Strict rules we follow on every project.
             </h2>
           </div>
@@ -123,28 +123,28 @@ export default function Technology() {
                 desc: 'Clean documentation, schema migration scripts, and architecture maps allow our clients to own and maintain their code.'
               }
             ].map((std) => (
-              <div key={std.title} className="rounded-xl border border-slate-100 bg-[#f8fafc] p-5">
+              <div key={std.title} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-[#e59a15]" />
-                  <h4 className="font-bold text-[#162238]">{std.title}</h4>
+                  <CheckCircle2 className="size-4 text-[#f26522]" />
+                  <h4 className="font-bold text-[#07294d] text-sm">{std.title}</h4>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-600">{std.desc}</p>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600">{std.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* CTA */}
-        <div className="mt-12 rounded-2xl bg-[#162238] p-8 text-white sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-12 rounded-2xl bg-[#07294d] p-8 text-white sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl border border-white/10">
           <div>
             <h2 className="text-xl font-bold">Have technical constraints or an existing stack?</h2>
-            <p className="mt-1 text-sm text-slate-300">
+            <p className="mt-1 text-xs sm:text-sm text-slate-300">
               We integrate with legacy databases, custom hardware APIs, and existing hosting environments.
             </p>
           </div>
           <Link
             href="/contact"
-            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#e59a15] px-5 py-3 text-sm font-bold text-[#162238] transition hover:bg-white"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] shadow-sm"
           >
             Review your architecture <ArrowRight className="size-4" />
           </Link>

@@ -3,13 +3,17 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'JanBask Training — Online IT Certification Courses & Live Training',
-    template: '%s | JanBask Training',
+    default: 'Altavox Tech — Software Systems Engineering & IT Operations Platform',
+    template: '%s | Altavox Tech',
   },
-  description: 'Advance your career with JanBask Training: 100% Live Instructor-Led IT Certification courses in Salesforce, AWS Cloud, Data Science, Cyber Security, QA Automation, DevOps, and Gen AI.',
+  description: 'Technology company focused on software engineering, digital product development, ISP billing, infrastructure, and operational clarity.',
   generator: 'Next.js',
   icons: {
-    icon: '/icon-light-32x32.png',
+    icon: [
+      { url: '/altavox-favicon.svg', type: 'image/svg+xml' },
+      { url: '/altavox-favicon.png', type: 'image/png' },
+    ],
+    apple: '/apple-icon.png',
   },
 }
 
@@ -31,4 +35,3 @@ export default function RootLayout({
     </html>
   )
 }
-

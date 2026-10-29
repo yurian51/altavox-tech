@@ -37,23 +37,23 @@ export default function DeploymentsPage() {
   return (
     <PageFrame
       eyebrow="Altavox Launchpad"
-      title="Deploy systems, bots, and the infrastructure behind them."
-      intro="A practical deployment workspace for taking an operational product from repository to a verified live URL."
+      title="Deploy Systems, Bots, and Infrastructure."
+      intro="A practical deployment workspace for taking an operational product from repository to a verified production URL."
     >
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-[#ead9ad] bg-[#fffaf0] p-6 sm:flex-row sm:items-center sm:justify-between">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+        <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-orange-200 bg-orange-50/70 p-6 sm:flex-row sm:items-center sm:justify-between shadow-xs">
           <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#a96b00]">
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#f26522]">
               Developer Command Center
             </p>
-            <h2 className="mt-1 text-xl font-bold text-[#162238]">Meet Altavox Computer Console</h2>
-            <p className="mt-1 text-sm text-slate-600">
+            <h2 className="mt-1 text-xl font-bold text-[#07294d]">Meet Altavox Computer Console</h2>
+            <p className="mt-1 text-xs sm:text-sm text-slate-600">
               Interactive CLI, live topology inspection, and deployment sandboxes in one unified desk.
             </p>
           </div>
           <Link
             href="/computer"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#162238] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#e59a15]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#07294d] px-5 py-3 text-xs font-bold text-white transition hover:bg-[#051c36] shadow-sm"
           >
             Open Computer Console <ArrowUpRight className="size-4" />
           </Link>
@@ -61,23 +61,23 @@ export default function DeploymentsPage() {
 
         {/* Deployment Setup Form */}
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-xs">
             <div className="flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   New Release Blueprint
                 </span>
-                <h3 className="text-xl font-bold text-[#162238]">What system are you preparing?</h3>
+                <h3 className="text-xl font-bold text-[#07294d]">What system are you preparing?</h3>
               </div>
-              <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+              <div className="flex rounded-xl border border-slate-200 bg-slate-50 p-1">
                 {(['system', 'bot'] as const).map((item) => (
                   <button
                     key={item}
                     type="button"
                     onClick={() => setMode(item)}
-                    className={`rounded-md px-3 py-1.5 text-xs font-semibold capitalize transition ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize transition ${
                       mode === item
-                        ? 'bg-[#162238] text-white shadow-sm'
+                        ? 'bg-[#07294d] text-white shadow-xs'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
@@ -94,7 +94,7 @@ export default function DeploymentsPage() {
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                   placeholder={mode === 'system' ? 'e.g. Jaslyn Net Portal v2' : 'e.g. Billing Alert Bot'}
-                  className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+                  className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
                 />
               </label>
 
@@ -104,7 +104,7 @@ export default function DeploymentsPage() {
                   value={repositoryUrl}
                   onChange={(e) => setRepositoryUrl(e.target.value)}
                   placeholder="https://github.com/organization/system"
-                  className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#e59a15] focus:bg-white transition"
+                  className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
                 />
               </label>
 
@@ -120,14 +120,14 @@ export default function DeploymentsPage() {
                       onClick={() => setSelectedChannel(name)}
                       className={`flex items-start gap-3 rounded-xl border p-3.5 text-left transition ${
                         selectedChannel === name
-                          ? 'border-[#e59a15] bg-[#fffaf0]'
+                          ? 'border-[#f26522] bg-orange-50/60'
                           : 'border-slate-200 bg-white hover:border-slate-300'
                       }`}
                     >
-                      <Icon className="mt-0.5 size-4 text-[#e59a15] shrink-0" />
+                      <Icon className="mt-0.5 size-4 text-[#f26522] shrink-0" />
                       <div>
-                        <p className="text-xs font-bold text-[#162238]">{name}</p>
-                        <p className="mt-0.5 text-[11px] leading-4 text-slate-500">{detail}</p>
+                        <p className="text-xs font-bold text-[#07294d]">{name}</p>
+                        <p className="mt-0.5 text-[11px] leading-4 text-slate-500 font-medium">{detail}</p>
                       </div>
                     </button>
                   ))}
@@ -137,14 +137,14 @@ export default function DeploymentsPage() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#162238] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#e59a15]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] shadow-sm"
                 >
                   Prepare Release Plan <ArrowUpRight className="size-4" />
                 </button>
               </div>
 
               {notice && (
-                <div className="flex items-center gap-2 rounded-lg bg-emerald-50 p-4 text-xs font-medium text-emerald-800 border border-emerald-200">
+                <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-4 text-xs font-medium text-emerald-800 border border-emerald-200">
                   <CheckCircle2 className="size-4 shrink-0 text-emerald-600" />
                   <span>{notice}</span>
                 </div>
@@ -152,13 +152,13 @@ export default function DeploymentsPage() {
             </form>
           </div>
 
-          <aside className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm flex flex-col justify-between">
+          <aside className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-xs flex flex-col justify-between">
             <div>
-              <div className="flex size-10 items-center justify-center rounded-xl bg-slate-100 text-[#162238]">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-[#f26522]">
                 <ShieldCheck className="size-5" />
               </div>
-              <h3 className="mt-5 text-xl font-bold text-[#162238]">Controlled Release Gates</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
+              <h3 className="mt-5 text-xl font-bold text-[#07294d]">Controlled Release Gates</h3>
+              <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
                 Every release through Altavox includes automated verification checkpoints before traffic touches production.
               </p>
 
@@ -169,8 +169,8 @@ export default function DeploymentsPage() {
                   'Health & ping reachability checks',
                   'Instant rollback snapshot preservation'
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-2.5 text-xs text-slate-700">
-                    <CheckCircle2 className="size-4 text-[#e59a15] shrink-0" />
+                  <div key={item} className="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+                    <CheckCircle2 className="size-4 text-[#f26522] shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -180,7 +180,7 @@ export default function DeploymentsPage() {
             <div className="mt-8 pt-6 border-t border-slate-100">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a96b00] hover:text-[#162238] transition"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#f26522] hover:underline transition"
               >
                 Need dedicated infrastructure setup? Consult engineers →
               </Link>
@@ -191,20 +191,20 @@ export default function DeploymentsPage() {
         {/* Feature Highlights */}
         <div className="mt-12">
           <div className="mb-6">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
               Operational Advantages
             </span>
-            <h3 className="mt-1 text-2xl font-bold text-[#162238]">
+            <h3 className="mt-1 text-2xl font-bold text-[#07294d]">
               More than hosting. An operating system for what you build.
             </h3>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {signatureFeatures.map(({ name, detail, stat }) => (
-              <div key={name} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div key={name} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-[#162238]">{name}</h4>
-                  <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] text-slate-600 font-semibold">
+                  <h4 className="font-bold text-[#07294d] text-sm">{name}</h4>
+                  <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[10px] text-slate-600 font-bold">
                     {stat}
                   </span>
                 </div>

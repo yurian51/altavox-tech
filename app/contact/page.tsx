@@ -79,7 +79,9 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="mt-4 space-y-2 text-xs text-slate-700">
-                  <p><strong>Direct Desk:</strong> <a href="tel:+19086526151" className="text-[#f26522] hover:underline">+1 908-652-6151</a></p>
+                  <p><strong>Direct Desk 1:</strong> <a href="tel:+255750227073" className="text-[#f26522] hover:underline font-bold">+255 750 227 073</a></p>
+                  <p><strong>Direct Desk 2:</strong> <a href="tel:+255708227073" className="text-[#f26522] hover:underline font-bold">+255 708 227 073</a></p>
+                  <p><strong>WhatsApp Support:</strong> <a href="https://wa.me/255750227073?text=Habari%20Altavox%20Engineering%2C%20nahitaji%20maelezo%20kuhusu%20mifumo%20yenu." target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline font-bold">Chat on WhatsApp (+255 750 227 073)</a></p>
                   <p><strong>Lead Systems Engineer:</strong> <span className="text-slate-800">Yurian Arshad</span></p>
                   <p><strong>Telecom Integration:</strong> MikroTik RouterOS & M-Pesa</p>
                 </div>
@@ -187,7 +189,7 @@ export default function ContactPage() {
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+1 (908) 652-6151"
+                          placeholder="+255 750 227 073"
                           className="mt-1 w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 outline-none focus:border-[#f26522]"
                         />
                       </div>

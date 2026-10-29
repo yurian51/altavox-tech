@@ -1,47 +1,50 @@
-import { PageFrame } from '@/components/site-shell'
+import Link from 'next/link'
+import { JanBaskHeader } from '@/components/janbask-header'
+import { JanBaskFooter } from '@/components/janbask-footer'
 
-export default function Terms() {
+export default function TermsPage() {
   return (
-    <PageFrame
-      eyebrow="Legal & Governance"
-      title="Terms of Engagement"
-      intro="Standard terms governing website usage, project inquiries, and engineering engagement agreements with Altavox Tech."
-    >
-      <section className="mx-auto max-w-4xl px-6 py-14 lg:px-8">
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-12 shadow-sm space-y-8 text-slate-700 leading-7 text-sm">
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">1. Website Information & System Specifications</h2>
-            <p className="mt-3 text-slate-600">
-              The content on this website provides general technical information regarding Altavox Tech and its software engineering services. Project specifications, architecture models, and metrics documented on this website represent verified production and development milestones.
-            </p>
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+      <JanBaskHeader />
+      <main className="flex-1 pb-24">
+        <section className="bg-[#07294d] text-white py-12 border-b border-white/10">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">JanBask Policies</span>
+            <h1 className="mt-2 text-3xl font-extrabold">Terms & Conditions</h1>
+            <p className="mt-2 text-xs text-slate-300">Effective Date: January 2025</p>
           </div>
+        </section>
 
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">2. Inquiries & Project Proposals</h2>
-            <p className="mt-3 text-slate-600">
-              Submitting a brief or inquiry via this website does not form a binding contract. Formal development work commences only upon mutual execution of a Master Services Agreement (MSA) or Statement of Work (SOW) outlining project scope, deliverables, milestones, and warranties.
-            </p>
+        <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-10">
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xs space-y-6 text-xs text-slate-700 leading-6">
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">1. Enrollment & Access Guarantee</h2>
+              <p className="mt-2">
+                Upon enrollment in a JanBask certification course, students are granted admission to live interactive cohorts, access to sandbox laboratory environments, and lifetime access to high-definition video archives on the JanBask Learning Management System (LMS).
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">2. Free Batch Retake Policy</h2>
+              <p className="mt-2">
+                Enrolled students have the right to attend an upcoming live batch for the same course within six (6) months of enrollment at no additional tuition fee if they need revision or missed consecutive classes.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">3. Intellectual Property</h2>
+              <p className="mt-2">
+                All training curriculum, project sandboxes, problem sets, and code repositories are proprietary intellectual property of JanBask Training, Inc. Materials may not be duplicated or distributed without prior written consent.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">4. Refund & Cancellation Terms</h2>
+              <p className="mt-2">
+                Students may request a refund prior to attending the second scheduled live class of their cohort. Once 2 or more classes are attended or custom sandbox credentials are issued, tuition fees are non-refundable but transferable to other upcoming batches or courses.
+              </p>
+            </div>
           </div>
-
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">3. Intellectual Property & Code Ownership</h2>
-            <p className="mt-3 text-slate-600">
-              Custom software developed for clients is delivered with complete source code ownership, schema definitions, and deployment scripts upon milestone completion, per individual engagement contracts.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">4. Governing Law</h2>
-            <p className="mt-3 text-slate-600">
-              Unless explicitly agreed upon in a client contract, services are provided under the legal framework and commercial statutes of the United Republic of Tanzania.
-            </p>
-          </div>
-
-          <div className="pt-6 border-t border-slate-100 text-xs text-slate-400">
-            Effective Date: October 2026 · Altavox Tech Operations
-          </div>
-        </div>
-      </section>
-    </PageFrame>
+        </section>
+      </main>
+      <JanBaskFooter />
+    </div>
   )
 }

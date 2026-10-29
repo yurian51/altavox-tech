@@ -1,50 +1,53 @@
-import { PageFrame } from '@/components/site-shell'
+import Link from 'next/link'
+import { JanBaskHeader } from '@/components/janbask-header'
+import { JanBaskFooter } from '@/components/janbask-footer'
 
-export default function Privacy() {
+export default function PrivacyPage() {
   return (
-    <PageFrame
-      eyebrow="Legal & Governance"
-      title="Privacy Notice"
-      intro="How Altavox Tech handles, processes, and protects information submitted through this website and our operational software services."
-    >
-      <section className="mx-auto max-w-4xl px-6 py-14 lg:px-8">
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-12 shadow-sm space-y-8 text-slate-700 leading-7 text-sm">
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">1. Information We Collect</h2>
-            <p className="mt-3 text-slate-600">
-              When you submit an inquiry through our contact forms or deployment tools, we collect the details you choose to provide, such as your full name, email address, organization name, project scope, and system requirements.
-            </p>
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+      <JanBaskHeader />
+      <main className="flex-1 pb-24">
+        <section className="bg-[#07294d] text-white py-12 border-b border-white/10">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <span className="text-xs font-mono uppercase text-[#f26522] font-bold">JanBask Policies</span>
+            <h1 className="mt-2 text-3xl font-extrabold">Privacy Policy</h1>
+            <p className="mt-2 text-xs text-slate-300">Last updated: January 2025</p>
           </div>
+        </section>
 
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">2. How We Use Collected Information</h2>
-            <p className="mt-3 text-slate-600">
-              Information gathered via this site is used solely to respond to inquiries, evaluate technical feasibility, prepare architecture proposals, and communicate regarding potential or active engineering engagements. We do not sell, rent, or trade your contact information to third-party advertisers.
-            </p>
+        <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-10">
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xs space-y-6 text-xs text-slate-700 leading-6">
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">1. Information We Collect</h2>
+              <p className="mt-2">
+                JanBask Training collects personal details provided voluntarily when you enroll in a course, book a free live demo session, request an enterprise proposal, or contact admissions advisors. This includes full name, email, phone number, career background, and payment details.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">2. How We Protect Student Data</h2>
+              <p className="mt-2">
+                We implement industry-standard 256-bit SSL encryption, secure PCI-compliant payment gateways, and strict database access controls. We never sell or lease your personal identifiable information to external third parties.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">3. LMS & Classroom Recordings</h2>
+              <p className="mt-2">
+                Classroom recordings are shared solely within the authenticated student LMS portal for educational review purposes by registered cohort peers.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-[#07294d]">4. Contact Our Privacy Officer</h2>
+              <p className="mt-2">
+                For privacy inquiries or account deletion requests, email{' '}
+                <a href="mailto:privacy@janbasktraining.com" className="font-bold text-[#f26522] hover:underline">
+                  privacy@janbasktraining.com
+                </a>.
+              </p>
+            </div>
           </div>
-
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">3. System & Network Data Confidentiality</h2>
-            <p className="mt-3 text-slate-600">
-              For client projects involving network topology, MikroTik configurations, subscriber databases, or school administrative data, all records are governed under strict Non-Disclosure Agreements (NDAs) and role-based access control policies.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-bold text-[#162238]">4. Data Retention & Deletion</h2>
-            <p className="mt-3 text-slate-600">
-              You may request a copy of the information you have submitted or ask for its permanent deletion at any time by contacting our engineering desk at{' '}
-              <a href="mailto:tumia.yurianarshad@gmail.com" className="font-semibold text-[#a96b00] hover:underline">
-                tumia.yurianarshad@gmail.com
-              </a>.
-            </p>
-          </div>
-
-          <div className="pt-6 border-t border-slate-100 text-xs text-slate-400">
-            Last updated: October 2026 · Altavox Tech Operations, Dar es Salaam, Tanzania.
-          </div>
-        </div>
-      </section>
-    </PageFrame>
+        </section>
+      </main>
+      <JanBaskFooter />
+    </div>
   )
 }

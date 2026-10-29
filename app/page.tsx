@@ -1,346 +1,867 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ArrowUpRight, CheckCircle2, ChevronRight, Clock3, Cpu, Database, ExternalLink, Globe, Network, ShieldCheck, Users } from 'lucide-react'
-import { PageFrame } from '@/components/site-shell'
-import { projects } from '@/lib/site-data'
+import {
+  Search,
+  Sparkles,
+  ArrowRight,
+  Star,
+  CheckCircle2,
+  Users,
+  Award,
+  BookOpen,
+  Calendar,
+  Clock3,
+  TrendingUp,
+  ShieldCheck,
+  Briefcase,
+  PlayCircle,
+  Building2,
+  GraduationCap,
+  ChevronRight,
+  Zap,
+  BadgeCheck,
+  HelpCircle,
+  PhoneCall,
+  Laptop,
+  Network,
+  Server,
+  Database,
+  Terminal,
+  Activity,
+  ArrowUpRight
+} from 'lucide-react'
+import { JanBaskHeader } from '@/components/janbask-header'
+import { JanBaskFooter } from '@/components/janbask-footer'
+import { JanBaskCourseCard } from '@/components/janbask-course-card'
+import { DemoModal } from '@/components/demo-modal'
+import { CurriculumModal } from '@/components/curriculum-modal'
+import { CareerAdvisorModal } from '@/components/career-advisor-modal'
+import { coursesData, courseCategories, CourseItem } from '@/lib/courses-data'
 
-const topics = [
-  'ISP Operations & MikroTik',
-  'School SIMS & Education',
-  'PostgreSQL & Drizzle',
-  'Cloud Infrastructure',
-  'Security Engineering'
-]
+export default function HomePage() {
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Solutions')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [demoModalOpen, setDemoModalOpen] = useState(false)
+  const [selectedCourseForDemo, setSelectedCourseForDemo] = useState<string>('Jaslyn Net — Carrier-Grade ISP Billing & MikroTik Automation Platform')
+  const [curriculumModalOpen, setCurriculumModalOpen] = useState(false)
+  const [selectedCourseForCurriculum, setSelectedCourseForCurriculum] = useState<CourseItem | null>(null)
+  const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
 
-const articles = [
-  {
-    category: 'ISP Operations',
-    title: 'Automating MikroTik RouterOS billing without breaking active connections',
-    text: 'How to structure queue provisioning and M-Pesa reconciliation so subscribers renew without dropping live VoIP or streams.',
-    time: '11 min read'
-  },
-  {
-    category: 'Systems Architecture',
-    title: 'Designing reliable systems for teams that cannot stop',
-    text: 'Practical notes on observability, failover routing, and the small decisions that keep operational software dependable.',
-    time: '8 min read'
-  },
-  {
-    category: 'Security & Auth',
-    title: 'Building security foundations that make business growth safer',
-    text: 'Role-based access control, session hygiene, and database constraints built directly into the foundation.',
-    time: '6 min read'
-  },
-]
+  // Filter systems & courses by category and search
+  const filteredCourses = coursesData.filter((item) => {
+    const matchesCategory = selectedCategory === 'All Solutions' || item.category === selectedCategory
+    const matchesSearch =
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.skillsCovered.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))
+    return matchesCategory && matchesSearch
+  })
 
-export default function Page() {
-  const featuredProjects = projects.filter((p) => ['sammena', 'jaslyn-net'].includes(p.slug))
+  function handleOpenDemo(title?: string) {
+    if (title) setSelectedCourseForDemo(title)
+    setDemoModalOpen(true)
+  }
+
+  function handleOpenCurriculum(course: CourseItem) {
+    setSelectedCourseForCurriculum(course)
+    setCurriculumModalOpen(true)
+  }
+
+  const techPartners = [
+    { name: 'MikroTik RouterOS', tag: 'ISP Core Networking' },
+    { name: 'PostgreSQL & Drizzle', tag: 'Relational Integrity' },
+    { name: 'Next.js 16 App Router', tag: 'Web Systems' },
+    { name: 'Docker Container Cloud', tag: 'Isolated Sandboxes' },
+    { name: 'M-Pesa Webhooks', tag: 'Automated Billing' },
+    { name: 'FreeRADIUS Server', tag: 'AAA Accounting' },
+    { name: 'Cloudflare Edge', tag: 'Global CDN & TLS' },
+    { name: 'Redis In-Memory', tag: 'High-Concurrency Queue' },
+  ]
+
+  const caseStudies = [
+    {
+      name: 'Jaslyn Internet Services',
+      role: 'Regional ISP Provider',
+      title: 'Automated 2,400+ Subscriber Queues & Instant M-Pesa Renewals',
+      outcome: '98.4% Automated Billing',
+      previous: 'Manual bank slip verification & late-night reconnect tickets',
+      current: 'Instant automated provisioning on MikroTik within 2 seconds of payment',
+      image: '/public/projects/jaslyn-net-live.png',
+      quote: 'Altavox built a direct socket connection to our core RouterOS gateway. Subscribers now pay via M-Pesa paybill, and their bandwidth queue instantly refreshes without dropping active Zoom calls.'
+    },
+    {
+      name: 'Sammena Educational Complex',
+      role: 'Pre & Primary School',
+      title: 'School SIMS: Digitized 850+ Student Histories & Automated Invoices',
+      outcome: '65% Admin Time Saved',
+      previous: 'Physical ledger books, paper receipt booklets, lost student files',
+      current: 'Unified web portal for admissions, fee reconciliation, and PDF gradebooks',
+      image: '/public/projects/sammena-live.png',
+      quote: 'Teachers enter marks once, and terminal report card PDFs are compiled automatically. Parents receive SMS balance alerts, eliminating tuition discrepancies completely.'
+    },
+    {
+      name: 'Regional Telecom Operators',
+      role: 'Multi-Site Network Operations',
+      title: 'NetBill-NOC: Multi-Tenant RADIUS Accounting & Sub-10s Telemetry',
+      outcome: '99.99% Node Uptime',
+      previous: 'Uncoordinated tower alerts and delayed outage discovery',
+      current: 'Visual dynamic topology map with automated Telegram engineer dispatch',
+      image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=160&h=160&q=80',
+      quote: 'The telemetry engine monitors 180+ network switches and tower antennas every 10 seconds. Network degradation is caught and routed around before customers notice a drop.'
+    }
+  ]
+
+  const articles = [
+    {
+      category: 'ISP Operations',
+      title: 'Automating MikroTik RouterOS billing without breaking active connections',
+      text: 'How to structure queue provisioning and M-Pesa reconciliation so subscribers renew without dropping live VoIP or video streams.',
+      time: '11 min read'
+    },
+    {
+      category: 'Systems Architecture',
+      title: 'Designing reliable systems for teams that cannot stop',
+      text: 'Practical notes on observability, failover routing, and the small architectural decisions that keep operational software dependable.',
+      time: '8 min read'
+    },
+    {
+      category: 'Security & Auth',
+      title: 'Building security foundations that make business growth safer',
+      text: 'Role-based access control, session hygiene, and database constraints built directly into the foundation rather than patched on later.',
+      time: '6 min read'
+    }
+  ]
 
   return (
-    <PageFrame>
-      {/* Hero Section */}
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
-          <div>
-            <div className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#a96b00]">
-              <span>Software Engineering</span>
-              <span aria-hidden="true">·</span>
-              <span>Systems Development</span>
-              <span aria-hidden="true">·</span>
-              <span>ISP Operations</span>
-            </div>
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-[#f26522] selection:text-white">
+      {/* JanBask-styled Header */}
+      <JanBaskHeader />
 
-            <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-[-0.03em] text-[#162238] sm:text-6xl">
-              Technology built for <span className="text-[#e59a15]">real work.</span>
-            </h1>
+      <main className="flex-1">
+        {/* ======================================================== */}
+        {/* HERO SECTION - CORPORATE NAVY & VIBRANT ORANGE ACCENTS */}
+        {/* ======================================================== */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white pt-12 pb-20 lg:pt-16 lg:pb-28">
+          {/* Tech Grid Pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-              Altavox Tech designs software platforms, ISP billing systems, and connected operational tools that help organizations run smoothly, reliably, and without guesswork.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 rounded-lg bg-[#162238] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#e59a15]"
-              >
-                Explore our systems <ArrowRight className="size-4" />
-              </Link>
-              <Link
-                href="/computer"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-[#162238] transition hover:border-[#e59a15] hover:text-[#a96b00]"
-              >
-                Altavox Computer Console
-              </Link>
-            </div>
-
-            <div className="mt-9 flex flex-wrap gap-x-8 gap-y-3 text-sm font-medium text-slate-500">
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-[#e59a15]" />
-                Auditable Architecture
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-[#e59a15]" />
-                Built for High Uptime
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-[#e59a15]" />
-                Based in East Africa
-              </span>
-            </div>
-          </div>
-
-          {/* Operating View Dashboard Card */}
-          <div className="rounded-2xl bg-[#162238] p-6 shadow-xl shadow-slate-300/40 text-white">
-            <div className="rounded-xl border border-white/10 bg-[#1d2d45] p-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex size-7 items-center justify-center rounded bg-[#e59a15] text-[#162238] font-bold text-xs">
-                    AV
-                  </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-300">
-                    Altavox Operating View
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono text-xs text-[#f3a923]">
-                  <span className="size-2 rounded-full bg-emerald-400 animate-pulse" /> Live Cluster
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <Metric label="Active Systems" value="04" icon={<Cpu className="size-4 text-[#f3a923]" />} />
-                <Metric label="ISP Subscriber Sessions" value="2,400+" icon={<Network className="size-4 text-[#f3a923]" />} />
-                <Metric label="Security Check Gates" value="100%" icon={<ShieldCheck className="size-4 text-[#f3a923]" />} />
-                <Metric label="Automated Billing Rate" value="98.4%" icon={<Users className="size-4 text-[#f3a923]" />} />
-              </div>
-
-              <div className="mt-5 rounded-lg bg-white/5 p-4 border border-white/5">
-                <div className="mb-2 flex justify-between text-xs text-slate-300">
-                  <span>Overall Deployment Health</span>
-                  <span className="font-semibold text-emerald-400">Nominal · 0 alerts</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full w-[94%] rounded-full bg-[#f3a923]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Production Systems */}
-      <section className="border-b border-slate-200 bg-[#f8fafc] py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#a96b00]">
-                Active Systems in Production
-              </p>
-              <h2 className="mt-2 text-3xl font-extrabold text-[#162238]">
-                Proven software solving real constraints.
-              </h2>
-            </div>
-            <Link href="/projects" className="inline-flex items-center gap-1 text-sm font-bold text-[#a96b00] hover:text-[#162238]">
-              View all 4 systems <ChevronRight className="size-4" />
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-8 lg:grid-cols-2">
-            {featuredProjects.map((project, idx) => (
-              <article
-                key={project.slug}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-[#e59a15] hover:shadow-lg"
-              >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#0c1626]">
-                  <Image
-                    src={`/projects/${project.slug}-live.png`}
-                    alt={`${project.name} live system screenshot`}
-                    fill
-                    className="object-cover object-top"
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                  />
-                  <div className="absolute left-4 top-4 rounded bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#162238] shadow-sm">
-                    {project.status}
-                  </div>
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+              
+              {/* Left Column: Mission & Core Value */}
+              <div className="lg:col-span-7 space-y-6">
+                
+                {/* Live Badge in JanBask Style */}
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold backdrop-blur-md border border-white/15 text-orange-200">
+                  <span className="flex size-2 rounded-full bg-[#f26522] animate-pulse" />
+                  <span>Software Engineering · Systems Development · ISP Operations</span>
                 </div>
 
-                <div className="p-6">
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
-                    0{idx + 1} · {project.category}
-                  </span>
-                  <h3 className="mt-2 text-2xl font-bold text-[#162238]">{project.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{project.summary}</p>
+                {/* Main Hero Headline */}
+                <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-5xl leading-[1.15]">
+                  Technology Built for <span className="text-[#f26522]">Real Work.</span>
+                </h1>
 
-                  <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="inline-flex items-center gap-1 text-sm font-bold text-[#162238] hover:text-[#e59a15]"
-                    >
-                      Specifications <ArrowUpRight className="size-4" />
-                    </Link>
-
-                    {project.url && (
-                      <Link
-                        href={project.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-[#a96b00] hover:underline"
-                      >
-                        Live Domain <ExternalLink className="size-3.5" />
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Altavox Pillars */}
-      <section className="bg-white py-16 border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#a96b00]">
-                Why Altavox Tech
-              </p>
-              <h2 className="mt-2 text-3xl font-extrabold text-[#162238]">
-                We make complex operations easier to run.
-              </h2>
-            </div>
-            <Link href="/about" className="inline-flex items-center gap-1 text-sm font-bold text-[#a96b00]">
-              How we work <ChevronRight className="size-4" />
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            <Feature
-              title="Operational Grounding"
-              text="Every database schema and user interface starts with the people, constraints, and hardware behind the real-world workflow."
-            />
-            <Feature
-              title="Connected by Default"
-              text="We connect web applications, payment webhooks (M-Pesa), network routers, and notification bots into one coherent operating picture."
-            />
-            <Feature
-              title="Observable & Maintainable"
-              text="Strict TypeScript typing, clear audit logging, containerized runtimes, and predictable failover paths are built into every release."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Community & Field Notes Section */}
-      <section className="bg-[#f8fafc] py-16">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1fr_300px] lg:px-8">
-          <div>
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#a96b00]">
-                  Engineering Field Notes
+                {/* Subtitle */}
+                <p className="text-base sm:text-lg text-slate-200 max-w-2xl leading-relaxed">
+                  Altavox Tech designs software platforms, ISP billing systems, and connected operational tools that help organizations run smoothly, reliably, and without guesswork.
                 </p>
-                <h2 className="mt-2 text-3xl font-extrabold text-[#162238]">Ideas for better systems</h2>
-              </div>
-              <Link href="/insights" className="hidden items-center gap-1 text-sm font-bold text-[#a96b00] sm:flex">
-                All field notes <ChevronRight className="size-4" />
-              </Link>
-            </div>
 
-            <div className="mt-8 space-y-4">
-              {articles.map((article) => (
-                <Link
-                  href="/insights"
-                  key={article.title}
-                  className="group block rounded-xl border border-slate-200 bg-white p-6 transition hover:border-[#e59a15] hover:shadow-md"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#a96b00]">
-                      {article.category}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-xs text-slate-400">
-                      <Clock3 className="size-3.5" /> {article.time}
+                {/* Instant Search Bar */}
+                <div className="pt-2">
+                  <div className="relative max-w-xl">
+                    <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search systems (e.g. Jaslyn Net, MikroTik, Sammena SIMS, Cloud)..."
+                      className="w-full rounded-xl border border-white/20 bg-white/10 pl-12 pr-28 py-3.5 text-sm text-white placeholder-slate-300 outline-none backdrop-blur-md focus:border-[#f26522] focus:bg-white/15 transition"
+                    />
+                    <button
+                      onClick={() => {
+                        const el = document.getElementById('systems-section')
+                        el?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-[#f26522] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition"
+                    >
+                      Find System
+                    </button>
+                  </div>
+
+                  {/* Popular Pills */}
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                    <span className="font-semibold text-slate-400">Featured:</span>
+                    {['Jaslyn Net ISP', 'MikroTik API', 'Sammena SIMS', 'NetBill-NOC', 'Nexora Cloud', 'Tech Academy'].map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          setSearchQuery(tag.includes('ISP') ? 'Jaslyn Net' : tag)
+                          const el = document.getElementById('systems-section')
+                          el?.scrollIntoView({ behavior: 'smooth' })
+                        }}
+                        className="rounded-md bg-white/10 px-2.5 py-1 text-slate-200 hover:bg-[#f26522] hover:text-white transition"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action CTA Buttons */}
+                <div className="flex flex-wrap items-center gap-4 pt-3">
+                  <Link
+                    href="/projects"
+                    className="flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-[#e05312] hover:scale-[1.02] active:scale-[0.98] transition"
+                  >
+                    <span>Explore Production Systems</span>
+                    <ArrowRight className="size-4" />
+                  </Link>
+
+                  <button
+                    onClick={() => handleOpenDemo()}
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md hover:bg-white/20 transition"
+                  >
+                    <Calendar className="size-4 text-[#f26522]" />
+                    <span>Book Live Technical Demo</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAdvisorModalOpen(true)}
+                    className="flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3.5 text-xs font-semibold text-cyan-200 hover:text-white hover:bg-white/5 transition"
+                  >
+                    <Sparkles className="size-3.5" />
+                    <span>AI Systems Advisor</span>
+                  </button>
+                </div>
+
+                {/* Real Altavox Operational Metrics Row */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10">
+                  <div>
+                    <p className="text-2xl font-black text-[#f26522]">2,400+</p>
+                    <p className="text-xs text-slate-300">Active ISP Subscribers</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-white">850+</p>
+                    <p className="text-xs text-slate-300">Digitized Student Files</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-cyan-300">98.4%</p>
+                    <p className="text-xs text-slate-300">Auto-Billing Rate</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-emerald-400">99.9%</p>
+                    <p className="text-xs text-slate-300">Production SLA Uptime</p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Column: Interactive Hero Live Cockpit Preview Card */}
+              <div className="lg:col-span-5">
+                <div className="relative rounded-2xl border border-white/15 bg-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
+                  {/* Floating Live Indicator */}
+                  <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex size-3">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
+                      </span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                        Live Operations Cockpit
+                      </span>
+                    </div>
+                    <span className="rounded-md bg-white/15 px-2 py-0.5 text-[11px] font-mono text-cyan-200">
+                      Jaslyn Net · RouterOS v7.14
                     </span>
                   </div>
-                  <h3 className="mt-2 text-lg font-bold text-[#162238] group-hover:text-[#a96b00] transition">
-                    {article.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">{article.text}</p>
-                </Link>
+
+                  {/* Operational Telemetry Card */}
+                  <div className="mt-5 space-y-4">
+                    <div className="rounded-xl bg-[#031526]/80 p-4 border border-white/10">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <span className="rounded bg-[#f26522] px-2 py-0.5 text-[10px] font-bold uppercase text-white">
+                            Active Fleet
+                          </span>
+                          <h4 className="mt-2 text-base font-bold text-white">
+                            Jaslyn Net ISP Gateway
+                          </h4>
+                          <p className="mt-1 text-xs text-slate-300">
+                            MikroTik CCR2004 · PPPoE & Hotspot Sync
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-mono text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2 py-1 rounded">
+                            Socket Online
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-300">
+                        <div className="flex items-center gap-1.5">
+                          <Activity className="size-3.5 text-[#f26522]" />
+                          <span>Latency: 4.2ms avg</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Zap className="size-3.5 text-cyan-300" />
+                          <span>M-Pesa Webhook: Active</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Operational Guarantees Checklist */}
+                    <div className="space-y-2.5 text-xs text-slate-200">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                        <span>Instant queue refresh without dropping active TCP streams</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                        <span>Automated M-Pesa payment reconciliation & SMS invoices</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                        <span>Strict PostgreSQL constraints & role-based security</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                        <span>NOC Telegram prober alerts on link degradation</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="pt-2 flex gap-3">
+                      <button
+                        onClick={() => handleOpenDemo('Jaslyn Net — Carrier-Grade ISP Billing & MikroTik Automation Platform')}
+                        className="flex-1 rounded-xl bg-[#f26522] py-3 text-center text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition"
+                      >
+                        Reserve System Demo
+                      </button>
+                      <Link
+                        href="/courses/jaslyn-net"
+                        className="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-center text-xs font-semibold text-white hover:bg-white/10 transition"
+                      >
+                        View Blueprint
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* CORE TECHNOLOGIES & INFRASTRUCTURE STRIP */}
+        {/* ======================================================== */}
+        <section className="bg-white border-b border-slate-200 py-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <p className="text-center text-xs font-bold uppercase tracking-wider text-slate-500">
+              Core Technologies Deployed Across Altavox Production Systems
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 opacity-90">
+              {techPartners.map((tech) => (
+                <div key={tech.name} className="flex items-center gap-2 rounded-lg bg-slate-50 px-3.5 py-2 border border-slate-200 shadow-xs">
+                  <Server className="size-3.5 text-[#07294d]" />
+                  <span className="text-xs font-bold text-slate-800">{tech.name}</span>
+                  <span className="text-[10px] text-slate-400 font-mono">({tech.tag})</span>
+                </div>
               ))}
             </div>
           </div>
+        </section>
 
-          <aside className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-[#162238]">
-                <Globe className="size-4 text-[#e59a15]" /> Browse by domain
+        {/* ======================================================== */}
+        {/* PRODUCTION SYSTEMS & TRACKS GRID (JANBASK COURSE CARD STYLE) */}
+        {/* ======================================================== */}
+        <section id="systems-section" className="py-16 sm:py-24 bg-slate-50">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <span className="inline-block rounded bg-orange-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                  Altavox Platforms & Tracks
+                </span>
+                <h2 className="mt-2 text-2xl sm:text-4xl font-extrabold text-[#07294d]">
+                  Production Systems & Engineering Initiatives
+                </h2>
+                <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl">
+                  Inspect our active platforms across ISP operations, education technology, cloud infrastructure, and technical certification tracks.
+                </p>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
-                {topics.map((topic) => (
-                  <Link
-                    href="/insights"
-                    key={topic}
-                    className="rounded-lg bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-[#fffaf0] hover:text-[#a96b00] transition"
-                  >
-                    {topic}
-                  </Link>
-                ))}
-              </div>
+
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#f26522] hover:text-[#d44e0e] transition"
+              >
+                <span>View Full Projects Registry</span>
+                <ArrowRight className="size-4" />
+              </Link>
             </div>
 
-            <div className="rounded-2xl border border-[#ead9ad] bg-[#fffaf0] p-6">
-              <ShieldCheck className="size-5 text-[#a96b00]" />
-              <h3 className="mt-3 text-base font-bold text-[#162238]">Software that endures</h3>
-              <p className="mt-2 text-xs leading-5 text-slate-600">
-                We craft software designed to remain maintainable 5+ years down the road, avoiding premature framework churn.
+            {/* Category Filter Tabs */}
+            <div className="mt-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+              {courseCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap transition-all ${
+                    selectedCategory === category
+                      ? 'bg-[#07294d] text-white shadow-md'
+                      : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Systems Grid */}
+            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredCourses.map((item) => (
+                <JanBaskCourseCard
+                  key={item.id}
+                  course={item}
+                  onViewCurriculum={handleOpenCurriculum}
+                  onBookDemo={handleOpenDemo}
+                />
+              ))}
+            </div>
+
+            {filteredCourses.length === 0 && (
+              <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center">
+                <p className="text-base font-semibold text-slate-700">No systems found matching &quot;{searchQuery}&quot;</p>
+                <p className="mt-1 text-xs text-slate-500">Try searching for Jaslyn Net, MikroTik, Sammena, or Cloud.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('')
+                    setSelectedCategory('All Solutions')
+                  }}
+                  className="mt-4 rounded-lg bg-[#07294d] px-4 py-2 text-xs font-bold text-white"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* NEW FEATURE: INTERACTIVE ALTAVOX AI SYSTEMS ADVISOR BANNER */}
+        {/* ======================================================== */}
+        <section className="bg-gradient-to-r from-[#07294d] to-[#0d3b66] text-white py-14 border-y border-white/10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+              
+              <div className="lg:col-span-8 space-y-4">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#f26522]/20 border border-[#f26522]/40 px-3 py-1 text-xs font-bold text-orange-200">
+                  <Sparkles className="size-3.5 text-[#f26522]" />
+                  <span>Free Operational Assessment Tool</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                  Need a Tailored System for Your ISP, School, or Business?
+                </h3>
+                <p className="text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
+                  Use our interactive <span className="text-[#f26522] font-semibold">Altavox AI Systems Advisor</span>. In under 60 seconds, input your operational bottlenecks (e.g. MikroTik PPPoE sync, student fee tracking, or private cloud) to get an instant 3-phase technical roadmap, database architecture, and deployment cost forecast.
+                </p>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <button
+                    onClick={() => setAdvisorModalOpen(true)}
+                    className="flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#e05312] transition"
+                  >
+                    <Sparkles className="size-4" />
+                    <span>Launch AI Systems Advisor</span>
+                  </button>
+                  <button
+                    onClick={() => handleOpenDemo()}
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+                  >
+                    <span>Talk to a Systems Engineer</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick Systems Architecture Preview */}
+              <div className="lg:col-span-4 rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+                <p className="text-xs font-bold uppercase tracking-wider text-orange-200">
+                  Ready Architecture Blueprints
+                </p>
+                <div className="mt-3 space-y-2 text-xs">
+                  <div className="rounded-lg bg-black/20 p-2.5 flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-white">ISP & MikroTik Billing</p>
+                      <p className="text-[11px] text-slate-300">→ Jaslyn Net Platform</p>
+                    </div>
+                    <span className="font-bold text-emerald-400">98.4% Auto</span>
+                  </div>
+                  <div className="rounded-lg bg-black/20 p-2.5 flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-white">School Management & SIMS</p>
+                      <p className="text-[11px] text-slate-300">→ Sammena School Portal</p>
+                    </div>
+                    <span className="font-bold text-emerald-400">850+ Records</span>
+                  </div>
+                  <div className="rounded-lg bg-black/20 p-2.5 flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-white">Carrier NOC Telemetry</p>
+                      <p className="text-[11px] text-slate-300">→ NetBill-NOC Multi-Site</p>
+                    </div>
+                    <span className="font-bold text-emerald-400">99.99% Uptime</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* WHY CHOOSE ALTAVOX - 4 PRINCIPLES IN JANBASK 4-PILLAR STYLE */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-white border-b border-slate-200">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                Our Guiding Principles
+              </span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-[#07294d]">
+                Engineered for Teams That Cannot Stop
+              </h2>
+              <p className="mt-3 text-base text-slate-600">
+                We approach technology as a working part of the organization, not a layer of decoration. That means listening carefully, defining the real problem, and building the smallest dependable system that can carry the work forward.
               </p>
             </div>
-          </aside>
-        </div>
-      </section>
 
-      {/* Consultation Banner */}
-      <section className="bg-[#162238] text-white py-14">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 px-6 sm:flex-row sm:items-center lg:px-8">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#f3a923]">
-              Have an operational challenge?
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Bring us the problem behind the brief.</h2>
-            <p className="mt-2 text-sm text-slate-300 max-w-xl">
-              Talk directly with software and network engineers to assess your system requirements.
-            </p>
+            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              
+              {/* Pillar 1 */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
+                  <span className="font-mono text-sm font-bold text-[#f26522]">01</span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-[#07294d]">
+                  Clarity Over Hype
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">
+                  Understand the real operation before choosing the technology stack. We diagnose workflow friction before writing a single line of production code.
+                </p>
+              </div>
+
+              {/* Pillar 2 */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
+                  <span className="font-mono text-sm font-bold text-amber-400">02</span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-[#07294d]">
+                  Observable Discipline
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">
+                  Prefer simple, observable systems over unnecessary complexity. Every network call, payment webhook, and database transaction is strictly auditable.
+                </p>
+              </div>
+
+              {/* Pillar 3 */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
+                  <span className="font-mono text-sm font-bold text-cyan-300">03</span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-[#07294d]">
+                  Operator Continuity
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">
+                  Build for the operators who will maintain the system daily. Intuitive cockpits, comprehensive documentation, and zero mysterious vendor lock-in.
+                </p>
+              </div>
+
+              {/* Pillar 4 */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
+                  <span className="font-mono text-sm font-bold text-emerald-400">04</span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-[#07294d]">
+                  Carrier-Grade SLA
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">
+                  Failover routing, sub-millisecond connection pools, and container isolation ensure that when the load spikes, your services stay responsive.
+                </p>
+              </div>
+
+            </div>
           </div>
-          <Link
-            href="/start-project"
-            className="inline-flex w-fit items-center gap-2 rounded-lg bg-[#e59a15] px-6 py-3.5 text-sm font-bold text-[#162238] transition hover:bg-white shrink-0"
-          >
-            Start a project <ArrowRight className="size-4" />
-          </Link>
-        </div>
-      </section>
-    </PageFrame>
-  )
-}
+        </section>
 
-function Metric({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
-  return (
-    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
-      <div className="flex items-center justify-between">
-        {icon}
-        <span className="font-mono text-xl font-extrabold text-white">{value}</span>
-      </div>
-      <p className="mt-2 text-xs text-slate-400">{label}</p>
-    </div>
-  )
-}
+        {/* ======================================================== */}
+        {/* CLIENT CASE STUDIES & OPERATIONAL OUTCOMES */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-slate-50">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                  Evidence Over Exaggeration
+                </span>
+                <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-[#07294d]">
+                  Real Operational Outcomes & Deployments
+                </h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Practical case studies from active ISP operations, school systems, and telecom network nodes.
+                </p>
+              </div>
 
-function Feature({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-      <div className="mb-4 size-2.5 rounded-full bg-[#e59a15]" />
-      <h3 className="text-lg font-bold text-[#162238]">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+              <div className="flex items-center gap-2">
+                <div className="flex text-amber-500">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="size-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="text-sm font-bold text-slate-800">4.9 / 5.0 Reliability</span>
+                <span className="text-xs text-slate-500">(Verified Deployments)</span>
+              </div>
+            </div>
+
+            {/* Case Studies Grid */}
+            <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {caseStudies.map((study) => (
+                <div
+                  key={study.name}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+                >
+                  <div>
+                    {/* Header with Outcome Badge */}
+                    <div className="flex items-center justify-between">
+                      <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+                        {study.outcome}
+                      </span>
+                      <span className="text-xs font-semibold text-slate-500">{study.role}</span>
+                    </div>
+
+                    <h3 className="mt-4 text-base font-bold text-[#07294d]">
+                      {study.title}
+                    </h3>
+
+                    {/* Review Quote */}
+                    <p className="mt-3 text-xs leading-6 text-slate-700 italic">
+                      &quot;{study.quote}&quot;
+                    </p>
+
+                    {/* Operational Shift */}
+                    <div className="mt-5 rounded-xl bg-slate-50 p-3 border border-slate-100 text-[11px] space-y-1">
+                      <div className="text-slate-500">
+                        <span className="font-semibold text-slate-600">Before:</span> {study.previous}
+                      </div>
+                      <div className="text-slate-800 font-semibold">
+                        <span className="text-emerald-600 font-bold">With Altavox:</span> {study.current}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Client Details */}
+                  <div className="mt-6 flex items-center justify-between pt-4 border-t border-slate-100">
+                    <div>
+                      <p className="text-xs font-bold text-slate-900">{study.name}</p>
+                      <p className="text-[11px] text-slate-500">{study.role}</p>
+                    </div>
+                    <Link
+                      href="/case-studies"
+                      className="text-xs font-bold text-[#f26522] hover:underline"
+                    >
+                      Read Case Study →
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* ENGINEERING ARTICLES & TECHNICAL INSIGHTS */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-white border-b border-slate-200">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                  Field Notes & Architecture
+                </span>
+                <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-[#07294d]">
+                  Technical Insights & Production Notes
+                </h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Practical engineering documentation from the field on MikroTik, database design, and systems reliability.
+                </p>
+              </div>
+
+              <Link
+                href="/insights"
+                className="text-sm font-bold text-[#f26522] hover:underline flex items-center gap-1"
+              >
+                <span>Browse All Articles</span>
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-3">
+              {articles.map((art, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col justify-between hover:border-[#f26522] hover:bg-white hover:shadow-md transition"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-mono font-bold uppercase text-[#f26522]">{art.category}</span>
+                      <span className="text-slate-400">{art.time}</span>
+                    </div>
+                    <h3 className="mt-3 text-base font-bold text-[#07294d] line-clamp-2">
+                      {art.title}
+                    </h3>
+                    <p className="mt-2.5 text-xs text-slate-600 leading-relaxed line-clamp-3">
+                      {art.text}
+                    </p>
+                  </div>
+
+                  <Link
+                    href="/insights"
+                    className="mt-5 inline-flex items-center gap-1 text-xs font-bold text-[#07294d] hover:text-[#f26522] transition"
+                  >
+                    <span>Read Full Note</span>
+                    <ArrowUpRight className="size-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* START A PROJECT / ENTERPRISE BANNER */}
+        {/* ======================================================== */}
+        <section className="bg-slate-50 py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="rounded-3xl bg-gradient-to-br from-[#07294d] to-[#041a33] text-white p-8 sm:p-12 lg:p-16 shadow-xl relative overflow-hidden">
+              <div className="max-w-2xl space-y-4">
+                <span className="rounded-md bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                  Engage Altavox Engineering
+                </span>
+                <h3 className="text-2xl sm:text-4xl font-extrabold leading-tight">
+                  Have a Tangible Operational Problem to Solve?
+                </h3>
+                <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+                  Whether you run an ISP needing automated subscriber billing, a school seeking a clean administrative SIMS, or an enterprise requiring reliable cloud infrastructure, we are ready to build.
+                </p>
+                <div className="flex flex-wrap items-center gap-4 pt-4">
+                  <Link
+                    href="/start-project"
+                    className="rounded-xl bg-[#f26522] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#e05312] transition"
+                  >
+                    Start a Project with Altavox
+                  </Link>
+                  <a
+                    href="tel:+19086526151"
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+                  >
+                    <PhoneCall className="size-4 text-[#f26522]" />
+                    <span>Call Engineering Desk: +1 908-652-6151</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* TECHNICAL FAQS SECTION */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-white border-t border-slate-200">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
+                Technical Inquiries
+              </span>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#07294d]">
+                Frequently Asked Technical Questions
+              </h2>
+            </div>
+
+            <div className="mt-10 space-y-4">
+              {[
+                {
+                  q: 'How does Jaslyn Net connect to MikroTik RouterOS without dropping active connections?',
+                  a: 'Jaslyn Net uses direct RouterOS API socket connections with non-blocking commands. When a subscriber completes an M-Pesa renewal, the system modifies simple queue target rates or updates address-list memberships dynamically, so existing active TCP sessions continue without interface flap.'
+                },
+                {
+                  q: 'Can Sammena School SIMS be deployed on self-hosted servers or the cloud?',
+                  a: 'Yes. Sammena is built on modern Next.js 16 and PostgreSQL, allowing deployment on dedicated local hardware or cloud environments like Nexora Cloud with automated encrypted backups and SSL.'
+                },
+                {
+                  q: 'How does Altavox handle payment gateway webhooks for mobile money?',
+                  a: 'All payment webhooks (M-Pesa, Airtel Money, Stripe) are verified with cryptographic signatures and processed idempotently with distributed lock keys to prevent double-crediting, even during mobile network callback retries.'
+                },
+                {
+                  q: 'What is the Altavox Tech Academy?',
+                  a: 'The Altavox Tech Academy is our technical skill development wing, offering 100% live instructor-led tracks in AWS Cloud Architecture, Salesforce Platform Development, Cyber Security, and QA Automation to help engineering teams and career switchers gain practical certifications.'
+                }
+              ].map((faq, idx) => (
+                <div key={idx} className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-xs">
+                  <h4 className="text-sm font-bold text-[#07294d] flex items-center gap-2">
+                    <HelpCircle className="size-4 text-[#f26522] shrink-0" />
+                    <span>{faq.q}</span>
+                  </h4>
+                  <p className="mt-2 text-xs leading-6 text-slate-600 pl-6">
+                    {faq.a}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 text-center">
+              <p className="text-sm text-slate-600">
+                Have specific architectural or integration requirements?
+              </p>
+              <div className="mt-4 flex justify-center gap-4">
+                <Link
+                  href="/contact"
+                  className="rounded-xl bg-[#07294d] px-6 py-3 text-xs font-bold text-white hover:bg-[#051c36] transition"
+                >
+                  Contact Altavox Engineering Desk
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      {/* JanBask-styled Footer */}
+      <JanBaskFooter />
+
+      {/* Modals */}
+      <DemoModal
+        isOpen={demoModalOpen}
+        onClose={() => setDemoModalOpen(false)}
+        initialCourse={selectedCourseForDemo}
+      />
+
+      <CurriculumModal
+        isOpen={curriculumModalOpen}
+        onClose={() => setCurriculumModalOpen(false)}
+        course={selectedCourseForCurriculum}
+      />
+
+      <CareerAdvisorModal
+        isOpen={advisorModalOpen}
+        onClose={() => setAdvisorModalOpen(false)}
+        onSelectCourse={(slug) => {
+          setAdvisorModalOpen(false)
+          window.location.href = `/courses/${slug}`
+        }}
+      />
     </div>
   )
 }

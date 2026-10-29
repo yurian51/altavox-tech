@@ -64,14 +64,14 @@ export function SiteHeader() {
           {/* Zone 1: Authentic Altavox Tech Logo */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group" onClick={() => setMobileOpen(false)}>
             <Image
-              src="/altavox-logo.svg"
-              alt="Altavox Tech"
-              width={160}
-              height={40}
-              className="h-9 w-auto rounded-lg shadow-xs transition group-hover:opacity-90"
+              src="/Black%20Ibex%20Horns%20Emblem.png"
+              alt="Altavox Tech Capricorn emblem"
+              width={64}
+              height={64}
+              className="h-11 w-11 shrink-0 object-contain transition group-hover:opacity-90"
               priority
-              referrerPolicy="no-referrer"
             />
+            <span className="text-base font-bold tracking-tight text-[#162238]">ALTAVOX <span className="text-[#e59a15]">TECH</span></span>
           </Link>
 
           {/* Zone 2: Navigation Links */}
@@ -249,13 +249,13 @@ export function SiteFooter() {
         <div className="sm:col-span-2 lg:col-span-1">
           <Link href="/" className="mb-4 inline-block group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Image
-              src="/altavox-logo.svg"
-              alt="Altavox Tech"
-              width={160}
-              height={40}
-              className="h-9 w-auto rounded-lg shadow-sm border border-white/10 transition group-hover:opacity-90"
-              referrerPolicy="no-referrer"
+              src="/Black%20Ibex%20Horns%20Emblem.png"
+              alt="Altavox Tech Capricorn emblem"
+              width={64}
+              height={64}
+              className="h-11 w-11 object-contain transition group-hover:opacity-90"
             />
+            <span className="ml-3 inline-flex items-center text-base font-bold tracking-tight text-white">ALTAVOX <span className="ml-1 text-[#f3a923]">TECH</span></span>
           </Link>
           <p className="max-w-xs text-sm leading-6 text-slate-400">
             Software engineering, ISP digital platforms, and connected systems built for operational clarity.

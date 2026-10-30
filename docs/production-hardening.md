@@ -24,7 +24,7 @@
 - Merchant-approved payment integrations for each selected mobile-money/bank channel.
 - Signed webhook verification, idempotent event processing, reconciliation and refund handling.
 - Checkout UI, persistent customer cart, order history, receipts and notifications.
-- Printed-book delivery pricing, fulfilment workflow and stock reconciliation.
+- Configure BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS before accepting printed orders, then implement fulfilment workflow and stock reconciliation. The order API now ignores client-supplied delivery fees and requires this server-side setting for printed items.
 
 Never mark an order paid based on a browser redirect, screenshot or customer-supplied reference. Only verified server-to-server provider notifications or provider API status checks may grant paid status or digital library access.
 

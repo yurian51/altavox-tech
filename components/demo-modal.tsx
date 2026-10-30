@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckCircle2, Clock3, Calendar, User, Mail, Phone, X, Sparkles, BookOpen } from 'lucide-react'
+import { CheckCircle2, User, Mail, Phone, X, BookOpen } from 'lucide-react'
 import { coursesData } from '@/lib/courses-data'
 
 export function DemoModal({
@@ -14,7 +14,7 @@ export function DemoModal({
   initialCourse?: string
 }) {
   const [selectedCourse, setSelectedCourse] = useState(initialCourse || coursesData[0].title)
-  const [selectedBatch, setSelectedBatch] = useState('This Saturday · 10:00 AM EST (Weekend)')
+  const [message, setMessage] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -26,10 +26,8 @@ export function DemoModal({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setSubmitted(true)
-    }, 600)
+    setMessage('')
+    void fetch('/api/inquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, description: 'Course enquiry: ' + selectedCourse + '. Phone: ' + phone, service: 'Altavox Academy', projectType: 'Course enquiry' }) }).then(async (response) => { const result = await response.json().catch(() => ({})); if (!response.ok) throw new Error(result.error || 'Unable to submit enquiry'); setSubmitted(true) }).catch((error) => setMessage(error instanceof Error ? error.message : 'Unable to submit enquiry. Please try again.')).finally(() => setLoading(false))
   }
 
   return (
@@ -39,9 +37,9 @@ export function DemoModal({
         <div className="bg-[#07294d] px-6 py-5 text-white flex items-center justify-between">
           <div>
             <div className="flex items-center gap-1.5 text-xs font-semibold text-[#f26522]">
-              <Sparkles className="size-3.5" /> 100% Free Live Instructor-Led Demo
+              <BookOpen className="size-3.5" /> ALTAVOX ACADEMY
             </div>
-            <h3 className="mt-1 text-xl font-bold">Reserve Your Demo Class Seat</h3>
+            <h3 className="mt-1 text-xl font-bold">Course enquiry</h3>
           </div>
           <button
             type="button"
@@ -59,13 +57,11 @@ export function DemoModal({
             </div>
             <h4 className="text-2xl font-bold text-[#07294d]">Demo Class Seat Confirmed!</h4>
             <p className="text-sm text-slate-600 leading-6 max-w-md mx-auto">
-              Congratulations <strong className="text-slate-900">{name}</strong>! Your access pass for{' '}
-              <strong className="text-[#07294d]">{selectedCourse}</strong> on <span className="font-semibold text-slate-900">{selectedBatch}</span> has been issued.
+              Thank you, <strong className="text-slate-900">{name}</strong>. Your enquiry for <strong className="text-[#07294d]">{selectedCourse}</strong> has been saved. Our team can follow up using the contact details you provided.
             </p>
             <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-600 text-left space-y-2">
-              <p>✓ Meeting link (Zoom/Webex) sent to <strong className="text-slate-900">{email}</strong></p>
-              <p>✓ Course curriculum and pre-session guide attached</p>
-              <p>✓ SMS reminder will be sent to <strong className="text-slate-900">{phone}</strong> 30 min before session</p>
+              <p>Enquiry email: <strong className="text-slate-900">{email}</strong></p>
+              <p>Contact number: <strong className="text-slate-900">{phone}</strong></p>
             </div>
             <button
               type="button"
@@ -94,21 +90,6 @@ export function DemoModal({
               </select>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Preferred Demo Schedule
-              </label>
-              <select
-                value={selectedBatch}
-                onChange={(e) => setSelectedBatch(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
-              >
-                <option value="This Saturday · 10:00 AM EST (Weekend Batch)">This Saturday · 10:00 AM EST (Weekend Batch)</option>
-                <option value="This Sunday · 02:00 PM EST (Weekend Batch)">This Sunday · 02:00 PM EST (Weekend Batch)</option>
-                <option value="Next Tuesday · 08:00 PM EST (Weekday Evening)">Next Tuesday · 08:00 PM EST (Weekday Evening)</option>
-                <option value="Next Thursday · 09:00 AM EST (Weekday Morning)">Next Thursday · 09:00 AM EST (Weekday Morning)</option>
-              </select>
-            </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
@@ -161,18 +142,19 @@ export function DemoModal({
               </div>
             </div>
 
+            {message && <p role="alert" className="text-sm text-red-600">{message}</p>}
             <div className="pt-2">
               <button
                 type="submit"
                 disabled={loading}
                 className="w-full rounded-xl bg-[#f26522] py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/25 hover:bg-[#e05312] transition disabled:opacity-50"
               >
-                {loading ? 'Reserving Seat…' : 'Book Free Live Demo Now'}
+                {loading ? 'Submitting enquiry…' : 'Submit course enquiry'}
               </button>
             </div>
 
             <p className="text-center text-[11px] text-slate-500">
-              🔒 No credit card required. Includes live Q&A with certified industry trainers.
+              Your details are sent securely to the Altavox Tech enquiry endpoint.
             </p>
           </form>
         )}

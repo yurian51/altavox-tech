@@ -330,6 +330,9 @@ export function AltavoxHeader() {
             <Link href="/courses" className="hover:text-[#f26522] transition">
               Academy
             </Link>
+            <Link href="/store" className="font-bold text-[#f26522] hover:text-[#d94f12] transition">
+              Bookstore
+            </Link>
             <Link href="/about" className="hover:text-[#f26522] transition">
               About
             </Link>
@@ -433,6 +436,7 @@ export function AltavoxHeader() {
                   { href: '/services', label: 'Engineering Services', detail: 'Software and infrastructure' },
                   { href: '/deployments', label: 'Deployments & Architecture', detail: 'Live systems and delivery' },
                   { href: '/courses', label: 'Tech Academy', detail: 'Learning and technical tracks' },
+                  { href: '/store', label: 'Altavox Bookstore', detail: 'Browse digital and printed books' },
                   { href: '/about', label: 'About Altavox', detail: 'Company and capabilities' },
                   { href: '/contact', label: 'Contact & Inquiries', detail: 'Talk to our team' },
                   { href: '/computer', label: 'Computer Console', detail: 'Open the technical console' },

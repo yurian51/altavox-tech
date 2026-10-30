@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Clock3, ArrowRight, BookOpen, CheckCircle2 } from 'lucide-react'
+import { Clock3, ArrowRight, BookOpen } from 'lucide-react'
 import { CourseItem } from '@/lib/courses-data'
 
 export function AltavoxCourseCard({
@@ -67,7 +67,7 @@ export function AltavoxCourseCard({
         <p className="mb-4 text-xs leading-5 text-slate-500">Contact Altavox Tech to confirm current fees, training format, and upcoming availability.</p>
         <div className="grid grid-cols-2 gap-2">
           {onViewCurriculum ? <button type="button" onClick={() => onViewCurriculum(course)} className="border border-slate-300 py-2.5 text-xs font-bold text-slate-700 transition hover:border-[#07294d] hover:bg-slate-50">View syllabus</button> : <Link href={`/courses/${course.slug}`} className="border border-slate-300 py-2.5 text-xs font-bold text-slate-700 text-center">Course details</Link>}
-          <Link href={`/contact?course=${encodeURIComponent(course.shortTitle)}`} className="flex items-center justify-center gap-1 bg-[#f26522] py-2.5 text-xs font-bold text-white transition hover:bg-[#e05312]">Enquire <ArrowRight className="size-3.5" /></Link>
+          {onBookDemo ? <button type="button" onClick={() => onBookDemo(course.title)} className="flex items-center justify-center gap-1 bg-[#f26522] py-2.5 text-xs font-bold text-white transition hover:bg-[#e05312]">Enquire <ArrowRight className="size-3.5" /></button> : <Link href={`/contact?course=${encodeURIComponent(course.shortTitle)}`} className="flex items-center justify-center gap-1 bg-[#f26522] py-2.5 text-xs font-bold text-white transition hover:bg-[#e05312]">Enquire <ArrowRight className="size-3.5" /></Link>}
         </div>
       </div>
     </div>

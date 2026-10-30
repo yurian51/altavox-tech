@@ -16,8 +16,8 @@ import {
   Sparkles,
   AlertCircle
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 import { ArchitectureCalculator } from '@/components/architecture-calculator'
 
 type FormFieldKey = 'companyName' | 'contactName' | 'email' | 'phone' | 'message'
@@ -163,7 +163,7 @@ export default function CorporateTrainingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Hero Section */}
@@ -557,7 +557,7 @@ export default function CorporateTrainingPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

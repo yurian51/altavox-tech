@@ -19,8 +19,8 @@ import {
   Layers,
   Network
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 
 export default function AboutPage() {
   const milestones = [
@@ -50,7 +50,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Hero in JanBask Style */}
@@ -185,7 +185,7 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

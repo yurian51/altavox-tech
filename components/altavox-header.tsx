@@ -1,0 +1,456 @@
+'use client'
+
+import Link from 'next/link'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import {
+  Search,
+  Phone,
+  Mail,
+  ChevronDown,
+  Menu,
+  X,
+  Sparkles,
+  BookOpen,
+  ArrowRight,
+  ShieldCheck,
+  UserCheck,
+  GraduationCap,
+  Layers,
+  Network,
+  Server,
+  Terminal,
+  Activity
+} from 'lucide-react'
+import { coursesData, courseCategories } from '@/lib/courses-data'
+import { DemoModal } from '@/components/demo-modal'
+import { CareerAdvisorModal } from '@/components/career-advisor-modal'
+import { QuickContactWidget } from '@/components/quick-contact-widget'
+
+export function AltavoxHeader() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [demoModalOpen, setDemoModalOpen] = useState(false)
+  const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
+
+  // Filter courses & solutions for instant search
+  const filteredCourses = coursesData.filter((c) =>
+    c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    c.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    c.skillsCovered.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+
+  return (
+    <>
+      {/* 1. Top Utility Strip */}
+      <div className="bg-[#07294d] text-slate-200 text-[11px] font-medium border-b border-white/10">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-2">
+              <a
+                href="tel:+255750227073"
+                className="flex items-center gap-1.5 hover:text-[#f26522] transition font-bold"
+                title="Direct Desk 1"
+              >
+                <Phone className="size-3 text-[#f26522]" />
+                <span>Direct Desk: +255 750 227 073</span>
+              </a>
+              <span className="text-white/30 hidden md:inline">/</span>
+              <a
+                href="tel:+255708227073"
+                className="hidden md:inline hover:text-[#f26522] transition font-semibold"
+                title="Direct Desk 2"
+              >
+                <span>+255 708 227 073</span>
+              </a>
+            </div>
+            <a
+              href="mailto:engineering@altavox.space"
+              className="hidden lg:flex items-center gap-1.5 hover:text-[#f26522] transition"
+            >
+              <Mail className="size-3 text-[#f26522]" />
+              <span>engineering@altavox.space</span>
+            </a>
+            <div className="hidden xl:flex items-center gap-1.5 text-emerald-400">
+              <span className="flex size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Systems: 100% Operational</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <button
+              type="button"
+              onClick={() => setAdvisorModalOpen(true)}
+              className="inline-flex items-center gap-1 font-bold text-[#f26522] hover:text-white transition"
+            >
+              <Sparkles className="size-3" />
+              <span>AI Systems Advisor</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setDemoModalOpen(true)}
+              className="hover:text-white transition hidden md:inline"
+            >
+              Book Tech Demo
+            </button>
+            <Link
+              href="/computer"
+              className="rounded bg-white/10 px-2 py-0.5 text-white hover:bg-[#f26522] transition flex items-center gap-1"
+            >
+              <Terminal className="size-2.5" />
+              <span>Computer Console</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Navigation Header */}
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm">
+        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          
+          {/* Authentic Altavox Tech Logo */}
+          <Link href="/" className="flex items-center gap-3 shrink-0 group py-1" aria-label="Altavox Tech Home">
+            <Image
+              src="/capricorn_emblem_clean_black.svg"
+              alt="Altavox Tech Capricorn emblem"
+              width={52}
+              height={60}
+              className="h-12 w-11 object-contain transition group-hover:opacity-90"
+              priority
+              referrerPolicy="no-referrer"
+            />
+            <span className="text-base sm:text-lg font-extrabold tracking-[0.12em] text-[#07294d] whitespace-nowrap">
+              ALTAVOX <span className="text-[#f26522]">TECH</span>
+            </span>
+          </Link>
+
+          {/* All Solutions & Systems Mega Button */}
+          <div className="relative hidden md:block">
+            <button
+              type="button"
+              onClick={() => setSolutionsDropdownOpen(!solutionsDropdownOpen)}
+              className="flex items-center gap-2 rounded-xl bg-[#07294d] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#051c36] transition shadow-sm"
+            >
+              <Layers className="size-4 text-[#f26522]" />
+              <span>All Systems & Solutions</span>
+              <ChevronDown className={`size-3.5 transition-transform ${solutionsDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Solutions Dropdown Menu */}
+            {solutionsDropdownOpen && (
+              <div
+                className="absolute left-0 top-full mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150"
+                onMouseLeave={() => setSolutionsDropdownOpen(false)}
+              >
+                <div className="p-2 border-b border-slate-100 pb-2 mb-2">
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+                    Altavox Production Platforms
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <Link
+                    href="/courses/jaslyn-net"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
+                  >
+                    <div className="flex size-7 items-center justify-center rounded-lg bg-orange-100 text-[#f26522] group-hover:bg-[#f26522] group-hover:text-white transition shrink-0 mt-0.5">
+                      <Network className="size-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
+                        Jaslyn Net ISP Operations
+                      </p>
+                      <p className="text-[11px] text-slate-500">MikroTik RouterOS & M-Pesa billing</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/courses/sammena"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
+                  >
+                    <div className="flex size-7 items-center justify-center rounded-lg bg-blue-100 text-[#07294d] group-hover:bg-[#07294d] group-hover:text-white transition shrink-0 mt-0.5">
+                      <GraduationCap className="size-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
+                        Sammena School SIMS
+                      </p>
+                      <p className="text-[11px] text-slate-500">Academic records & tuition ledger</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/courses/netbill-noc"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
+                  >
+                    <div className="flex size-7 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 group-hover:bg-emerald-700 group-hover:text-white transition shrink-0 mt-0.5">
+                      <Activity className="size-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
+                        NetBill-NOC Carrier
+                      </p>
+                      <p className="text-[11px] text-slate-500">RADIUS AAA & SNMP live telemetry</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/courses/nexora-cloud"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
+                  >
+                    <div className="flex size-7 items-center justify-center rounded-lg bg-purple-100 text-purple-700 group-hover:bg-purple-700 group-hover:text-white transition shrink-0 mt-0.5">
+                      <Server className="size-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
+                        Nexora Cloud Infrastructure
+                      </p>
+                      <p className="text-[11px] text-slate-500">Container orchestration & SSL</p>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center px-2">
+                  <Link
+                    href="/projects"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="text-[11px] font-bold text-[#f26522] hover:underline"
+                  >
+                    All 4+ Live Deployments →
+                  </Link>
+                  <Link
+                    href="/courses"
+                    onClick={() => setSolutionsDropdownOpen(false)}
+                    className="text-[11px] font-bold text-slate-600 hover:text-slate-900"
+                  >
+                    Tech Academy →
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Search Bar with Instant Autocomplete */}
+          <div className="relative flex-1 max-w-md hidden lg:block">
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  setSearchOpen(e.target.value.length > 0)
+                }}
+                onFocus={() => {
+                  if (searchQuery.length > 0) setSearchOpen(true)
+                }}
+                placeholder="Search systems, ISP billing, MikroTik, SIMS, Cloud..."
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-[#f26522] focus:bg-white focus:outline-none transition shadow-inner"
+              />
+              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+              {searchQuery && (
+                <button
+                  onClick={() => {
+                    setSearchQuery('')
+                    setSearchOpen(false)
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="size-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Instant Search Dropdown Results */}
+            {searchOpen && searchQuery && (
+              <div
+                className="absolute left-0 top-full mt-2 w-full rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl z-50 animate-in fade-in"
+                onMouseLeave={() => setSearchOpen(false)}
+              >
+                <div className="p-2 border-b border-slate-100 flex items-center justify-between text-[11px]">
+                  <span className="font-semibold text-slate-500">Matching Systems & Tracks</span>
+                  <span className="text-[#f26522] font-mono">{filteredCourses.length} results</span>
+                </div>
+                <div className="max-h-60 overflow-y-auto space-y-1 pt-1">
+                  {filteredCourses.slice(0, 5).map((course) => (
+                    <Link
+                      key={course.id}
+                      href={`/courses/${course.slug}`}
+                      onClick={() => setSearchOpen(false)}
+                      className="block rounded-lg p-2 hover:bg-slate-50 transition"
+                    >
+                      <p className="text-xs font-bold text-[#07294d] truncate">{course.title}</p>
+                      <div className="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5">
+                        <span className="font-mono text-[#f26522]">{course.category}</span>
+                        <span>·</span>
+                        <span>{course.duration}</span>
+                      </div>
+                    </Link>
+                  ))}
+                  {filteredCourses.length === 0 && (
+                    <p className="p-4 text-center text-xs text-slate-400">No matching systems found.</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-700">
+            <Link href="/projects" className="hover:text-[#f26522] transition">
+              Projects
+            </Link>
+            <Link href="/services" className="hover:text-[#f26522] transition">
+              Services
+            </Link>
+            <Link href="/deployments" className="hover:text-[#f26522] transition">
+              Deployments
+            </Link>
+            <Link href="/courses" className="hover:text-[#f26522] transition">
+              Academy
+            </Link>
+            <Link href="/about" className="hover:text-[#f26522] transition">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-[#f26522] transition">
+              Contact
+            </Link>
+          </nav>
+
+          {/* Right Action CTA Button */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setDemoModalOpen(true)}
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-[#f26522] px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-orange-500/10 hover:bg-[#e05312] transition"
+            >
+              <span>Book Tech Demo</span>
+              <ArrowRight className="size-3.5" />
+            </button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden rounded-xl border border-slate-200 p-2 text-slate-700 hover:bg-slate-100 transition"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
+
+        </div>
+
+        {/* Mobile Slide-out Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-slate-200 bg-white p-5 space-y-4 animate-in slide-in-from-top duration-200">
+            {/* Search in mobile */}
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search systems..."
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-xs text-slate-900"
+              />
+              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+            </div>
+
+            <nav className="space-y-2 text-sm font-semibold text-slate-800 pt-2">
+              <Link
+                href="/projects"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                Production Projects
+              </Link>
+              <Link
+                href="/services"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                Engineering Services
+              </Link>
+              <Link
+                href="/deployments"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                Deployments & Architecture
+              </Link>
+              <Link
+                href="/courses"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                Tech Academy & Courses
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                About Altavox
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 hover:bg-slate-50"
+              >
+                Contact & Inquiries
+              </Link>
+              <Link
+                href="/computer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-lg p-2 text-[#f26522]"
+              >
+                Open Computer Console
+              </Link>
+            </nav>
+
+            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setDemoModalOpen(true)
+                }}
+                className="w-full rounded-xl bg-[#f26522] py-3 text-center text-xs font-bold text-white"
+              >
+                Book Technical Demo
+              </button>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setAdvisorModalOpen(true)
+                }}
+                className="w-full rounded-xl bg-[#07294d] py-3 text-center text-xs font-bold text-white"
+              >
+                AI Systems Advisor
+              </button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Modals */}
+      <DemoModal
+        isOpen={demoModalOpen}
+        onClose={() => setDemoModalOpen(false)}
+      />
+
+      <CareerAdvisorModal
+        isOpen={advisorModalOpen}
+        onClose={() => setAdvisorModalOpen(false)}
+        onSelectCourse={(slug) => {
+          setAdvisorModalOpen(false)
+          window.location.href = `/courses/${slug}`
+        }}
+      />
+
+      {/* Floating Direct Desk & WhatsApp Widget */}
+      <QuickContactWidget />
+    </>
+  )
+}

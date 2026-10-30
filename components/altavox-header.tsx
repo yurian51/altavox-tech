@@ -151,7 +151,7 @@ export function AltavoxHeader() {
               className="flex items-center gap-2 rounded-xl bg-[#07294d] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#051c36] transition shadow-sm"
             >
               <Layers className="size-4 text-[#f26522]" />
-              <span>All Systems & Solutions</span>
+              <span>Explore Academy Courses</span>
               <ChevronDown className={`size-3.5 transition-transform ${solutionsDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -163,12 +163,12 @@ export function AltavoxHeader() {
               >
                 <div className="p-2 border-b border-slate-100 pb-2 mb-2">
                   <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
-                    Altavox Production Platforms
+                    Professional Training Programmes
                   </p>
                 </div>
                 <div className="space-y-1">
                   <Link
-                    href="/courses/jaslyn-net"
+                    href="/courses/aws-cloud-solutions-architect"
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
                   >
@@ -177,14 +177,14 @@ export function AltavoxHeader() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
-                        Jaslyn Net ISP Operations
+                        AWS Cloud Solutions Architect
                       </p>
-                      <p className="text-[11px] text-slate-500">MikroTik RouterOS & M-Pesa billing</p>
+                      <p className="text-[11px] text-slate-500">Cloud architecture, AWS services & exam preparation</p>
                     </div>
                   </Link>
 
                   <Link
-                    href="/courses/sammena"
+                    href="/courses/cyber-security-specialist"
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
                   >
@@ -193,14 +193,14 @@ export function AltavoxHeader() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
-                        Sammena School SIMS
+                        Cybersecurity Specialist
                       </p>
-                      <p className="text-[11px] text-slate-500">Academic records & tuition ledger</p>
+                      <p className="text-[11px] text-slate-500">Network defense, ethical hacking & Security+</p>
                     </div>
                   </Link>
 
                   <Link
-                    href="/courses/netbill-noc"
+                    href="/courses/salesforce-admin-developer"
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
                   >
@@ -209,14 +209,14 @@ export function AltavoxHeader() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
-                        NetBill-NOC Carrier
+                        Salesforce Administrator & Developer
                       </p>
-                      <p className="text-[11px] text-slate-500">RADIUS AAA & SNMP live telemetry</p>
+                      <p className="text-[11px] text-slate-500">CRM configuration, automation & Apex development</p>
                     </div>
                   </Link>
 
                   <Link
-                    href="/courses/nexora-cloud"
+                    href="/courses/aws-cloud-solutions-architect"
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="flex items-start gap-2.5 rounded-xl p-2.5 hover:bg-slate-50 transition group"
                   >
@@ -225,9 +225,9 @@ export function AltavoxHeader() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#07294d] group-hover:text-[#f26522] transition">
-                        Nexora Cloud Infrastructure
+                        AWS Cloud Engineering
                       </p>
-                      <p className="text-[11px] text-slate-500">Container orchestration & SSL</p>
+                      <p className="text-[11px] text-slate-500">Compute, storage, networking & security</p>
                     </div>
                   </Link>
                 </div>
@@ -238,14 +238,14 @@ export function AltavoxHeader() {
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="text-[11px] font-bold text-[#f26522] hover:underline"
                   >
-                    All 4+ Live Deployments →
+                    Browse all professional courses →
                   </Link>
                   <Link
                     href="/courses"
                     onClick={() => setSolutionsDropdownOpen(false)}
                     className="text-[11px] font-bold text-slate-600 hover:text-slate-900"
                   >
-                    Tech Academy →
+                    Course catalogue →
                   </Link>
                 </div>
               </div>

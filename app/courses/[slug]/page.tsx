@@ -23,8 +23,8 @@ import {
   Sparkles,
   Layers
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 import { BatchScheduleCalculator } from '@/components/batch-schedule-calculator'
 import { DemoModal } from '@/components/demo-modal'
 import { CurriculumModal } from '@/components/curriculum-modal'
@@ -50,7 +50,7 @@ export default function CourseDetailPage({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* ======================================================== */}
@@ -315,11 +315,11 @@ export default function CourseDetailPage({
                 </div>
               </div>
 
-              {/* 4. The JanBask Classroom Guarantee */}
+              {/* 4. The Altavox Tech Academy Guarantee */}
               <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-[#07294d] text-white p-6 sm:p-8 shadow-md">
                 <h2 className="text-xl font-bold flex items-center gap-2 text-white">
                   <ShieldCheck className="size-6 text-[#f26522]" />
-                  <span>The JanBask 100% Training Guarantee</span>
+                  <span>The Altavox Tech Academy Training Guarantee</span>
                 </h2>
                 <div className="mt-6 grid gap-6 sm:grid-cols-3 text-xs">
                   <div>
@@ -356,7 +356,7 @@ export default function CourseDetailPage({
                   <div className="rounded-xl border border-slate-200 p-4">
                     <h3 className="font-bold text-[#07294d]">Will I receive a course completion certificate?</h3>
                     <p className="mt-1.5 text-slate-600 leading-relaxed">
-                      Yes. Upon successful completion of the course and capstone project, you receive a verified JanBask Training Certificate of Completion with a unique credential ID suitable for LinkedIn.
+                      Yes. Upon successful completion of the course and capstone project, you receive a verified Altavox Tech Academy Certificate of Completion with a unique credential ID suitable for LinkedIn.
                     </p>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-4">
@@ -458,7 +458,7 @@ export default function CourseDetailPage({
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
 
       {/* Modals */}
       <DemoModal

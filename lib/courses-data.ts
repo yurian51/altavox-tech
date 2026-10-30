@@ -288,7 +288,7 @@ export const coursesData: CourseItem[] = [
     title: 'IT Support & Systems Administration',
     shortTitle: 'IT Support & Systems Admin',
     category: 'IT Support & Systems Administration',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3Rest?auto=format&fit=crop&w=1200&q=85',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85',
     imageAlt: 'Technician working on computer hardware',
     badge: 'Practical IT skills',
     rating: 0, reviewCount: 0, enrolledStudents: 0,

@@ -21,6 +21,7 @@ import { coursesData } from '@/lib/courses-data'
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,13 +31,33 @@ export default function ContactPage() {
     message: ''
   })
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
+    setSubmitError('')
+    try {
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          description: formData.message.trim(),
+          service: formData.systemInterest,
+          timeline: formData.preferredTime,
+          projectType: 'Technical consultation',
+        }),
+      })
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || 'Your inquiry could not be saved. Please try again.')
+      }
       setSubmitted(true)
-    }, 600)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Your inquiry could not be saved. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -218,9 +239,9 @@ export default function ContactPage() {
                         onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
                         className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-900 outline-none focus:border-[#f26522]"
                       >
-                        <option>Morning (10:00 AM - 12:00 PM EST)</option>
-                        <option>Afternoon (02:00 PM - 05:00 PM EST)</option>
-                        <option>Evening (06:00 PM - 09:00 PM EST)</option>
+                        <option>Morning (10:00 AM - 12:00 PM EAT)</option>
+                        <option>Afternoon (02:00 PM - 05:00 PM EAT)</option>
+                        <option>Evening (06:00 PM - 09:00 PM EAT)</option>
                         <option>Anytime (As soon as possible)</option>
                       </select>
                     </div>
@@ -228,6 +249,7 @@ export default function ContactPage() {
                     <div>
                       <label className="block text-xs font-semibold text-slate-700">Operational Problem or Scope</label>
                       <textarea
+                        required
                         rows={3}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -236,6 +258,11 @@ export default function ContactPage() {
                       />
                     </div>
 
+                    {submitError && (
+                      <p role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-800">
+                        {submitError}
+                      </p>
+                    )}
                     <button
                       type="submit"
                       disabled={submitting}

@@ -8,12 +8,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AdminSignOut } from '@/components/admin-sign-out'
 import { isAltavoxAdmin } from '@/lib/admin'
-import { isAltavoxAdmin } from '@/lib/admin'
 
 export default async function AdminInquiriesPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect('/sign-in')
-  if (!isAltavoxAdmin(session.user.email)) redirect('/')
   if (!isAltavoxAdmin(session.user.email)) redirect('/')
   const rows = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(100)
 

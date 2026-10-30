@@ -411,7 +411,7 @@ export default function HomePage() {
         </section>
 
         {/* ======================================================== */}
-        {/* PRODUCTION SYSTEMS & TRACKS GRID (JANBASK COURSE CARD STYLE) */}
+        {/* PRODUCTION SYSTEMS & TRACKS GRID (ALTAVOX TECH COURSE CARD) */}
         {/* ======================================================== */}
         <section id="systems-section" className="py-16 sm:py-24 bg-slate-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

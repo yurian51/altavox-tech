@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { Search, BookOpen, ArrowRight, Code2, ShieldCheck, Cloud } from 'lucide-react'
+import { Search, BookOpen, ArrowRight, Code2, ShieldCheck, Network } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { AltavoxCourseCard } from '@/components/altavox-course-card'
@@ -18,17 +17,12 @@ export default function CoursesPage() {
   const [curriculumModalOpen, setCurriculumModalOpen] = useState(false)
   const [selectedCourseForCurriculum, setSelectedCourseForCurriculum] = useState<CourseItem | null>(null)
 
-  // Filter courses
   const filtered = coursesData.filter((course) => {
     const matchesCategory = selectedCategory === 'All Courses' || course.category === selectedCategory
-    const matchesSearch =
-      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.skillsCovered.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))
+    const query = searchQuery.trim().toLowerCase()
+    const matchesSearch = !query || [course.title, course.category, course.overview, ...course.skillsCovered].some((value) => value.toLowerCase().includes(query))
     return matchesCategory && matchesSearch
   })
-
-  const sortedCourses = filtered
 
   function handleOpenDemo(courseTitle?: string) {
     if (courseTitle) setSelectedCourseForDemo(courseTitle)
@@ -41,97 +35,66 @@ export default function CoursesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+    <div className="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-800">
       <AltavoxHeader />
-
       <main className="flex-1 pb-24">
         <section className="relative overflow-hidden bg-[#071d34] text-white">
           <div aria-hidden="true" className="absolute inset-0 opacity-20" style={{backgroundImage:'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)',backgroundSize:'40px 40px'}} />
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-            <p className="text-xs font-bold uppercase tracking-[.25em] text-orange-400">Altavox Academy · Professional learning</p>
+            <p className="text-xs font-bold uppercase tracking-[.25em] text-orange-400">Altavox Academy · Technology Engineering & Professional Skills</p>
             <div className="mt-5 grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
               <div>
-                <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">Build practical skills for modern technology careers.</h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">Explore structured learning paths in cloud engineering, cybersecurity, and business platforms. Review the curriculum and contact our team to confirm delivery format, schedule, and fees.</p>
-                <a href="#course-catalogue" className="mt-7 inline-flex min-h-11 items-center gap-2 bg-[#f26522] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#d95113]">Explore courses <ArrowRight className="size-4" /></a>
+                <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">Learn technology by building things that work.</h1>
+                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">Explore ten practical learning paths spanning software, cloud infrastructure, ISP networking, cybersecurity, databases, applied AI, education systems, FinTech, product design and IT support. Each course includes a clear overview, learning outcomes and project-focused syllabus.</p>
+                <a href="#course-catalogue" className="mt-7 inline-flex min-h-11 items-center gap-2 bg-[#f26522] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#d95113]">Explore all 10 courses <ArrowRight className="size-4" /></a>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                {[{icon:Cloud,label:'Cloud & DevOps'},{icon:ShieldCheck,label:'Cybersecurity'},{icon:Code2,label:'Business platforms'}].map(({icon:Icon,label})=><div key={label} className="border border-white/15 bg-white/5 p-4"><Icon className="size-5 text-orange-400"/><p className="mt-3 text-xs font-semibold leading-5 text-slate-200">{label}</p></div>)}
+                {[{icon:Code2,label:'Build software'},{icon:Network,label:'Run infrastructure'},{icon:ShieldCheck,label:'Secure systems'}].map(({icon:Icon,label})=><div key={label} className="border border-white/15 bg-white/5 p-4"><Icon className="size-5 text-orange-400"/><p className="mt-3 text-xs font-semibold leading-5 text-slate-200">{label}</p></div>)}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Filters and Controls */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8">
-          <div id="course-catalogue" className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+          <div id="course-catalogue" className="border border-slate-200 bg-white p-4 sm:p-5">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[.2em] text-[#f26522]">Course catalogue</p>
                 <h2 className="mt-1 text-xl font-semibold text-[#071d34]">Find your learning path</h2>
+                <p className="mt-1 text-xs text-slate-500">Ten specialist pathways. Clear course information. Practical learning outcomes.</p>
               </div>
               <div className="relative w-full md:max-w-md">
                 <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
-                <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search courses or skills..." className="w-full border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[#f26522]" />
+                <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search courses, topics or skills..." className="w-full border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[#f26522]" />
               </div>
             </div>
             <div className="mt-5 flex gap-2 overflow-x-auto border-t border-slate-100 pt-4 pb-1">
-              {courseCategories.map((cat) => <button key={cat} onClick={() => setSelectedCategory(cat)} className={`shrink-0 border px-4 py-2 text-xs font-bold transition ${selectedCategory === cat ? 'border-[#071d34] bg-[#071d34] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'}`}>{cat}</button>)}
+              {courseCategories.map((cat) => <button key={cat} onClick={() => setSelectedCategory(cat)} aria-pressed={selectedCategory === cat} className={`shrink-0 border px-4 py-2 text-xs font-bold transition ${selectedCategory === cat ? 'border-[#071d34] bg-[#071d34] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'}`}>{cat}</button>)}
             </div>
           </div>
 
-          {/* Results count indicator */}
-          <div className="mt-6 flex items-center justify-between text-xs text-slate-500">
-            <span>Showing <strong className="text-slate-800">{sortedCourses.length}</strong> professional courses</span>
-            <span>Explore course details, syllabus and available training options</span>
+          <div className="mt-6 flex items-center justify-between gap-3 text-xs text-slate-500">
+            <span>Showing <strong className="text-slate-800">{filtered.length}</strong> of {coursesData.length} courses</span>
+            <span className="hidden sm:inline">Course images, descriptions, skills and module outlines</span>
           </div>
 
-          {/* Courses Grid */}
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {sortedCourses.map((course) => (
-              <AltavoxCourseCard
-                key={course.id}
-                course={course}
-                onViewCurriculum={handleOpenCurriculum}
-                onBookDemo={handleOpenDemo}
-              />
-            ))}
+          <div className="mt-6 grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((course) => <AltavoxCourseCard key={course.id} course={course} onViewCurriculum={handleOpenCurriculum} onBookDemo={handleOpenDemo} />)}
           </div>
 
-          {sortedCourses.length === 0 && (
-            <div className="mt-12 rounded-2xl border border-dashed border-slate-300 bg-white p-16 text-center">
+          {filtered.length === 0 && (
+            <div className="mt-12 border border-dashed border-slate-300 bg-white p-12 text-center">
               <BookOpen className="mx-auto size-12 text-slate-300" />
               <h3 className="mt-4 text-base font-bold text-slate-800">No matching courses found</h3>
-              <p className="mt-1 text-xs text-slate-500">Try adjusting your search criteria or category filter.</p>
-              <button
-                onClick={() => {
-                  setSelectedCategory('All Courses')
-                  setSearchQuery('')
-                }}
-                className="mt-5 rounded-xl bg-[#07294d] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#051c36]"
-              >
-                Reset All Filters
-              </button>
+              <p className="mt-1 text-xs text-slate-500">Try another keyword or category.</p>
+              <button onClick={() => { setSelectedCategory('All Courses'); setSearchQuery('') }} className="mt-5 bg-[#07294d] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#051c36]">Reset filters</button>
             </div>
           )}
         </section>
       </main>
-
       <AltavoxFooter />
-
-      {/* Course enquiry and curriculum */}
-      <DemoModal
-        isOpen={demoModalOpen}
-        onClose={() => setDemoModalOpen(false)}
-        initialCourse={selectedCourseForDemo}
-      />
-
-      <CurriculumModal
-        isOpen={curriculumModalOpen}
-        onClose={() => setCurriculumModalOpen(false)}
-        course={selectedCourseForCurriculum}
-      />
-
+      <DemoModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} initialCourse={selectedCourseForDemo} />
+      <CurriculumModal isOpen={curriculumModalOpen} onClose={() => setCurriculumModalOpen(false)} course={selectedCourseForCurriculum} />
     </div>
   )
 }

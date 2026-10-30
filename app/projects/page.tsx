@@ -17,8 +17,8 @@ import {
   Activity,
   Sparkles
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 import { projects } from '@/lib/site-data'
 
 export default function ProjectsPage() {
@@ -38,7 +38,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Hero in JanBask Style */}
@@ -206,7 +206,7 @@ export default function ProjectsPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

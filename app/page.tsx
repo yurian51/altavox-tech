@@ -33,9 +33,9 @@ import {
   Activity,
   ArrowUpRight
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
-import { JanBaskCourseCard } from '@/components/janbask-course-card'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
+import { AltavoxCourseCard } from '@/components/altavox-course-card'
 import { DemoModal } from '@/components/demo-modal'
 import { CurriculumModal } from '@/components/curriculum-modal'
 import { CareerAdvisorModal } from '@/components/career-advisor-modal'
@@ -139,8 +139,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-[#f26522] selection:text-white">
-      {/* JanBask-styled Header */}
-      <JanBaskHeader />
+      {/* Altavox Tech Header */}
+      <AltavoxHeader />
 
       <main className="flex-1">
         {/* ======================================================== */}
@@ -156,7 +156,7 @@ export default function HomePage() {
               {/* Left Column: Mission & Core Value */}
               <div className="lg:col-span-7 space-y-6">
                 
-                {/* Live Urgency & Cohort Onboarding Strip in JanBask Style */}
+                {/* Live Urgency & Cohort Onboarding Strip in Altavox Tech style */}
                 <div className="flex flex-wrap items-center gap-2.5 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold backdrop-blur-md border border-white/15 text-orange-200">
                   <span className="flex size-2 rounded-full bg-[#f26522] animate-pulse" />
                   <span className="text-white font-bold">⚡ Next Systems Cohort:</span>
@@ -458,7 +458,7 @@ export default function HomePage() {
             {/* Systems Grid */}
             <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCourses.map((item) => (
-                <JanBaskCourseCard
+                <AltavoxCourseCard
                   key={item.id}
                   course={item}
                   onViewCurriculum={handleOpenCurriculum}
@@ -578,7 +578,7 @@ export default function HomePage() {
         </section>
 
         {/* ======================================================== */}
-        {/* WHY CHOOSE ALTAVOX - 4 PRINCIPLES IN JANBASK 4-PILLAR STYLE */}
+        {/* WHY CHOOSE ALTAVOX - 4 PRINCIPLES IN ALTAVOX TECH PRINCIPLES */}
         {/* ======================================================== */}
         <section className="py-20 bg-white border-b border-slate-200">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -905,8 +905,8 @@ export default function HomePage() {
 
       </main>
 
-      {/* JanBask-styled Footer */}
-      <JanBaskFooter />
+      {/* Altavox Tech Footer */}
+      <AltavoxFooter />
 
       {/* Modals */}
       <DemoModal

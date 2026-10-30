@@ -14,8 +14,8 @@ import {
   PhoneCall,
   Calendar
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 import { serviceDetails } from '@/lib/site-data'
 
 const icons = [Code2, Network, Server, Globe, Database, Shield]
@@ -23,7 +23,7 @@ const icons = [Code2, Network, Server, Globe, Database, Shield]
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Hero in JanBask Style */}
@@ -126,7 +126,7 @@ export default function ServicesPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

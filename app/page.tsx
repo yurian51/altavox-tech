@@ -156,16 +156,6 @@ export default function HomePage() {
               {/* Left Column: Mission & Core Value */}
               <div className="lg:col-span-7 space-y-6">
                 
-                {/* Live Urgency & Cohort Onboarding Strip in Altavox Tech style */}
-                <div className="flex flex-wrap items-center gap-2.5 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold backdrop-blur-md border border-white/15 text-orange-200">
-                  <span className="flex size-2 rounded-full bg-[#f26522] animate-pulse" />
-                  <span className="text-white font-bold">⚡ Next Systems Cohort:</span>
-                  <span className="bg-[#f26522] text-white px-2 py-0.5 rounded font-mono font-bold text-[11px]">
-                    Starts in 2 Days · 14h : 22m
-                  </span>
-                  <span className="text-slate-300 hidden sm:inline">· 3 Enterprise Slots Remaining</span>
-                </div>
-
                 {/* Main Hero Headline */}
                 <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-5xl leading-[1.15]">
                   Technology Built for <span className="text-[#f26522]">Real Work.</span>
@@ -244,26 +234,6 @@ export default function HomePage() {
                   </button>
                 </div>
 
-                {/* Real Altavox Operational Metrics Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10">
-                  <div>
-                    <p className="text-2xl font-black text-[#f26522]">2,400+</p>
-                    <p className="text-xs text-slate-300">Active ISP Subscribers</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-black text-white">850+</p>
-                    <p className="text-xs text-slate-300">Digitized Student Files</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-black text-cyan-300">98.4%</p>
-                    <p className="text-xs text-slate-300">Auto-Billing Rate</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-black text-emerald-400">99.9%</p>
-                    <p className="text-xs text-slate-300">Production SLA Uptime</p>
-                  </div>
-                </div>
-
               </div>
 
               {/* Right Column: Interactive Hero Live Cockpit Preview Card */}
@@ -277,7 +247,7 @@ export default function HomePage() {
                         <span className="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
                       </span>
                       <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-                        Live Operations Cockpit
+                        Architecture Preview
                       </span>
                     </div>
                     <span className="rounded-md bg-white/15 px-2 py-0.5 text-[11px] font-mono text-cyan-200">
@@ -291,7 +261,7 @@ export default function HomePage() {
                       <div className="flex items-start justify-between">
                         <div>
                           <span className="rounded bg-[#f26522] px-2 py-0.5 text-[10px] font-bold uppercase text-white">
-                            Active Fleet
+                            Reference Architecture
                           </span>
                           <h4 className="mt-2 text-base font-bold text-white">
                             Jaslyn Net ISP Gateway
@@ -302,7 +272,7 @@ export default function HomePage() {
                         </div>
                         <div className="text-right">
                           <span className="text-xs font-mono text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2 py-1 rounded">
-                            Socket Online
+                            Integration example
                           </span>
                         </div>
                       </div>
@@ -310,11 +280,11 @@ export default function HomePage() {
                       <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-300">
                         <div className="flex items-center gap-1.5">
                           <Activity className="size-3.5 text-[#f26522]" />
-                          <span>Latency: 4.2ms avg</span>
+                          <span>RouterOS connectivity</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <Zap className="size-3.5 text-cyan-300" />
-                          <span>M-Pesa Webhook: Active</span>
+                          <span>Payment integration</span>
                         </div>
                       </div>
                     </div>
@@ -368,7 +338,7 @@ export default function HomePage() {
         <section className="bg-white border-b border-slate-200 py-8">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-center text-xs font-bold uppercase tracking-wider text-slate-500">
-              Core Technologies Deployed Across Altavox Production Systems
+              Technologies used across Altavox engineering work
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 opacity-90">
               {techPartners.map((tech) => (

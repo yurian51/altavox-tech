@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 const brandEmblem = '/capricorn_emblem_clean_black.svg'
-const appIcon = '/capricorn_emblem_clean_black.svg'
+const appIcon = '/favicon.svg'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://altavox.space'),
@@ -12,15 +12,15 @@ export const metadata: Metadata = {
   },
   description: 'Technology company focused on software engineering, digital product development, ISP billing, infrastructure, and operational clarity.',
   applicationName: 'Altavox Tech',
-  generator: 'Next.js',
+  generator: 'Altavox Tech',
   alternates: { canonical: '/' },
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml', sizes: 'any' },
       { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
-      { url: brandEmblem, type: 'image/svg+xml', sizes: 'any' },
     ],
-    shortcut: [appIcon],
-    apple: [{ url: appIcon, type: 'image/svg+xml' }],
+    shortcut: [{ url: appIcon, type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
   },
   openGraph: {
     type: 'website',

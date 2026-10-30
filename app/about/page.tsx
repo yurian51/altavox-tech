@@ -53,7 +53,7 @@ export default function AboutPage() {
       <AltavoxHeader />
 
       <main className="flex-1 pb-24">
-        {/* Hero in JanBask Style */}
+        {/* Altavox company hero */}
         <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-14 lg:py-20 border-b border-white/10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl space-y-4">
@@ -133,9 +133,10 @@ export default function AboutPage() {
                 <div className="flex items-start gap-3">
                   <MapPin className="size-4 text-[#f26522] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-800">Global Operations HQ:</strong>
-                    <p>1050 Route 22 West, Suite 201,</p>
-                    <p>Bridgewater, New Jersey 08807, United States</p>
+                    <strong className="text-slate-800">Headquarters & Operations:</strong>
+                    <p>Nduruma Road, Unguuni</p>
+                    <p>23219 Nduruma, Arusha, Tanzania</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Nduruma+Road%2C+Unguuni%2C+Nduruma%2C+Arusha%2C+Tanzania" target="_blank" rel="noopener noreferrer" className="mt-1 inline-block font-semibold text-[#f26522] hover:underline">View location on Google Maps</a>
                   </div>
                 </div>
                 <div className="pt-2 border-t border-slate-100 space-y-1">

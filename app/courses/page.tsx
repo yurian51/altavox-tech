@@ -65,20 +65,25 @@ export default function CoursesPage() {
               </div>
               <div className="relative w-full md:max-w-md">
                 <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
-                <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search courses, topics or skills..." className="w-full border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[#f26522]" />
+                <label htmlFor="course-search" className="sr-only">Search courses, topics or skills</label>
+                <input id="course-search" type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search courses, topics or skills..." aria-controls="course-results" className="w-full border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus-visible:ring-2 focus-visible:ring-[#f26522] focus-visible:ring-offset-2" />
               </div>
             </div>
             <div className="mt-5 flex gap-2 overflow-x-auto border-t border-slate-100 pt-4 pb-1">
-              {courseCategories.map((cat) => <button key={cat} onClick={() => setSelectedCategory(cat)} aria-pressed={selectedCategory === cat} className={`shrink-0 border px-4 py-2 text-xs font-bold transition ${selectedCategory === cat ? 'border-[#071d34] bg-[#071d34] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'}`}>{cat}</button>)}
+              {courseCategories.map((cat) => {
+                const count = cat === 'All Courses' ? coursesData.length : coursesData.filter((course) => course.category === cat).length
+                return <button key={cat} type="button" onClick={() => setSelectedCategory(cat)} aria-pressed={selectedCategory === cat} className={`shrink-0 border px-4 py-2 text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f26522] focus-visible:ring-offset-2 ${selectedCategory === cat ? 'border-[#071d34] bg-[#071d34] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'}`}>{cat} <span className={selectedCategory === cat ? 'ml-1 text-orange-300' : 'ml-1 text-slate-400'}>{count}</span></button>
+              })}
             </div>
           </div>
 
-          <div className="mt-6 flex items-center justify-between gap-3 text-xs text-slate-500">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500" aria-live="polite">
             <span>Showing <strong className="text-slate-800">{filtered.length}</strong> of {coursesData.length} courses</span>
+            {(searchQuery || selectedCategory !== 'All Courses') && <button type="button" onClick={() => { setSelectedCategory('All Courses'); setSearchQuery('') }} className="font-bold text-[#c94e16] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f26522]">Clear search and filters</button>}
             <span className="hidden sm:inline">Course images, descriptions, skills and module outlines</span>
           </div>
 
-          <div className="mt-6 grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          <div id="course-results" className="mt-6 grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((course) => <AltavoxCourseCard key={course.id} course={course} onViewCurriculum={handleOpenCurriculum} onBookDemo={handleOpenDemo} />)}
           </div>
 

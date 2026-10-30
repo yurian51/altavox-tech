@@ -87,32 +87,32 @@ export default function HomePage() {
     {
       name: 'Jaslyn Internet Services',
       role: 'Regional ISP Provider',
-      title: 'Automated 2,400+ Subscriber Queues & Instant M-Pesa Renewals',
-      outcome: '98.4% Automated Billing',
+      title: 'ISP billing workflows and MikroTik subscriber provisioning',
+      outcome: 'Automated billing workflows',
       previous: 'Manual bank slip verification & late-night reconnect tickets',
-      current: 'Instant automated provisioning on MikroTik within 2 seconds of payment',
+      current: 'Payment-triggered provisioning workflows, subject to configured integrations',
       image: '/public/projects/jaslyn-net-live.png',
-      quote: 'Altavox built a direct socket connection to our core RouterOS gateway. Subscribers now pay via M-Pesa paybill, and their bandwidth queue instantly refreshes without dropping active Zoom calls.'
+      quote: 'Jaslyn Net is presented as an ISP operations platform integrating billing, subscriber identity, and network automation.'
     },
     {
       name: 'Sammena Educational Complex',
       role: 'Pre & Primary School',
-      title: 'School SIMS: Digitized 850+ Student Histories & Automated Invoices',
-      outcome: '65% Admin Time Saved',
+      title: 'School SIMS for student records and fee administration',
+      outcome: 'School administration workflows',
       previous: 'Physical ledger books, paper receipt booklets, lost student files',
       current: 'Unified web portal for admissions, fee reconciliation, and PDF gradebooks',
       image: '/public/projects/sammena-live.png',
-      quote: 'Teachers enter marks once, and terminal report card PDFs are compiled automatically. Parents receive SMS balance alerts, eliminating tuition discrepancies completely.'
+      quote: 'Sammena School uses a school information management platform for its public website and administration workflows.'
     },
     {
       name: 'Regional Telecom Operators',
       role: 'Multi-Site Network Operations',
       title: 'NetBill-NOC: Multi-Tenant RADIUS Accounting & Sub-10s Telemetry',
-      outcome: '99.99% Node Uptime',
+      outcome: 'Network operations tooling',
       previous: 'Uncoordinated tower alerts and delayed outage discovery',
       current: 'Visual dynamic topology map with automated Telegram engineer dispatch',
       image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=160&h=160&q=80',
-      quote: 'The telemetry engine monitors 180+ network switches and tower antennas every 10 seconds. Network degradation is caught and routed around before customers notice a drop.'
+      quote: 'Network operations capabilities include monitoring, incident visibility, and operational alerts when connected to live infrastructure.'
     }
   ]
 
@@ -524,14 +524,14 @@ export default function HomePage() {
                       <p className="font-semibold text-white">ISP & MikroTik Billing</p>
                       <p className="text-[11px] text-slate-300">→ Jaslyn Net Platform</p>
                     </div>
-                    <span className="font-bold text-emerald-400">98.4% Auto</span>
+                    <span className="font-bold text-emerald-400">Integration design</span>
                   </div>
                   <div className="rounded-lg bg-black/20 p-2.5 flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">School Management & SIMS</p>
                       <p className="text-[11px] text-slate-300">→ Sammena School Portal</p>
                     </div>
-                    <span className="font-bold text-emerald-400">850+ Records</span>
+                    <span className="font-bold text-emerald-400">School information systems</span>
                   </div>
                   <div className="rounded-lg bg-black/20 p-2.5 flex items-center justify-between">
                     <div>

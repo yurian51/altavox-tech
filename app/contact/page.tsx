@@ -14,8 +14,8 @@ import {
   Terminal,
   Server
 } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 import { coursesData } from '@/lib/courses-data'
 
 export default function ContactPage() {
@@ -41,7 +41,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Hero in JanBask Style */}
@@ -250,7 +250,7 @@ export default function ContactPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

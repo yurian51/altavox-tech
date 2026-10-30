@@ -1,207 +1,131 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import {
-  ArrowUpRight,
-  ExternalLink,
-  Rocket,
-  ShieldCheck,
-  Filter,
-  Server,
-  CheckCircle2,
-  Calendar,
-  Layers,
-  Network,
-  Activity,
-  Sparkles
-} from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight, Check, ExternalLink, Monitor, Smartphone, Tablet } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { projects } from '@/lib/site-data'
 
+const screenshotViews = [
+  { label: 'Desktop', width: '1440', crop: '1000', icon: Monitor, className: 'lg:col-span-2' },
+  { label: 'Tablet', width: '768', crop: '1024', icon: Tablet, className: '' },
+  { label: 'Mobile', width: '390', crop: '844', icon: Smartphone, className: '' },
+]
+
+const screenshotUrl = (width: string, crop: string, site: string) =>
+  'https://image.thum.io/get/width/' + width + '/crop/' + crop + '/noanimate/' + site
+
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All')
-
-  const categories = [
-    'All',
-    'Education technology',
-    'ISP operations & connectivity',
-    'Network operations & billing',
-    'Cloud technology'
-  ]
-
-  const filteredProjects = selectedCategory === 'All'
-    ? projects
-    : projects.filter((p) => p.category === selectedCategory)
-
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+    <div className="flex min-h-screen flex-col bg-white text-slate-900">
       <AltavoxHeader />
 
-      <main className="flex-1 pb-24">
-        {/* Hero in JanBask Style */}
-        <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-14 border-b border-white/10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl space-y-3">
-              <span className="rounded-full bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                Altavox Launchpad & Production Systems
-              </span>
-              <h1 className="text-3xl sm:text-5xl font-extrabold">
-                Live Software Platforms Engineered for Real Operations
-              </h1>
-              <p className="text-base text-slate-200">
-                Explore our active deployments and engineering initiatives. Each system addresses tangible administrative, network, or cloud operational requirements.
-              </p>
+      <main className="flex-1">
+        <section className="relative overflow-hidden bg-[#071d34] text-white">
+          <div className="absolute inset-0 opacity-20" aria-hidden="true" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)', backgroundSize: '42px 42px' }} />
+          <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+            <p className="text-xs font-bold uppercase tracking-[.28em] text-orange-400">Selected work · Altavox Tech</p>
+            <div className="mt-5 grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+              <div>
+                <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">Two platforms. Built around real operations.</h1>
+                <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">We focus our product work on connectivity operations and school information systems. Explore Jaslyn Net and Sammena.</p>
+              </div>
+              <div className="border-l-2 border-[#f26522] pl-5 text-sm leading-6 text-slate-300">
+                <span className="block text-3xl font-semibold text-white">02</span>
+                Active product initiatives
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Content Section */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
-          {/* Quick Banner */}
-          <div className="mb-10 flex flex-col justify-between gap-6 rounded-2xl border border-orange-200 bg-orange-50 p-6 sm:flex-row sm:items-center sm:p-8 shadow-xs">
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <div className="mb-10 flex flex-col justify-between gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#f26522]">
-                <Rocket className="size-4" /> Production Systems
-              </div>
-              <h2 className="mt-2 text-xl sm:text-2xl font-extrabold text-[#07294d]">
-                Operating Systems Built with Purpose
-              </h2>
-              <p className="mt-1 max-w-2xl text-xs text-slate-600">
-                Inspect architectural details, core capabilities, and infrastructure configurations of our live platforms.
-              </p>
+              <p className="text-xs font-bold uppercase tracking-[.2em] text-[#f26522]">Our projects</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Platforms in development</h2>
             </div>
-            <div className="flex shrink-0">
-              <Link
-                href="/computer"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#07294d] px-5 py-3 text-xs font-bold text-white hover:bg-[#051c36] transition shadow-md"
-              >
-                Open Computer Console <ArrowUpRight className="size-4" />
-              </Link>
-            </div>
+            <p className="max-w-xl text-sm leading-6 text-slate-500">The previews below are live website captures at desktop, tablet, and mobile viewport widths.</p>
           </div>
 
-          {/* Category Filters in JanBask Pill Style */}
-          <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2 flex items-center gap-1">
-              <Filter className="size-3.5" /> Filter:
-            </span>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${
-                  selectedCategory === cat
-                    ? 'bg-[#07294d] text-white shadow-xs'
-                    : 'bg-white text-slate-600 hover:bg-slate-200 border border-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          <div className="space-y-16 sm:space-y-20">
+            {projects.map((project, index) => (
+              <article key={project.slug} className="min-w-0">
+                <div className="grid gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[#f26522]">0{index + 1} / {project.category}</p>
+                    <h3 className="mt-3 text-3xl font-semibold tracking-tight text-[#071d34] sm:text-4xl">{project.name}</h3>
+                    <p className="mt-4 text-base font-medium leading-7 text-slate-700">{project.summary}</p>
+                    <p className="mt-3 text-sm leading-7 text-slate-500">{project.description}</p>
 
-          {/* Projects List */}
-          <div className="space-y-12">
-            {filteredProjects.map((project) => (
-              <div
-                key={project.slug}
-                className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-xs transition hover:border-[#f26522] hover:shadow-xl"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
-                  <div>
-                    <span className="font-mono text-xs font-bold uppercase text-[#f26522]">
-                      {project.category}
-                    </span>
-                    <h3 className="mt-1 text-2xl font-bold text-[#07294d]">{project.name}</h3>
-                    <p className="text-xs text-slate-500 font-medium">Client: {project.client}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
-                      {project.status}
-                    </span>
-                    {project.url && (
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-xl bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200 transition"
-                      >
-                        <span>Visit Site</span>
-                        <ExternalLink className="size-3.5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => <span key={tag} className="border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">{tag}</span>)}
+                    </div>
 
-                <div className="mt-6 grid gap-8 lg:grid-cols-12">
-                  <div className="lg:col-span-7 space-y-4">
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-                      {project.summary}
-                    </p>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    <div className="pt-2">
-                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Key Capabilities</p>
-                      <ul className="mt-2.5 space-y-2 text-xs text-slate-700">
-                        {project.keyFeatures.map((f, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <CheckCircle2 className="size-4 text-[#f26522] shrink-0 mt-0.5" />
-                            <span>{f}</span>
+                    <div className="mt-8">
+                      <p className="text-xs font-bold uppercase tracking-[.18em] text-slate-500">Platform scope</p>
+                      <ul className="mt-4 space-y-3">
+                        {project.keyFeatures.map((feature) => (
+                          <li key={feature} className="flex items-start gap-3 text-sm leading-6 text-slate-700">
+                            <Check className="mt-1 size-4 shrink-0 text-[#f26522]" />
+                            <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
 
-                  <div className="lg:col-span-5 space-y-4">
-                    {/* Metrics Box */}
-                    {project.metrics && (
-                      <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 space-y-2">
-                        <p className="text-[11px] font-mono font-bold uppercase text-[#07294d]">
-                          Verified Operational Metrics
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 pt-1">
-                          {project.metrics.map((m, i) => (
-                            <div key={i} className="rounded-xl bg-white p-2.5 border border-slate-100">
-                              <p className="text-lg font-black text-[#f26522]">{m.value}</p>
-                              <p className="text-[11px] text-slate-500">{m.label}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Architecture Pill Box */}
-                    {project.architecture && (
-                      <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 space-y-1.5 text-xs">
-                        <p className="text-[11px] font-mono font-bold uppercase text-[#07294d]">
-                          Architecture Stack
-                        </p>
-                        <p className="text-slate-600"><strong>Frontend:</strong> {project.architecture.frontend}</p>
-                        <p className="text-slate-600"><strong>Backend:</strong> {project.architecture.backend}</p>
-                        <p className="text-slate-600"><strong>Database:</strong> {project.architecture.database}</p>
-                        <p className="text-slate-600"><strong>Infra:</strong> {project.architecture.infrastructure}</p>
-                      </div>
-                    )}
-
-                    <div className="pt-2">
-                      <Link
-                        href={`/courses/${project.slug}`}
-                        className="block w-full rounded-xl bg-[#07294d] py-3 text-center text-xs font-bold text-white hover:bg-[#051c36] transition shadow-xs"
-                      >
-                        Inspect Blueprint & Live Batch →
-                      </Link>
+                    <div className="mt-8 flex flex-wrap items-center gap-3">
+                      <a href={project.url} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 bg-[#f26522] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#d95113]">
+                        Visit live platform <ExternalLink className="size-4" />
+                      </a>
+                      <span className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500"><span className="size-2 rounded-full bg-amber-500" /> In development</span>
                     </div>
                   </div>
+
+                  <div className="min-w-0">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="text-xs font-bold uppercase tracking-[.18em] text-slate-500">Real website screenshots</p>
+                      <span className="text-[10px] font-mono text-slate-400">LIVE CAPTURE</span>
+                    </div>
+                    <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2">
+                      {screenshotViews.map((view) => {
+                        const Icon = view.icon
+                        return (
+                          <figure key={view.label} className={view.className + ' min-w-0 overflow-hidden border border-slate-200 bg-slate-100'}>
+                            <figcaption className="flex items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                              <Icon className="size-3.5 text-[#f26522]" /> {view.label} <span className="ml-auto font-mono font-normal text-slate-400">{view.width}px</span>
+                            </figcaption>
+                            <div className="relative aspect-[16/10] w-full bg-slate-200 sm:aspect-[16/10]">
+                              <Image
+                                src={screenshotUrl(view.width, view.crop, project.url || '')}
+                                alt={project.name + ' live website at ' + view.label.toLowerCase() + ' viewport width'}
+                                fill
+                                unoptimized
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                                className="object-cover object-top"
+                              />
+                            </div>
+                          </figure>
+                        )
+                      })}
+                    </div>
+                    <p className="mt-2 text-[10px] leading-5 text-slate-400">Captures are generated from the public project URLs. The page layout adapts independently to the visitor’s screen size.</p>
+                  </div>
                 </div>
-              </div>
+                {index < projects.length - 1 && <div className="mt-14 border-b border-slate-200 sm:mt-20" />}
+              </article>
             ))}
+          </div>
+        </section>
+
+        <section className="bg-slate-50">
+          <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-12 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.2em] text-[#f26522]">Altavox engineering</p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#071d34]">Focused products, carefully engineered.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">From ISP operations to school administration, our work is grounded in practical systems and maintainable engineering.</p>
+            </div>
+            <Link href="/contact" className="inline-flex min-h-11 shrink-0 items-center gap-2 bg-[#071d34] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#123b61]">Discuss a project <ArrowUpRight className="size-4" /></Link>
           </div>
         </section>
       </main>

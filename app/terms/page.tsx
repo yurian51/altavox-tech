@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
       <main className="flex-1 pb-24">
         <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-12 border-b border-white/10">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -55,7 +55,7 @@ export default function TermsPage() {
           </div>
         </section>
       </main>
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

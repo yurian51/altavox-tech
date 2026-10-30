@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     const phone = typeof body.phone === 'string' ? body.phone.slice(0,40) : null
     const hasPrintedItems = orderItems.some(item => item.format === 'print')
     const configuredDeliveryFee = process.env.BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS
-    if (hasPrintedItems && (!configuredDeliveryFee || !/^\d+(?:\.\d{1,2})?$/.test(configuredDeliveryFee))) {
+    if (hasPrintedItems && (!configuredDeliveryFee || !/^\d+$/.test(configuredDeliveryFee))) {
       throw new Error('Printed-book delivery is not configured yet. Please contact the bookstore.')
     }
     const deliveryFee = hasPrintedItems ? Number(configuredDeliveryFee) : 0

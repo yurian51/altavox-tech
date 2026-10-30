@@ -30,7 +30,7 @@ export async function PATCH(request: Request) {
     const found = await client.query('SELECT id,payment_status,order_status FROM book_orders WHERE id=$1 FOR UPDATE', [id])
     const order = found.rows[0]
     if (!order) { await client.query('ROLLBACK'); return NextResponse.json({ error: 'Order not found.' }, { status: 404 }) }
-    if (body.action !== 'cancel' || order.payment_status !== 'pending' || order.order_status !== 'pending') {
+    if (body.action !== 'cancel' || !['pending','failed'].includes(order.payment_status) || order.order_status !== 'pending') {
       await client.query('ROLLBACK')
       return NextResponse.json({ error: 'Only unpaid pending orders can be cancelled through this action.' }, { status: 409 })
     }

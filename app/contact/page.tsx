@@ -44,7 +44,7 @@ export default function ContactPage() {
       <AltavoxHeader />
 
       <main className="flex-1 pb-24">
-        {/* Hero in JanBask Style */}
+        {/* Altavox contact hero */}
         <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-14 border-b border-white/10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl space-y-3">
@@ -110,14 +110,16 @@ export default function ContactPage() {
                     <MapPin className="size-5" />
                   </span>
                   <div>
-                    <h3 className="text-sm font-bold text-[#07294d]">Headquarters Location</h3>
-                    <p className="text-xs text-slate-500">Bridgewater, New Jersey, USA</p>
+                    <h3 className="text-sm font-bold text-[#07294d]">Headquarters & Operations</h3>
+                    <p className="text-xs text-slate-500">Nduruma, Arusha, Tanzania</p>
                   </div>
                 </div>
                 <div className="mt-4 text-xs text-slate-700 leading-relaxed">
                   <p className="font-semibold text-slate-900">Altavox Tech, Inc.</p>
-                  <p>1050 Route 22 West, Suite 201,</p>
-                  <p>Bridgewater, NJ 08807, United States</p>
+                  <p>Nduruma Road, Unguuni</p>
+                  <p>23219 Nduruma</p>
+                  <p>Arusha, Tanzania</p>
+                  <a href="https://www.google.com/maps/search/?api=1&query=Nduruma+Road%2C+Unguuni%2C+Nduruma%2C+Arusha%2C+Tanzania" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex font-semibold text-[#f26522] hover:underline">View location on Google Maps</a>
                 </div>
               </div>
 

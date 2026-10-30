@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckCircle2, User, Mail, Phone, X, BookOpen } from 'lucide-react'
 import { coursesData } from '@/lib/courses-data'
 
@@ -20,6 +20,8 @@ export function DemoModal({
   const [phone, setPhone] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => { if (isOpen && initialCourse) setSelectedCourse(initialCourse) }, [isOpen, initialCourse])
 
   if (!isOpen) return null
 
@@ -55,7 +57,7 @@ export function DemoModal({
             <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
               <CheckCircle2 className="size-8" />
             </div>
-            <h4 className="text-2xl font-bold text-[#07294d]">Demo Class Seat Confirmed!</h4>
+            <h4 className="text-2xl font-bold text-[#07294d]">Enquiry submitted</h4>
             <p className="text-sm text-slate-600 leading-6 max-w-md mx-auto">
               Thank you, <strong className="text-slate-900">{name}</strong>. Your enquiry for <strong className="text-[#07294d]">{selectedCourse}</strong> has been saved. Our team can follow up using the contact details you provided.
             </p>
@@ -128,7 +130,7 @@ export function DemoModal({
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Phone Number (For WhatsApp / SMS Link) *
+                Phone Number *
               </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-3 size-4 text-slate-400" />

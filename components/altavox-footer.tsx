@@ -137,6 +137,11 @@ export function AltavoxFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/store" className="text-[#f26522] font-semibold hover:underline">
+                  Altavox Bookstore — Digital & Printed Books
+                </Link>
+              </li>
+              <li>
                 <Link href="/computer" className="text-[#f26522] font-semibold hover:underline flex items-center gap-1">
                   <Terminal className="size-3" />
                   <span>Open Computer Console</span>

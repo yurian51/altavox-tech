@@ -5,6 +5,7 @@ const brandEmblem = '/capricorn_emblem_clean_black.svg'
 const appIcon = '/capricorn_emblem_clean_black.svg'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://altavox.space'),
   title: {
     default: 'Altavox Tech — Software Systems Engineering & IT Operations Platform',
     template: '%s | Altavox Tech',
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   description: 'Technology company focused on software engineering, digital product development, ISP billing, infrastructure, and operational clarity.',
   applicationName: 'Altavox Tech',
   generator: 'Next.js',
+  alternates: { canonical: '/' },
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },

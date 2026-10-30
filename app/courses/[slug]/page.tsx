@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock3, Code2, GraduationCap, Target } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
-import { DemoModal } from '@/components/demo-modal'
 import { CourseDetailActions } from '@/components/course-detail-actions'
 import { coursesData } from '@/lib/courses-data'
 

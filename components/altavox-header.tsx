@@ -35,6 +35,23 @@ export function AltavoxHeader() {
   const [demoModalOpen, setDemoModalOpen] = useState(false)
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [mobileMenuOpen])
+
   // Filter courses & solutions for instant search
   const filteredCourses = coursesData.filter((c) =>
     c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -333,9 +350,12 @@ export function AltavoxHeader() {
 
             {/* Mobile Hamburger Toggle */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
               className="lg:hidden rounded-xl border border-slate-200 p-2 text-slate-700 hover:bg-slate-100 transition"
-              aria-label="Toggle Navigation Menu"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="altavox-mobile-navigation"
             >
               {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
@@ -343,93 +363,119 @@ export function AltavoxHeader() {
 
         </div>
 
-        {/* Mobile Slide-out Menu */}
+        {/* Mobile Navigation: taps inside the panel never dismiss it. */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-200 bg-white p-5 space-y-4 animate-in slide-in-from-top duration-200">
-            {/* Search in mobile */}
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search systems..."
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-xs text-slate-900"
-              />
-              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
-            </div>
+          <div
+            className="lg:hidden fixed inset-0 z-[60] bg-[#061a30]/55 backdrop-blur-[2px]"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Navigation overlay"
+          >
+            <section
+              id="altavox-mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Main navigation"
+              className="absolute inset-x-0 top-0 max-h-[min(88dvh,760px)] overflow-y-auto overscroll-contain rounded-b-3xl border-t border-slate-200 bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl animate-in slide-in-from-top duration-200"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f26522]">ALTAVOX TECH</p>
+                  <p className="mt-1 text-lg font-extrabold text-[#07294d]">Explore our platform</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-xl border border-slate-200 p-2 text-slate-700 hover:bg-slate-100"
+                  aria-label="Close navigation menu"
+                >
+                  <X className="size-5" />
+                </button>
+              </div>
 
-            <nav className="space-y-2 text-sm font-semibold text-slate-800 pt-2">
-              <Link
-                href="/projects"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                Production Projects
-              </Link>
-              <Link
-                href="/services"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                Engineering Services
-              </Link>
-              <Link
-                href="/deployments"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                Deployments & Architecture
-              </Link>
-              <Link
-                href="/courses"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                Tech Academy & Courses
-              </Link>
-              <Link
-                href="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                About Altavox
-              </Link>
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 hover:bg-slate-50"
-              >
-                Contact & Inquiries
-              </Link>
-              <Link
-                href="/computer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg p-2 text-[#f26522]"
-              >
-                Open Computer Console
-              </Link>
-            </nav>
+              <div className="relative">
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Search systems and courses..."
+                  aria-label="Search systems and courses"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#f26522] focus:bg-white focus:ring-2 focus:ring-orange-100"
+                />
+                <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+              </div>
 
-            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false)
-                  setDemoModalOpen(true)
-                }}
-                className="w-full rounded-xl bg-[#f26522] py-3 text-center text-xs font-bold text-white"
-              >
-                Book Technical Demo
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false)
-                  setAdvisorModalOpen(true)
-                }}
-                className="w-full rounded-xl bg-[#07294d] py-3 text-center text-xs font-bold text-white"
-              >
-                AI Systems Advisor
-              </button>
-            </div>
+              {searchQuery.trim() && (
+                <div className="mt-2 rounded-xl border border-slate-100 bg-slate-50 p-2">
+                  <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Matching courses ({filteredCourses.length})
+                  </p>
+                  {filteredCourses.slice(0, 5).map((course) => (
+                    <Link
+                      key={course.id}
+                      href={`/courses/${course.slug}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#07294d] hover:bg-white"
+                    >
+                      {course.title}
+                      <span className="mt-0.5 block text-xs font-normal text-slate-500">{course.category}</span>
+                    </Link>
+                  ))}
+                  {filteredCourses.length === 0 && (
+                    <p className="px-3 py-3 text-sm text-slate-500">No matching courses found.</p>
+                  )}
+                </div>
+              )}
+
+              <nav aria-label="Mobile main navigation" className="mt-4 grid grid-cols-1 gap-1 text-sm font-semibold text-slate-800">
+                {[
+                  { href: '/projects', label: 'Production Projects', detail: 'Products and platforms' },
+                  { href: '/services', label: 'Engineering Services', detail: 'Software and infrastructure' },
+                  { href: '/deployments', label: 'Deployments & Architecture', detail: 'Live systems and delivery' },
+                  { href: '/courses', label: 'Tech Academy', detail: 'Learning and technical tracks' },
+                  { href: '/about', label: 'About Altavox', detail: 'Company and capabilities' },
+                  { href: '/contact', label: 'Contact & Inquiries', detail: 'Talk to our team' },
+                  { href: '/computer', label: 'Computer Console', detail: 'Open the technical console' },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between rounded-xl border border-transparent px-3 py-3 transition hover:border-slate-100 hover:bg-slate-50"
+                  >
+                    <span>
+                      <span className="block text-sm font-bold text-[#07294d]">{item.label}</span>
+                      <span className="mt-0.5 block text-xs font-normal text-slate-500">{item.detail}</span>
+                    </span>
+                    <ArrowRight className="size-4 shrink-0 text-[#f26522]" />
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mt-4 grid grid-cols-1 gap-2 border-t border-slate-100 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    setDemoModalOpen(true)
+                  }}
+                  className="w-full rounded-xl bg-[#f26522] py-3.5 text-center text-sm font-bold text-white transition hover:bg-[#e05312]"
+                >
+                  Book Technical Demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    setAdvisorModalOpen(true)
+                  }}
+                  className="w-full rounded-xl bg-[#07294d] py-3.5 text-center text-sm font-bold text-white transition hover:bg-[#051c36]"
+                >
+                  AI Systems Advisor
+                </button>
+              </div>
+              <p className="mt-4 text-center text-[11px] text-slate-400">Tap outside this panel or press Esc to close.</p>
+            </section>
           </div>
         )}
       </header>

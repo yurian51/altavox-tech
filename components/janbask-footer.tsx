@@ -58,11 +58,11 @@ export function JanBaskFooter() {
           <div>
             <Link href="/" className="inline-block group" aria-label="Altavox Tech Home">
               <Image
-                src="/altavox-logo.svg"
+                src="/capricorn_emblem_clean_black.svg"
                 alt="Altavox Tech Logo"
-                width={170}
-                height={42}
-                className="h-10 w-auto rounded-lg shadow-sm border border-white/10 transition group-hover:opacity-90"
+                width={52}
+                height={60}
+                className="h-12 w-11 object-contain transition group-hover:opacity-90"
                 referrerPolicy="no-referrer"
               />
             </Link>

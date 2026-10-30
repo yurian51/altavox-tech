@@ -16,10 +16,11 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
   icons: {
     icon: [
+      { url: '/favicon.ico', type: 'image/x-icon' },
       { url: '/favicon.svg', type: 'image/svg+xml', sizes: 'any' },
       { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
     ],
-    shortcut: [{ url: appIcon, type: 'image/svg+xml' }],
+    shortcut: [{ url: '/favicon.ico', type: 'image/x-icon' }],
     apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
   },
   openGraph: {

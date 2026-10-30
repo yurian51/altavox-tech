@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, BookOpen, ArrowRight, GraduationCap, Code2, ShieldCheck, Cloud } from 'lucide-react'
+import { Search, BookOpen, ArrowRight, Code2, ShieldCheck, Cloud } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { AltavoxCourseCard } from '@/components/altavox-course-card'
@@ -18,7 +18,7 @@ export default function CoursesPage() {
   const [curriculumModalOpen, setCurriculumModalOpen] = useState(false)
   const [selectedCourseForCurriculum, setSelectedCourseForCurriculum] = useState<CourseItem | null>(null)
 
-  // Filter & sort
+  // Filter courses
   const filtered = coursesData.filter((course) => {
     const matchesCategory = selectedCategory === 'All Courses' || course.category === selectedCategory
     const matchesSearch =

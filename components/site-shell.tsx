@@ -1,7 +1,7 @@
 'use client'
 
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
 
 const navLinks = [
   { label: 'Services', href: '/services' },
@@ -13,11 +13,11 @@ const navLinks = [
 ]
 
 export function SiteHeader() {
-  return <JanBaskHeader />
+  return <AltavoxHeader />
 }
 
 export function SiteFooter() {
-  return <JanBaskFooter />
+  return <AltavoxFooter />
 }
 
 export function PageFrame({
@@ -33,7 +33,7 @@ export function PageFrame({
 }) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
       <main className="flex-1 overflow-x-hidden pb-20">
         {title && (
           <section className="bg-gradient-to-b from-[#07294d] via-[#093563] to-[#051c36] text-white py-12 lg:py-16 border-b border-white/10 relative overflow-hidden">
@@ -57,7 +57,7 @@ export function PageFrame({
         )}
         {children}
       </main>
-      <JanBaskFooter />
+      <AltavoxFooter />
     </div>
   )
 }

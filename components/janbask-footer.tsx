@@ -62,7 +62,7 @@ export function JanBaskFooter() {
                 alt="Altavox Tech Logo"
                 width={52}
                 height={60}
-                className="h-12 w-11 object-contain transition group-hover:opacity-90"
+                className="h-12 w-11 object-contain brightness-0 invert transition group-hover:opacity-90"
                 referrerPolicy="no-referrer"
               />
             </Link>

@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       subtotal += price * quantity
       orderItems.push({id:product.id,title:product.title,format,quantity,price})
     }
-    const orderNumber = `ATB-${Date.now()}-${Math.floor(Math.random()*9000+1000)}`
+    const orderNumber = `ATB-${crypto.randomUUID().replaceAll('-', '').slice(0, 16).toUpperCase()}`
     const deliveryAddress = typeof body.deliveryAddress === 'string' ? body.deliveryAddress.slice(0,1000) : null
     const deliveryRegion = typeof body.deliveryRegion === 'string' ? body.deliveryRegion.slice(0,100) : null
     const phone = typeof body.phone === 'string' ? body.phone.slice(0,40) : null
@@ -44,6 +44,10 @@ export async function POST(request: Request) {
     if (!order) throw new Error('The database did not confirm the order.')
     for (const item of orderItems) {
       await client.query('INSERT INTO book_order_items (order_id,product_id,title_snapshot,format,quantity,unit_price,line_total) VALUES ($1,$2,$3,$4,$5,$6,$7)', [order.id,item.id,item.title,item.format,item.quantity,item.price,item.price*item.quantity])
+      if (item.format === 'print') {
+        const stockUpdate = await client.query('UPDATE book_products SET stock_quantity = stock_quantity - $1, updated_at = now() WHERE id = $2 AND stock_quantity >= $1', [item.quantity,item.id])
+        if (stockUpdate.rowCount !== 1) throw new Error('Printed stock changed while this order was being placed. Please review your cart.')
+      }
     }
     await client.query('COMMIT')
     return NextResponse.json({ order }, { status: 201 })

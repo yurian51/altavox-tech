@@ -2,19 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Check, ExternalLink, Monitor, Smartphone, Tablet } from 'lucide-react'
+import { ArrowUpRight, Check, ExternalLink, Monitor } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { projects } from '@/lib/site-data'
 
-const screenshotViews = [
-  { label: 'Desktop', width: '1440', crop: '1000', icon: Monitor, className: 'lg:col-span-2' },
-  { label: 'Tablet', width: '768', crop: '1024', icon: Tablet, className: '' },
-  { label: 'Mobile', width: '390', crop: '844', icon: Smartphone, className: '' },
-]
-
-const screenshotUrl = (width: string, crop: string, site: string) =>
-  'https://image.thum.io/get/width/' + width + '/crop/' + crop + '/noanimate/' + site
+const screenshotUrl = (site: string) =>
+  'https://image.thum.io/get/width/1440/crop/1000/noanimate/' + site
 
 export default function ProjectsPage() {
   return (
@@ -45,7 +39,7 @@ export default function ProjectsPage() {
               <p className="text-xs font-bold uppercase tracking-[.2em] text-[#f26522]">Our projects</p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Platforms in development</h2>
             </div>
-            <p className="max-w-xl text-sm leading-6 text-slate-500">The previews below are live website captures at desktop, tablet, and mobile viewport widths.</p>
+            <p className="max-w-xl text-sm leading-6 text-slate-500">Each project has one live website screenshot. The layout remains responsive across screen sizes.</p>
           </div>
 
           <div className="space-y-16 sm:space-y-20">
@@ -84,32 +78,26 @@ export default function ProjectsPage() {
 
                   <div className="min-w-0">
                     <div className="mb-3 flex items-center justify-between gap-3">
-                      <p className="text-xs font-bold uppercase tracking-[.18em] text-slate-500">Real website screenshots</p>
-                      <span className="text-[10px] font-mono text-slate-400">LIVE CAPTURE</span>
+                      <p className="text-xs font-bold uppercase tracking-[.18em] text-slate-500">Website screenshot</p>
+                      <span className="inline-flex items-center gap-2 text-[10px] font-mono text-slate-400"><Monitor className="size-3.5" /> SINGLE LIVE CAPTURE</span>
                     </div>
-                    <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2">
-                      {screenshotViews.map((view) => {
-                        const Icon = view.icon
-                        return (
-                          <figure key={view.label} className={view.className + ' min-w-0 overflow-hidden border border-slate-200 bg-slate-100'}>
-                            <figcaption className="flex items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-600">
-                              <Icon className="size-3.5 text-[#f26522]" /> {view.label} <span className="ml-auto font-mono font-normal text-slate-400">{view.width}px</span>
-                            </figcaption>
-                            <div className="relative aspect-[16/10] w-full bg-slate-200 sm:aspect-[16/10]">
-                              <Image
-                                src={screenshotUrl(view.width, view.crop, project.url || '')}
-                                alt={project.name + ' live website at ' + view.label.toLowerCase() + ' viewport width'}
-                                fill
-                                unoptimized
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                                className="object-cover object-top"
-                              />
-                            </div>
-                          </figure>
-                        )
-                      })}
-                    </div>
-                    <p className="mt-2 text-[10px] leading-5 text-slate-400">Captures are generated from the public project URLs. The page layout adapts independently to the visitor’s screen size.</p>
+                    <figure className="min-w-0 overflow-hidden border border-slate-200 bg-slate-100">
+                      <figcaption className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <span>{project.name}</span>
+                        <span className="font-mono font-normal text-slate-400">1440px source</span>
+                      </figcaption>
+                      <div className="relative aspect-[16/10] w-full bg-slate-200">
+                        <Image
+                          src={screenshotUrl(project.url || '')}
+                          alt={project.name + ' live website screenshot'}
+                          fill
+                          unoptimized
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    </figure>
+                    <p className="mt-2 text-[10px] leading-5 text-slate-400">One source capture per project, displayed in a fluid container that scales with the screen.</p>
                   </div>
                 </div>
                 {index < projects.length - 1 && <div className="mt-14 border-b border-slate-200 sm:mt-20" />}

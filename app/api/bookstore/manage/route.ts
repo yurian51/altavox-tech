@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { auth } from '@/lib/auth'
 import { pool } from '@/lib/db'
+import { isAltavoxAdmin } from '@/lib/admin'
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() })
-  const admins = (process.env.BOOKSTORE_ADMIN_EMAILS || '').toLowerCase().split(',').map((value) => value.trim()).filter(Boolean)
-  if (!session?.user?.email || !admins.includes(session.user.email.toLowerCase())) {
+  if (!isAltavoxAdmin(session?.user?.email)) {
     return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 })
   }
   try {

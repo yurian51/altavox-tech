@@ -113,11 +113,11 @@ export function JanBaskHeader() {
           {/* Authentic Altavox Tech Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group py-1" aria-label="Altavox Tech Home">
             <Image
-              src="/altavox-logo.svg"
+              src="/capricorn_emblem_clean_black.svg"
               alt="Altavox Tech"
-              width={160}
-              height={40}
-              className="h-9 sm:h-10 w-auto rounded-lg shadow-xs transition group-hover:opacity-90"
+              width={52}
+              height={60}
+              className="h-12 w-11 object-contain transition group-hover:opacity-90"
               priority
               referrerPolicy="no-referrer"
             />

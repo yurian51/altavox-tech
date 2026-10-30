@@ -10,7 +10,7 @@ export async function GET() {
   if (!session?.user?.id) return NextResponse.json({ error: 'Sign in to view your library.' }, { status: 401 })
   try {
     const result = await pool.query(
-      'SELECT l.id, l.granted_at, p.slug, p.title, p.author, p.cover_image_url, p.digital_file_key FROM book_library l JOIN book_products p ON p.id = l.product_id WHERE l.customer_id = $1 ORDER BY l.granted_at DESC',
+      'SELECT l.id, l.granted_at, p.slug, p.title, p.author, p.cover_image_url FROM book_library l JOIN book_products p ON p.id = l.product_id WHERE l.customer_id = $1 ORDER BY l.granted_at DESC',
       [session.user.id],
     )
     return NextResponse.json({ books: result.rows })

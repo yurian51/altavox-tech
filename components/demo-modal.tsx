@@ -21,7 +21,13 @@ export function DemoModal({
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => { if (isOpen && initialCourse) setSelectedCourse(initialCourse) }, [isOpen, initialCourse])
+  useEffect(() => {
+    if (!isOpen) return
+    setSelectedCourse(initialCourse || coursesData[0].title)
+    setMessage('')
+    setSubmitted(false)
+    setLoading(false)
+  }, [isOpen, initialCourse])
 
   if (!isOpen) return null
 
@@ -34,19 +40,20 @@ export function DemoModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden border border-slate-200">
+      <div role="dialog" aria-modal="true" aria-labelledby="course-enquiry-title" className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden border border-slate-200">
         {/* Header */}
         <div className="bg-[#07294d] px-6 py-5 text-white flex items-center justify-between">
           <div>
             <div className="flex items-center gap-1.5 text-xs font-semibold text-[#f26522]">
               <BookOpen className="size-3.5" /> ALTAVOX ACADEMY
             </div>
-            <h3 className="mt-1 text-xl font-bold">Course enquiry</h3>
+            <h3 id="course-enquiry-title" className="mt-1 text-xl font-bold">Course enquiry</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1.5 text-slate-300 hover:bg-white/10 hover:text-white transition"
+            aria-label="Close course enquiry"
+            className="rounded-full p-1.5 text-slate-300 hover:bg-white/10 hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <X className="size-5" />
           </button>
@@ -82,7 +89,7 @@ export function DemoModal({
               <select
                 value={selectedCourse}
                 onChange={(e) => setSelectedCourse(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-[#f26522] focus:bg-white transition"
+                className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus-visible:ring-2 focus-visible:ring-[#f26522] focus-visible:ring-offset-1 focus:bg-white transition"
               >
                 {coursesData.map((c) => (
                   <option key={c.id} value={c.title}>
@@ -102,6 +109,7 @@ export function DemoModal({
                   <User className="absolute left-3 top-3 size-4 text-slate-400" />
                   <input
                     required
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. John Doe"
@@ -118,6 +126,7 @@ export function DemoModal({
                   <Mail className="absolute left-3 top-3 size-4 text-slate-400" />
                   <input
                     required
+                    autoComplete="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -136,6 +145,8 @@ export function DemoModal({
                 <Phone className="absolute left-3 top-3 size-4 text-slate-400" />
                 <input
                   required
+                  type="tel"
+                  autoComplete="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+255 750 227 073"

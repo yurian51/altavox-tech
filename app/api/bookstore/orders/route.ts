@@ -28,17 +28,26 @@ export async function POST(request: Request) {
       subtotal += price * quantity
       orderItems.push({id:product.id,title:product.title,format,quantity,price})
     }
-    const orderNumber = `ATB-${Date.now()}-${Math.floor(Math.random()*9000+1000)}`
+    const orderNumber = `ATB-${crypto.randomUUID().replaceAll('-', '').slice(0, 16).toUpperCase()}`
     const deliveryAddress = typeof body.deliveryAddress === 'string' ? body.deliveryAddress.slice(0,1000) : null
     const deliveryRegion = typeof body.deliveryRegion === 'string' ? body.deliveryRegion.slice(0,100) : null
     const phone = typeof body.phone === 'string' ? body.phone.slice(0,40) : null
-    const deliveryFee = orderItems.some(item => item.format === 'print') ? Math.max(0, Number(body.deliveryFee) || 0) : 0
-    if (orderItems.some(item => item.format === 'print') && !deliveryAddress) throw new Error('A delivery address is required for printed books.')
+    const hasPrintedItems = orderItems.some(item => item.format === 'print')
+    const configuredDeliveryFee = process.env.BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS
+    if (hasPrintedItems && (!configuredDeliveryFee || !/^\d+$/.test(configuredDeliveryFee))) {
+      throw new Error('Printed-book delivery is not configured yet. Please contact the bookstore.')
+    }
+    const deliveryFee = hasPrintedItems ? Number(configuredDeliveryFee) : 0
+    if (hasPrintedItems && !deliveryAddress) throw new Error('A delivery address is required for printed books.')
     const created = await client.query("INSERT INTO book_orders (order_number,customer_id,customer_name,customer_email,customer_phone,delivery_address,delivery_region,subtotal,delivery_fee,total,currency) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'TZS') RETURNING id,order_number,total,payment_status,order_status", [orderNumber,session.user.id,session.user.name || session.user.email,session.user.email,phone,deliveryAddress,deliveryRegion,subtotal,deliveryFee,subtotal+deliveryFee])
     const order = created.rows[0]
     if (!order) throw new Error('The database did not confirm the order.')
     for (const item of orderItems) {
       await client.query('INSERT INTO book_order_items (order_id,product_id,title_snapshot,format,quantity,unit_price,line_total) VALUES ($1,$2,$3,$4,$5,$6,$7)', [order.id,item.id,item.title,item.format,item.quantity,item.price,item.price*item.quantity])
+      if (item.format === 'print') {
+        const stockUpdate = await client.query('UPDATE book_products SET stock_quantity = stock_quantity - $1, updated_at = now() WHERE id = $2 AND stock_quantity >= $1', [item.quantity,item.id])
+        if (stockUpdate.rowCount !== 1) throw new Error('Printed stock changed while this order was being placed. Please review your cart.')
+      }
     }
     await client.query('COMMIT')
     return NextResponse.json({ order }, { status: 201 })
@@ -47,5 +56,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Could not create order.' }, { status: 400 })
   } finally {
     client?.release()
+  }
+}
+
+export async function GET(request: Request) {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session?.user?.id) return NextResponse.json({ error: 'Sign in to view your order.' }, { status: 401 })
+  const orderId = new URL(request.url).searchParams.get('id')
+  if (!orderId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(orderId)) return NextResponse.json({ error: 'Valid order ID required.' }, { status: 400 })
+  try {
+    const result = await pool.query('SELECT id,order_number,total,currency,payment_status,order_status,created_at FROM book_orders WHERE id=$1 AND customer_id=$2 LIMIT 1', [orderId,session.user.id])
+    if (!result.rows[0]) return NextResponse.json({ error: 'Order not found.' }, { status: 404 })
+    return NextResponse.json({ order: result.rows[0] })
+  } catch {
+    return NextResponse.json({ error: 'Order status is temporarily unavailable.' }, { status: 503 })
   }
 }

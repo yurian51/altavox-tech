@@ -7,6 +7,11 @@ const authSecret = process.env.BETTER_AUTH_SECRET
 if (process.env.NODE_ENV === 'production' && !authSecret) {
   throw new Error('BETTER_AUTH_SECRET must be configured before starting Altavox in production.')
 }
+const authSecret = process.env.BETTER_AUTH_SECRET
+
+if (process.env.NODE_ENV === 'production' && !authSecret) {
+  throw new Error('BETTER_AUTH_SECRET must be configured before starting Altavox in production.')
+}
 
 export const auth = betterAuth({
   database: pool,
@@ -18,6 +23,7 @@ export const auth = betterAuth({
     ...(process.env.NODE_ENV === 'production' ? [ ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []), ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : []) ] : []),
   ],
   session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },
+  advanced: { defaultCookieAttributes: { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' } },
   advanced: {
     defaultCookieAttributes: {
       httpOnly: true,

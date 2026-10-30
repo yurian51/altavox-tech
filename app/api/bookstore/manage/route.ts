@@ -3,6 +3,7 @@ import { headers } from 'next/headers'
 import { auth } from '@/lib/auth'
 import { pool } from '@/lib/db'
 import { isAltavoxAdmin } from '@/lib/admin'
+import { isAltavoxAdmin } from '@/lib/admin'
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() })

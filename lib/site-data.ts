@@ -20,113 +20,39 @@ export interface ProjectItem {
 
 export const projects: ProjectItem[] = [
   {
-    slug: 'sammena',
-    name: 'Sammena Pre & Primary School',
-    category: 'Education technology',
-    client: 'Sammena Educational Complex',
-    summary: 'A school website and School Information Management System (SIMS) for clearer public information, student records, fee tracking, and academic workflows.',
-    description: 'Built to replace paper-heavy school administration with a unified web portal. Features student enrollment pipelines, automated fee receipt generation, grading records, parent announcements, and responsive public portals.',
-    status: 'In development',
-    url: 'https://sammena.altavox.space',
-    tags: ['Web systems', 'SIMS', 'Content workflows', 'PostgreSQL', 'Role-Based Access'],
-    metrics: [
-      { label: 'Administrative time saved', value: '65%' },
-      { label: 'Student records digitized', value: '850+' },
-      { label: 'Parent portal availability', value: '99.9%' }
-    ],
-    architecture: {
-      frontend: 'Next.js 15, Tailwind CSS, Base UI',
-      backend: 'Node.js, TypeScript API routes',
-      database: 'PostgreSQL, Drizzle ORM',
-      infrastructure: 'Altavox Container Cloud, Cloudflare Edge'
-    },
-    keyFeatures: [
-      'Interactive student profile and academic history registry',
-      'Tuition fee invoicing and SMS/WhatsApp payment notification alerts',
-      'Teacher gradebook entry with report card generator',
-      'Public admissions portal with mobile-first applicant forms'
-    ]
-  },
-  {
     slug: 'jaslyn-net',
     name: 'Jaslyn Net',
     category: 'ISP operations & connectivity',
-    client: 'Jaslyn Internet Services',
-    summary: 'A carrier-grade connectivity operations platform bringing together subscriber management, billing workflows, MikroTik network integrations, and live operational visibility.',
-    description: 'Developed for local and regional Internet Service Providers to automate subscriber provisioning, bandwidth bandwidth profiles, payment gateway reconciliation (M-Pesa, Airtel Money), and real-time network health surveillance.',
+    client: 'Jaslyn Net',
+    summary: 'A unified ISP operations and billing platform designed to connect subscriber management, payments, AAA services, and network automation.',
+    description: 'Jaslyn Net brings the operational lifecycle together: payment reconciliation, service identity, network provisioning, session accounting, and enforcement. The platform is being developed for ISP workflows and integrations used across East Africa.',
     status: 'In development',
     url: 'https://jaslyn-net.altavox.space',
-    tags: ['ISP operations', 'Billing', 'Network automation', 'MikroTik API', 'Telemetry'],
-    metrics: [
-      { label: 'Active subscriber sessions', value: '2,400+' },
-      { label: 'Automated billing rate', value: '98.4%' },
-      { label: 'Incident resolution speed', value: '3x faster' }
-    ],
-    architecture: {
-      frontend: 'Next.js App Router, Lucide icons, Dark cockpit UI',
-      backend: 'TypeScript Node.js worker & RouterOS API connector',
-      database: 'PostgreSQL with connection pooling, Redis caching',
-      infrastructure: 'Dedicated Linux runtime, Automated failover routing'
-    },
+    tags: ['ISP operations', 'Subscriber management', 'Billing', 'AAA', 'Network automation'],
     keyFeatures: [
-      'Real-time MikroTik RouterOS queue and PPPoE credential provisioning',
-      'Automated hotspot and monthly billing with instant payment webhook integration',
-      'Subscriber bandwidth usage tracker and fair-use policy enforcement',
-      'NOC operations dashboard with real-time ping reachability'
+      'Subscriber lifecycle and service-plan management',
+      'Billing and mobile-money payment integration workflows',
+      'RADIUS/AAA session accounting and access enforcement',
+      'Network automation integrations for supported router platforms',
+      'Operational visibility for support and NOC workflows'
     ]
   },
   {
-    slug: 'netbill-noc',
-    name: 'NetBill-NOC',
-    category: 'Network operations & billing',
-    client: 'Regional Telecom Operators',
-    summary: 'A unified network operations center and automated telecom billing system designed for high-availability multi-tenant deployments.',
-    description: 'NetBill-NOC is tailored for infrastructure operators requiring granular RADIUS accounting, SNMP network topology discovery, alerting, and automated revenue collection across multi-site nodes.',
+    slug: 'sammena',
+    name: 'Sammena Pre & Primary School',
+    category: 'Education technology',
+    client: 'Sammena Pre & Primary School',
+    summary: 'A school website and School Information Management System (SIMS) initiative for public information and connected school administration.',
+    description: 'The project brings the school website, admissions information, announcements, and planned administration workflows into a consistent digital platform. Student and parent-facing functions are designed around secure access and a shared source of school data.',
     status: 'In development',
-    tags: ['NOC', 'Monitoring', 'RADIUS', 'SNMP', 'Billing'],
-    metrics: [
-      { label: 'Monitored network devices', value: '180+' },
-      { label: 'Telemetry polling interval', value: '10 sec' },
-      { label: 'Automated invoice accuracy', value: '99.99%' }
-    ],
-    architecture: {
-      frontend: 'React, Tailwind CSS, SVG topology visualizer',
-      backend: 'High-throughput Go & Node.js worker pipeline',
-      database: 'Time-series telemetry storage + PostgreSQL',
-      infrastructure: 'Bare-metal Linux cluster with wireguard mesh'
-    },
+    url: 'https://sammena.altavox.space',
+    tags: ['School website', 'SIMS', 'Admissions', 'School communications', 'Role-based access'],
     keyFeatures: [
-      'Visual network topology map with real-time link capacity utilization',
-      'Automated RADIUS AAA authentication & session quota accounting',
-      'Multi-gateway payment collection and overdue account auto-isolation',
-      'Incident escalation engine with Telegram/WhatsApp alerts'
-    ]
-  },
-  {
-    slug: 'nexora-cloud',
-    name: 'Nexora Cloud',
-    category: 'Cloud technology',
-    client: 'Altavox Internal Infrastructure',
-    summary: 'A cloud-focused technology initiative exploring dependable, self-hosted deployment environments, container orchestration, and isolated sandboxes.',
-    description: 'Nexora Cloud enables rapid rollout of web applications, workers, and databases on private cloud infrastructure with automated SSL termination, preview environments, and rollbacks.',
-    status: 'Exploration',
-    tags: ['Cloud', 'Infrastructure', 'Docker', 'Zero-downtime', 'CI/CD'],
-    metrics: [
-      { label: 'Deploy pipeline speed', value: '<45 sec' },
-      { label: 'Rollback execution', value: 'Instant' },
-      { label: 'SSL certificate issuance', value: 'Automated' }
-    ],
-    architecture: {
-      frontend: 'Next.js 16 Web Console',
-      backend: 'Docker Engine API & Reverse Proxy controller',
-      database: 'PostgreSQL state storage',
-      infrastructure: 'Multi-region VPS nodes with TLS reverse proxy'
-    },
-    keyFeatures: [
-      'Git push-to-deploy pipeline with automated build isolation',
-      'Environment variable encryption and vault credential storage',
-      'Instant rollback checkpoints for safe zero-downtime releases',
-      'Resource metric graphs (CPU, RAM, Bandwidth) per service'
+      'Public school information and admissions pages',
+      'Central publishing workflow for news, notices, and calendar items',
+      'SIMS direction for student and parent services',
+      'Role-based administration and controlled publishing',
+      'Responsive access for parents, staff, and school administrators'
     ]
   }
 ]

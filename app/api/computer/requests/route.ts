@@ -67,13 +67,11 @@ export async function POST(request: Request) {
     preferredDate = rawDate
   }
 
-  const trackingCode = \`AVX-\${randomBytes(6).toString('hex').toUpperCase()}\`
+  const trackingCode = 'AVX-' + randomBytes(6).toString('hex').toUpperCase()
 
   try {
     await pool.query(
-      \`INSERT INTO computer_service_requests
-        (tracking_code, customer_name, customer_email, customer_phone, service_type, device_details, issue_description, preferred_date)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)\`,
+      'INSERT INTO computer_service_requests (tracking_code, customer_name, customer_email, customer_phone, service_type, device_details, issue_description, preferred_date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
       [trackingCode, body.name.trim(), body.email.trim().toLowerCase(), body.phone.trim(), body.serviceType.trim(), body.deviceDetails.trim(), body.issueDescription.trim(), preferredDate],
     )
     return NextResponse.json({ ok: true, trackingCode, message: 'Your service request has been recorded.' }, { status: 201, headers: { 'Cache-Control': 'no-store' } })
@@ -96,10 +94,7 @@ export async function GET(request: Request) {
 
   try {
     const result = await pool.query(
-      \`SELECT tracking_code, service_type, device_details, status, quote_amount, quote_currency, created_at, updated_at
-       FROM computer_service_requests
-       WHERE tracking_code = $1 AND lower(customer_email) = $2
-       LIMIT 1\`,
+      'SELECT tracking_code, service_type, device_details, status, quote_amount, quote_currency, created_at, updated_at FROM computer_service_requests WHERE tracking_code = $1 AND lower(customer_email) = $2 LIMIT 1',
       [code, email],
     )
 

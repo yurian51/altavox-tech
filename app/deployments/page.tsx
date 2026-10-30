@@ -30,15 +30,15 @@ export default function DeploymentsPage() {
 
   function handleDeploy(e: React.FormEvent) {
     e.preventDefault()
-    const name = projectName.trim() || 'New System Deployment'
-    setNotice(`Deployment plan generated for "${name}" via ${selectedChannel}. Runtime container sandbox prepared on Altavox Cloud.`)
+    const name = projectName.trim() || 'New system'
+    setNotice(`No deployment was started. Automated build, runtime provisioning, and release execution are not connected here yet. Your ${name} request via ${selectedChannel} is ready to discuss with the engineering team.`)
   }
 
   return (
     <PageFrame
       eyebrow="Altavox Launchpad"
       title="Deploy Systems, Bots, and Infrastructure."
-      intro="A practical deployment workspace for taking an operational product from repository to a verified production URL."
+      intro="Deployment operations information and a project intake point. Automated deployment execution is not enabled in this workspace yet."
     >
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-orange-200 bg-orange-50/70 p-6 sm:flex-row sm:items-center sm:justify-between shadow-xs">
@@ -48,7 +48,7 @@ export default function DeploymentsPage() {
             </p>
             <h2 className="mt-1 text-xl font-bold text-[#07294d]">Meet Altavox Computer Console</h2>
             <p className="mt-1 text-xs sm:text-sm text-slate-600">
-              Interactive CLI, live topology inspection, and deployment sandboxes in one unified desk.
+              A separate technical console for available diagnostics. Deployment execution remains disabled until its runner is connected.
             </p>
           </div>
           <Link
@@ -139,7 +139,7 @@ export default function DeploymentsPage() {
                   type="submit"
                   className="inline-flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3 text-xs font-bold text-white transition hover:bg-[#d95316] shadow-sm"
                 >
-                  Prepare Release Plan <ArrowUpRight className="size-4" />
+                  Review Deployment Readiness <ArrowUpRight className="size-4" />
                 </button>
               </div>
 
@@ -159,15 +159,15 @@ export default function DeploymentsPage() {
               </div>
               <h3 className="mt-5 text-xl font-bold text-[#07294d]">Controlled Release Gates</h3>
               <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
-                Every release through Altavox includes automated verification checkpoints before traffic touches production.
+                A production release workflow will require verified build checks, secret validation, health checks, and rollback controls before it can be enabled.
               </p>
 
               <div className="mt-6 space-y-3">
                 {[
-                  'Automated isolated preview URL',
+                  'Isolated preview environment (not connected)',
                   'Environment secrets verification',
                   'Health & ping reachability checks',
-                  'Instant rollback snapshot preservation'
+                  'Rollback procedure (not connected)'
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
                     <CheckCircle2 className="size-4 text-[#f26522] shrink-0" />

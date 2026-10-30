@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 const configured = Boolean(process.env.DATABASE_URL || process.env.DATABASE_URL_3 || process.env.POSTGRES_URL || process.env.POSTGRES_URL_3)
 const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/
-const statuses: Record<string, string> = {
+const allowedServices = new Set(['PC Maintenance', 'Windows Installation & Activation', 'Software Centre', 'Security Centre', 'Hardware Support', 'Remote Support', 'Service Booking', 'Repair Tracking', 'IT Knowledge Base', 'Quotations & Invoices'])\nconst statuses: Record<string, string> = {
   received: 'Request received',
   reviewing: 'Under review',
   quoted: 'Quotation ready',
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null)
   const fields = ['name', 'email', 'phone', 'serviceType', 'deviceDetails', 'issueDescription'] as const
-  if (!body || !fields.every((field) => typeof body[field] === 'string' && body[field].trim().length > 0 && body[field].length <= 2000) || !emailPattern.test(body.email.trim())) {
+  if (!fields.every((field) => typeof body[field] === 'string' && body[field].trim().length > 0 && body[field].length <= (field === 'issueDescription' ? 2000 : 300)) || !emailPattern.test(body.email.trim()) || !allowedServices.has(body.serviceType.trim())) {
     return NextResponse.json({ error: 'Complete all required fields with a valid email address.' }, { status: 400 })
   }
 
@@ -51,7 +51,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url)
   const code = (url.searchParams.get('code') || '').trim().toUpperCase()
   const email = (url.searchParams.get('email') || '').trim().toLowerCase()
-  if (!/^AVX-[A-F0-9]{8}$/.test(code) || !emailPattern.test(email)) {
+  if (!/^AVX-[A-F0-9]{12}$/.test(code) || !emailPattern.test(email)) {
     return NextResponse.json({ error: 'Enter a valid tracking code and the email used for the booking.' }, { status: 400 })
   }
 
@@ -70,7 +70,7 @@ export async function GET(request: Request) {
         trackingCode: item.tracking_code,
         serviceType: item.service_type,
         device: item.device_details,
-        status: statuses[item.status] || 'Status unavailable',
+        statusCode: item.status,\n        status: statuses[item.status] || 'Status unavailable',
         quote: item.quote_amount == null ? null : { amount: item.quote_amount, currency: item.quote_currency },
         createdAt: item.created_at,
         updatedAt: item.updated_at,

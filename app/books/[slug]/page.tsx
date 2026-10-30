@@ -8,7 +8,6 @@ import { ArrowLeft, BookOpen, ShoppingBag, LockKeyhole } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { addBookToCart } from '@/lib/bookstore-cart'
-import { useState } from 'react'
 
 type Product = { id:string; slug:string; title:string; author:string; description:string; cover_image_url:string|null; format:'ebook'|'print'|'both'; category:string|null; language:string; digital_price:string|null; print_price:string|null; stock_quantity:number }
 const money = (value:string|null) => value == null ? 'Price not set' : new Intl.NumberFormat('en-TZ',{style:'currency',currency:'TZS',maximumFractionDigits:0}).format(Number(value))

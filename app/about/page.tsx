@@ -23,13 +23,6 @@ import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 
 export default function AboutPage() {
-  const milestones = [
-    { year: '2021', title: 'Founding & Operations Focus', desc: 'Altavox Tech was founded with a singular conviction: technology must serve as a working part of the organization, not decoration.' },
-    { year: '2022', title: 'Jaslyn Net ISP Architecture', desc: 'Engineered high-performance MikroTik RouterOS API connectors and automated M-Pesa mobile money billing for regional WISPs.' },
-    { year: '2023', title: 'Sammena School SIMS', desc: 'Digitized over 850+ academic student histories, tuition invoicing, and automated report card generation pipelines.' },
-    { year: '2024', title: 'Nexora Cloud & Academy', desc: 'Introduced self-hosted container orchestration engines and expanded technical master tracks in cloud and software architecture.' }
-  ]
-
   const principles = [
     {
       num: '01',
@@ -66,28 +59,6 @@ export default function AboutPage() {
               <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
                 Altavox Tech is a technology company focused on software engineering, digital product development, infrastructure, and operational clarity.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Operational Metrics Strip */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-              <p className="text-3xl font-black text-[#f26522]">2,400+</p>
-              <p className="mt-1 text-xs font-semibold text-slate-600">Active ISP Subscribers</p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-              <p className="text-3xl font-black text-[#07294d]">850+</p>
-              <p className="mt-1 text-xs font-semibold text-slate-600">School Records Digitized</p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-              <p className="text-3xl font-black text-emerald-600">98.4%</p>
-              <p className="mt-1 text-xs font-semibold text-slate-600">Automated Billing Rate</p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-              <p className="text-3xl font-black text-blue-600">99.9%</p>
-              <p className="mt-1 text-xs font-semibold text-slate-600">Production SLA Uptime</p>
             </div>
           </div>
         </section>
@@ -168,22 +139,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Milestones */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20">
-          <div className="text-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#f26522]">Timeline</span>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#07294d]">Engineering Evolution</h2>
-          </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {milestones.map((m, i) => (
-              <div key={i} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-                <span className="text-2xl font-black text-[#f26522]">{m.year}</span>
-                <h3 className="mt-2 text-sm font-bold text-[#07294d]">{m.title}</h3>
-                <p className="mt-2 text-xs text-slate-600 leading-relaxed">{m.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       </main>
 
       <AltavoxFooter />

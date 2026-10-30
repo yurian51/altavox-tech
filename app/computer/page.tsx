@@ -5,7 +5,7 @@ import {
   Activity, ArrowRight, BadgeCheck, BookOpen, CalendarClock, CheckCircle2,
   ChevronRight, CircleDot, ClipboardCheck, CloudDownload, Cpu, ExternalLink,
   FileText, HardDrive, Headphones, Laptop, LockKeyhole, MonitorCog, Network,
-  Search, ShieldCheck, Wrench, Zap,
+  Search, ShieldCheck, Wrench,
 } from 'lucide-react'
 import { PageFrame } from '@/components/site-shell'
 

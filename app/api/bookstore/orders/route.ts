@@ -32,8 +32,13 @@ export async function POST(request: Request) {
     const deliveryAddress = typeof body.deliveryAddress === 'string' ? body.deliveryAddress.slice(0,1000) : null
     const deliveryRegion = typeof body.deliveryRegion === 'string' ? body.deliveryRegion.slice(0,100) : null
     const phone = typeof body.phone === 'string' ? body.phone.slice(0,40) : null
-    const deliveryFee = orderItems.some(item => item.format === 'print') ? Math.max(0, Number(body.deliveryFee) || 0) : 0
-    if (orderItems.some(item => item.format === 'print') && !deliveryAddress) throw new Error('A delivery address is required for printed books.')
+    const hasPrintedItems = orderItems.some(item => item.format === 'print')
+    const configuredDeliveryFee = process.env.BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS
+    if (hasPrintedItems && (!configuredDeliveryFee || !/^\\d+(?:\\.\\d{1,2})?$/.test(configuredDeliveryFee))) {
+      throw new Error('Printed-book delivery is not configured yet. Please contact the bookstore.')
+    }
+    const deliveryFee = hasPrintedItems ? Number(configuredDeliveryFee) : 0
+    if (hasPrintedItems && !deliveryAddress) throw new Error('A delivery address is required for printed books.')
     const created = await client.query("INSERT INTO book_orders (order_number,customer_id,customer_name,customer_email,customer_phone,delivery_address,delivery_region,subtotal,delivery_fee,total,currency) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'TZS') RETURNING id,order_number,total,payment_status,order_status", [orderNumber,session.user.id,session.user.name || session.user.email,session.user.email,phone,deliveryAddress,deliveryRegion,subtotal,deliveryFee,subtotal+deliveryFee])
     const order = created.rows[0]
     if (!order) throw new Error('The database did not confirm the order.')

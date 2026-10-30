@@ -23,7 +23,6 @@ export const auth = betterAuth({
     ...(process.env.NODE_ENV === 'production' ? [ ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []), ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : []) ] : []),
   ],
   session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },
-  advanced: { defaultCookieAttributes: { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' } },
   advanced: {
     defaultCookieAttributes: {
       httpOnly: true,
@@ -31,6 +30,4 @@ export const auth = betterAuth({
       secure: process.env.NODE_ENV === 'production',
     },
   },
-
 })
-

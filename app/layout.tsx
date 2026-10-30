@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const brandEmblem = '/Black%20Ibex%20Horns%20Emblem.png'
-const appIcon = '/Photorealistic%20Metallic%20Goat%20Emblem.png'
+const brandEmblem = '/capricorn_emblem_clean_black.svg'
+const appIcon = '/capricorn_emblem_clean_black.svg'
 
 export const metadata: Metadata = {
   title: {
@@ -15,11 +15,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
-      { url: appIcon, type: 'image/png' },
-      { url: brandEmblem, type: 'image/png' },
+      { url: brandEmblem, type: 'image/svg+xml', sizes: 'any' },
     ],
     shortcut: [appIcon],
-    apple: [{ url: appIcon, sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: appIcon, type: 'image/svg+xml' }],
   },
   openGraph: {
     type: 'website',

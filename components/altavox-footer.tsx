@@ -107,7 +107,7 @@ export function AltavoxFooter() {
               </div>
               <div className="flex items-start gap-2 pt-1 text-slate-400">
                 <MapPin className="size-3.5 text-[#f26522] shrink-0 mt-0.5" />
-                <span>East Africa Operations & Global Desk</span>
+                <span><span className="block text-slate-300">Nduruma Road, Unguuni</span><span className="block">23219 Nduruma, Arusha, Tanzania</span><a href="https://www.google.com/maps/search/?api=1&query=Nduruma+Road%2C+Unguuni%2C+Nduruma%2C+Arusha%2C+Tanzania" target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-[#f26522] hover:underline">View on Google Maps</a></span>
               </div>
             </div>
           </div>

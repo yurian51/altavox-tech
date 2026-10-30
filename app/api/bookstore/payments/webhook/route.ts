@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     const paymentResult = await client.query('SELECT id,amount,status FROM book_payments WHERE order_id=$1 AND provider_reference=$2 FOR UPDATE', [order.id,event.reference])
     const payment = paymentResult.rows[0]
     if (!payment) { await client.query('ROLLBACK'); return NextResponse.json({ received: true, matched: false }) }
-    if (payment.status === 'confirmed' || payment.status === 'refunded') { await client.query('COMMIT'); return NextResponse.json({ received: true, duplicate: true }) }
+    if (payment.status === 'refunded' || (payment.status === 'confirmed' && event.event !== 'payment.refunded')) { await client.query('COMMIT'); return NextResponse.json({ received: true, duplicate: true }) }
     if (event.event === 'payment.confirmed' && ['SUCCESSFUL','PAID'].includes(String(event.status).toUpperCase())) {
       const paidAmount = Number(event.amount)
       if (!Number.isSafeInteger(paidAmount) || paidAmount !== Number(order.total) || paidAmount !== Number(payment.amount)) {

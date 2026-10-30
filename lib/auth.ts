@@ -7,11 +7,6 @@ const authSecret = process.env.BETTER_AUTH_SECRET
 if (process.env.NODE_ENV === 'production' && !authSecret) {
   throw new Error('BETTER_AUTH_SECRET must be configured before starting Altavox in production.')
 }
-const authSecret = process.env.BETTER_AUTH_SECRET
-
-if (process.env.NODE_ENV === 'production' && !authSecret) {
-  throw new Error('BETTER_AUTH_SECRET must be configured before starting Altavox in production.')
-}
 
 export const auth = betterAuth({
   database: pool,

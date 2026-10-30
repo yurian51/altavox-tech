@@ -18,15 +18,14 @@
 5. Apply all SQL migrations in order and verify schema compatibility.
 6. Run production build, type checks and smoke tests after configuration.
 
-## Bookstore launch blockers requiring external services
+## Remaining launch blockers
 
-- Private object storage and authenticated, expiring PDF/EPUB download links.
-- Merchant-approved payment integrations for each selected mobile-money/bank channel.
-- Signed webhook verification, idempotent event processing, reconciliation and refund handling.
-- Checkout UI, persistent customer cart, order history, receipts and notifications.
-- Configure BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS before accepting printed orders, then implement fulfilment workflow and stock reconciliation. The order API now ignores client-supplied delivery fees and requires this server-side setting for printed items.
+- Private object storage and authenticated, expiring PDF/EPUB download links; digital books cannot be published until their private file key is present.
+- Configure `BOOKSTORE_DEFAULT_DELIVERY_FEE_TZS` before accepting printed orders. Printed inventory is reserved transactionally and can be released by cancelling an unpaid order; an automated expiry job is not yet configured.
+- Order receipts, customer notifications, automated reconciliation for missed provider callbacks and complete refund operations.
+- Apply all migrations, verify bank-account reference handling with the merchant provider, and complete end-to-end tests.
 
-Never mark an order paid based on a browser redirect, screenshot or customer-supplied reference. Only verified server-to-server provider notifications or provider API status checks may grant paid status or digital library access.
+Never mark an order paid based on a browser redirect, screenshot or customer-supplied reference. Only a verified signed server-to-server provider notification may grant paid status or digital library access.
 
 ## Validation
 
@@ -40,7 +39,7 @@ Repository edits do not execute package installation, type-checking, production 
 - Book administrators can publish a reviewed book draft through the protected management API.
 - Book order administration can inspect orders and cancel unpaid pending/failed orders, returning reserved printed stock.
 - Printed inventory is decremented inside the order transaction and checked again before commit to prevent overselling.
-- MALIPOPAY server-side collection initiation supports the documented Tanzania provider codes for M-Pesa (VODACOM), Airtel Money (AIRTEL), Mixx by Yas (TIGO), and CRDB/NMB bank account collections. The API token remains server-side.
+- MALIPOPAY server-side collection initiation supports provider codes for M-Pesa (VODACOM), Airtel Money (AIRTEL), Mixx by Yas (TIGO), and CRDB/NMB account collections. The API token remains server-side. Confirm exact CRDB/NMB account-reference handling with the provider before enabling bank options.
 - The payment webhook verifies the raw request body using the per-webhook HMAC secret and constant-time comparison. Only an exact, verified successful TZS amount marks an order paid and grants digital library entries.
 - Payment provider references have a unique database index for idempotent processing. Apply `20261031_book_payments_unique.sql` after the bookstore schema migration.
 

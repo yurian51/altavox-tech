@@ -65,10 +65,10 @@ export default function CoursesPage() {
             <div className="mt-4 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold">
-                  Explore Live IT Certification Courses
+                  Professional IT Courses & Certification Preparation
                 </h1>
                 <p className="mt-2 text-sm text-slate-300 max-w-2xl">
-                  Real-time interactive training with industry experts. Prepare for top certifications, master real capstone projects, and accelerate your tech career.
+                  Build practical skills through structured courses in cloud computing, cybersecurity, and CRM administration. Each course includes a clear syllabus, guided labs, and practical assignments.
                 </p>
               </div>
 
@@ -137,8 +137,8 @@ export default function CoursesPage() {
 
           {/* Results count indicator */}
           <div className="mt-6 flex items-center justify-between text-xs text-slate-500">
-            <span>Showing <strong className="text-slate-800">{sortedCourses.length}</strong> certification courses</span>
-            <span>Early-Bird Scholarship applied (Coupon: <strong>ALTAVOX40</strong>)</span>
+            <span>Showing <strong className="text-slate-800">{sortedCourses.length}</strong> professional courses</span>
+            <span>Explore course details, syllabus and available training options</span>
           </div>
 
           {/* Courses Grid */}

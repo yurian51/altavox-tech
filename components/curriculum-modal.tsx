@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { BookOpen, CheckCircle2, Download, FileText, Sparkles, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { BookOpen, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { CourseItem } from '@/lib/courses-data'
 
 export function CurriculumModal({
@@ -13,20 +13,10 @@ export function CurriculumModal({
   onClose: () => void
   course: CourseItem | null
 }) {
-  const [downloading, setDownloading] = useState(false)
-  const [downloaded, setDownloaded] = useState(false)
   const [expandedIndex, setExpandedIndex] = useState<number>(0)
 
   if (!isOpen || !course) return null
 
-  function handleDownload() {
-    setDownloading(true)
-    setTimeout(() => {
-      setDownloading(false)
-      setDownloaded(true)
-      setTimeout(() => setDownloaded(false), 3500)
-    }, 800)
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm animate-in fade-in duration-200">
@@ -48,23 +38,10 @@ export function CurriculumModal({
           </button>
         </div>
 
-        {/* Action strip */}
-        <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-3 shrink-0 text-xs">
-          <div className="flex items-center gap-4 text-slate-600">
-            <span>⏱ <strong>{course.duration}</strong></span>
-            <span>🎓 <strong>{course.liveHours}</strong></span>
-            <span>⭐ <strong>{course.rating} / 5.0</strong></span>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleDownload}
-            disabled={downloading}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#f26522] px-3.5 py-1.5 font-bold text-white hover:bg-[#e05312] transition disabled:opacity-50"
-          >
-            <Download className="size-3.5" />
-            {downloading ? 'Preparing PDF…' : downloaded ? '✓ Downloaded!' : 'Download Syllabus PDF'}
-          </button>
+        <div className="flex flex-wrap items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-xs text-slate-600">
+          <span>Duration: <strong>{course.duration}</strong></span>
+          <span>Training hours: <strong>{course.liveHours}</strong></span>
+          <span className="text-slate-500">Course outline</span>
         </div>
 
         {/* Modules Accordion */}

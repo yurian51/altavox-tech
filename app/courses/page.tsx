@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Search, Filter, BookOpen, Star, Clock3, Calendar, ArrowRight, Sparkles } from 'lucide-react'
-import { JanBaskHeader } from '@/components/janbask-header'
-import { JanBaskFooter } from '@/components/janbask-footer'
-import { JanBaskCourseCard } from '@/components/janbask-course-card'
+import { AltavoxHeader } from '@/components/altavox-header'
+import { AltavoxFooter } from '@/components/altavox-footer'
+import { AltavoxCourseCard } from '@/components/altavox-course-card'
 import { DemoModal } from '@/components/demo-modal'
 import { CurriculumModal } from '@/components/curriculum-modal'
 import { CareerAdvisorModal } from '@/components/career-advisor-modal'
@@ -50,7 +50,7 @@ export default function CoursesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      <JanBaskHeader />
+      <AltavoxHeader />
 
       <main className="flex-1 pb-24">
         {/* Breadcrumb & Hero Header */}
@@ -138,13 +138,13 @@ export default function CoursesPage() {
           {/* Results count indicator */}
           <div className="mt-6 flex items-center justify-between text-xs text-slate-500">
             <span>Showing <strong className="text-slate-800">{sortedCourses.length}</strong> certification courses</span>
-            <span>Early-Bird Scholarship applied (Coupon: <strong>JANBASK40</strong>)</span>
+            <span>Early-Bird Scholarship applied (Coupon: <strong>ALTAVOX40</strong>)</span>
           </div>
 
           {/* Courses Grid */}
           <div className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {sortedCourses.map((course) => (
-              <JanBaskCourseCard
+              <AltavoxCourseCard
                 key={course.id}
                 course={course}
                 onViewCurriculum={handleOpenCurriculum}
@@ -172,7 +172,7 @@ export default function CoursesPage() {
         </section>
       </main>
 
-      <JanBaskFooter />
+      <AltavoxFooter />
 
       {/* Modals */}
       <DemoModal

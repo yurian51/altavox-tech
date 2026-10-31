@@ -29,3 +29,13 @@ Set `ADMIN_EMAILS` in the production environment to a comma-separated list of ex
 5. Test database migration, order rollback, duplicate payment callbacks, stock concurrency and access control.
 
 No payment is treated as successful based on a browser redirect or customer-submitted reference alone.
+
+
+## Controlled administrator bootstrap
+
+- Set `ADMIN_EMAILS` to the exact administrator email address(es) that have been approved.
+- Generate a unique `ADMIN_SETUP_TOKEN` of at least 32 characters and set `ADMIN_SETUP_ENABLED=true` only for the short account-creation window.
+- Open `/admin/setup`, use the approved email address and one-time token, and create a strong password.
+- Complete the approved email-verification step before granting admin access. The application requires the Better Auth user record's `emailVerified` flag to be true as well as an exact `ADMIN_EMAILS` match.
+- Immediately set `ADMIN_SETUP_ENABLED=false` and rotate/remove `ADMIN_SETUP_TOKEN` after setup.
+- Never put the setup token in source control, client-side environment variables, chat messages, or public issue reports.

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user || !isAdminEmail(session.user.email)) {
+  if (!session?.user || !isAdminEmail(session.user.email, session.user.emailVerified)) {
     return NextResponse.json({ error: 'Administrator access required' }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
   }
   const requestId = crypto.randomUUID()

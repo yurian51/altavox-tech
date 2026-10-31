@@ -10,7 +10,7 @@ Do not publish the bookstore until the migration has completed successfully.
 
 ## Administrator access
 
-Set `BOOKSTORE_ADMIN_EMAILS` in the production environment to a comma-separated list of existing, authenticated Altavox user email addresses. Only those accounts can create book records through the management API. New records are saved as drafts.
+Set `ADMIN_EMAILS` in the production environment to a comma-separated list of existing, authenticated Altavox user email addresses. Only those accounts can create book records through the management API. New records are saved as drafts.
 
 ## Current operational boundary
 

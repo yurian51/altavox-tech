@@ -6,6 +6,7 @@ import { pool } from '@/lib/db'
 export async function POST(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user?.id || !session.user.email) return NextResponse.json({ error: 'Sign in before placing an order.' }, { status: 401 })
+  if (!pool) return NextResponse.json({ error: 'Bookstore database is unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } })
   let client
   try {
     const body = await request.json()

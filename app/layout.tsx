@@ -7,12 +7,16 @@ const appIcon = '/favicon.svg'
 export const metadata: Metadata = {
   metadataBase: new URL('https://altavox.space'),
   title: {
-    default: 'Altavox Tech — Software Systems Engineering & IT Operations Platform',
-    template: '%s | Altavox Tech',
+    default: 'Altavox Technologies | Software, AI & Digital Systems',
+    template: '%s | Altavox Technologies',
   },
-  description: 'Technology company focused on software engineering, digital product development, ISP billing, infrastructure, and operational clarity.',
-  applicationName: 'Altavox Tech',
-  generator: 'Altavox Tech',
+  description: 'Altavox Technologies builds practical software, AI-enabled workflows, fintech integrations, business platforms and digital infrastructure for organizations in Africa and beyond.',
+  applicationName: 'Altavox Technologies',
+  keywords: ['Altavox Technologies', 'software development', 'AI automation', 'fintech integrations', 'digital transformation', 'business systems', 'Tanzania'],
+  category: 'technology',
+  generator: 'Next.js',
+  creator: 'Altavox Technologies',
+  publisher: 'Altavox Technologies',
   alternates: { canonical: '/' },
   icons: {
     icon: [
@@ -25,14 +29,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    siteName: 'Altavox Tech',
-    title: 'Altavox Tech — Software Systems Engineering & IT Operations Platform',
+    siteName: 'Altavox Technologies',
+    title: 'Altavox Technologies | Software, AI & Digital Systems',
     description: 'Software engineering, digital product development, ISP billing, infrastructure, and connected systems.',
     images: [{ url: brandEmblem, alt: 'Altavox Tech Capricorn brand emblem' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Altavox Tech',
+    title: 'Altavox Technologies',
     description: 'Software engineering, digital product development, ISP billing, infrastructure, and connected systems.',
     images: [brandEmblem],
   },
@@ -49,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-TZ">
       <body className="antialiased">
         {children}
       </body>

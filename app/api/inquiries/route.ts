@@ -19,7 +19,9 @@ export async function POST(request: Request) {
   const requiredFields = ['name', 'email', 'description'] as const
   const valid = body && requiredFields.every((field) => typeof body[field] === 'string' && body[field].trim().length > 0 && body[field].length <= maxFieldLength)
 
-  if (!valid || !emailPattern.test(body.email.trim())) {
+  const phoneValid = body && (body.phone == null || (typeof body.phone === 'string' && body.phone.trim().length <= 40))
+
+  if (!valid || !phoneValid || !emailPattern.test(body.email.trim())) {
     return NextResponse.json({ error: 'Invalid enquiry', requestId }, { status: 400, headers: { 'Cache-Control': 'no-store' } })
   }
 

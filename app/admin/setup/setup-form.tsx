@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
-import { signUp } from '@/lib/auth-client'
 
 export default function AdminSetupForm() {
   const router = useRouter()
@@ -19,9 +18,10 @@ export default function AdminSetupForm() {
     setError('')
     const data = new FormData(event.currentTarget)
     const email = String(data.get('email')).trim().toLowerCase()
-    const result = await signUp.email({ email, password: String(data.get('password')), name: 'Altavox Admin' })
-    if (result.error) setError('Account setup failed. The account may already exist.')
-    else { router.push('/sign-in'); router.refresh() }
+    const response = await fetch('/api/admin/bootstrap', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password: String(data.get('password')), token: String(data.get('setupToken')) }) })
+    const result = await response.json().catch(() => ({}))
+    if (!response.ok) setError(result.error || 'Account setup failed. Check the setup token and authorized email.')
+    else { router.push('/sign-in?setup=complete'); router.refresh() }
     setPending(false)
   }
 
@@ -69,15 +69,19 @@ export default function AdminSetupForm() {
           </div>
 
           <div>
+            <label className="block text-xs font-semibold text-slate-200">One-time setup token</label>
+            <input required name="setupToken" type="password" autoComplete="off" className="mt-1.5 w-full rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 text-xs text-white outline-none focus:border-[#f26522]" placeholder="Provided by the system operator" />
+          </div>
+          <div>
             <label className="block text-xs font-semibold text-slate-200">Password</label>
             <input
               required
-              minLength={8}
+              minLength={12}
               name="password"
               type="password"
               autoComplete="new-password"
               className="mt-1.5 w-full rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 text-xs text-white placeholder-slate-400 outline-none focus:border-[#f26522] focus:bg-white/15 transition"
-              placeholder="•••••••• (Min 8 chars)"
+              placeholder="•••••••• (Min 12 chars)"
             />
           </div>
 

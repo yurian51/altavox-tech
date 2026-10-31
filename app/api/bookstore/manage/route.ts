@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const author = String(body.author ?? '').trim()
     const format = String(body.format ?? '')
     if (!title || title.length > 200 || !author || author.length > 160 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length > 180 || !['ebook', 'print', 'both'].includes(format)) {
-      return NextResponse.json({ error: 'Valid title, author, slug and format are required.' }, { status: 400 })
+      return NextResponse.json({ error: 'Valid title, author, slug and format are required.' }, { status: 400, headers: { 'Cache-Control': 'no-store' } })
     }
     const digitalPrice = body.digitalPrice === '' || body.digitalPrice == null ? null : Number(body.digitalPrice)
     const printPrice = body.printPrice === '' || body.printPrice == null ? null : Number(body.printPrice)

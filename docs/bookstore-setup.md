@@ -25,7 +25,7 @@ Set `ADMIN_EMAILS` in the production environment to a comma-separated list of ex
 1. Configure and test a real payment provider and its signed callback/webhook.
 2. On verified payment only, update payment and order status and create the matching digital library grants.
 3. Configure private object storage for PDF/EPUB files and issue short-lived, authenticated download links.
-4. Configure actual delivery rates, fulfilment workflow and customer notifications.
+4. Configure `BOOKSTORE_FLAT_DELIVERY_FEE_TZS` as a server-side fixed delivery charge, then implement actual delivery zones/rates, fulfilment workflow and customer notifications.
 5. Test database migration, order rollback, duplicate payment callbacks, stock concurrency and access control.
 
 No payment is treated as successful based on a browser redirect or customer-submitted reference alone.

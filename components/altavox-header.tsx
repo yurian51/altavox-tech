@@ -92,7 +92,7 @@ export function AltavoxHeader() {
             </a>
             <div className="hidden xl:flex items-center gap-1.5 text-emerald-400">
               <span className="flex size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Systems: 100% Operational</span>
+              <span>Engineering & Digital Systems</span>
             </div>
           </div>
 

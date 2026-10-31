@@ -36,6 +36,6 @@ No payment is treated as successful based on a browser redirect or customer-subm
 - Set `ADMIN_EMAILS` to the exact administrator email address(es) that have been approved.
 - Generate a unique `ADMIN_SETUP_TOKEN` of at least 32 characters and set `ADMIN_SETUP_ENABLED=true` only for the short account-creation window.
 - Open `/admin/setup`, use the approved email address and one-time token, and create a strong password.
-- Complete the approved email-verification step before granting admin access. The application requires the Better Auth user record's `emailVerified` flag to be true as well as an exact `ADMIN_EMAILS` match.
+- Independently verify ownership of the approved email address, then set the Better Auth user record's `emailVerified` flag to true in the database. Example SQL: `UPDATE "user" SET "emailVerified" = TRUE WHERE lower(email) = lower('approved@example.com');` Replace the example with the approved address only after verification. The application requires both this flag and an exact `ADMIN_EMAILS` match.
 - Immediately set `ADMIN_SETUP_ENABLED=false` and rotate/remove `ADMIN_SETUP_TOKEN` after setup.
 - Never put the setup token in source control, client-side environment variables, chat messages, or public issue reports.

@@ -174,6 +174,7 @@ export default function HomePage() {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
+                      aria-label="Search Altavox systems and services"
                       placeholder="Search systems (e.g. Jaslyn Net, MikroTik, Sammena SIMS, Cloud)..."
                       className="w-full rounded-xl border border-white/20 bg-white/10 pl-12 pr-28 py-3.5 text-sm text-white placeholder-slate-300 outline-none backdrop-blur-md focus:border-[#f26522] focus:bg-white/15 transition"
                     />
@@ -672,8 +673,8 @@ export default function HomePage() {
                     </h3>
 
                     {/* Project overview */}
-                    <p className="mt-3 text-xs leading-6 text-slate-700 italic">
-                      &quot;{study.quote}&quot;
+                    <p className="mt-3 text-xs leading-6 text-slate-700">
+                      <span className="font-semibold text-slate-900">Project overview:</span> {study.quote}
                     </p>
 
                     {/* Operational Shift */}

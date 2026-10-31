@@ -6,7 +6,7 @@ import { pool } from '@/lib/db'
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user || !isAdminEmail(session.user.email)) {
+  if (!session?.user || !isAdminEmail(session.user.email, session.user.emailVerified)) {
     return NextResponse.json({ error: 'Administrator access required.' }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
   }
   if (!pool) return NextResponse.json({ error: 'Bookstore database is unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } })

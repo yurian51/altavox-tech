@@ -35,8 +35,8 @@ export function AltavoxFooter() {
               <Server className="size-6 text-emerald-400" />
             </span>
             <div>
-              <p className="text-sm font-bold text-white">99.9% Production SLA</p>
-              <p className="text-xs text-slate-400">Engineered for teams that cannot stop</p>
+              <p className="text-sm font-bold text-white">Reliability-first Engineering</p>
+              <p className="text-xs text-slate-400">Operational planning, monitoring & recovery</p>
             </div>
           </div>
 
@@ -228,7 +228,7 @@ export function AltavoxFooter() {
 
         {/* Bottom Copyright & Disclaimer */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
-          <p>© {new Date().getFullYear()} Altavox Tech, Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Altavox Technologies. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-slate-200 transition">Privacy</Link>
             <span>·</span>

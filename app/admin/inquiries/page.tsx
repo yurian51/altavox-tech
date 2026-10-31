@@ -11,7 +11,7 @@ import { AdminSignOut } from '@/components/admin-sign-out'
 
 export default async function AdminInquiriesPage() {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user || !isAdminEmail(session.user.email)) redirect('/sign-in')
+  if (!session?.user || !isAdminEmail(session.user.email, session.user.emailVerified)) redirect('/sign-in')
   const rows = db ? await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(100) : []
 
   return (

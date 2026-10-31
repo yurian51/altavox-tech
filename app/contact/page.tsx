@@ -42,6 +42,7 @@ export default function ContactPage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
           description: formData.message.trim(),
           service: formData.systemInterest,
           timeline: formData.preferredTime,

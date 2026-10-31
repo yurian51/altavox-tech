@@ -5,7 +5,7 @@ import { auth } from '@/lib/auth'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function allowedAdmin(email: string) {
   return (process.env.ADMIN_EMAILS ?? '')

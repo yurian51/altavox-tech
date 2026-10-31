@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   if (!session?.user || !isAdminEmail(session.user.email)) {
     return NextResponse.json({ error: 'Administrator access required.' }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
   }
+  if (!pool) return NextResponse.json({ error: 'Bookstore database is unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } })
   try {
     const body = await request.json()
     if (!body || typeof body !== 'object' || Array.isArray(body)) return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })

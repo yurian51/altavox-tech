@@ -7,8 +7,6 @@ import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import { signUp } from '@/lib/auth-client'
 
-const allowedAdminEmail = 'yurianarshad@gmail.com'
-
 export default function AdminSetupForm() {
   const router = useRouter()
   const [error, setError] = useState('')
@@ -21,14 +19,9 @@ export default function AdminSetupForm() {
     setError('')
     const data = new FormData(event.currentTarget)
     const email = String(data.get('email')).trim().toLowerCase()
-    if (email !== allowedAdminEmail) {
-      setError('This setup link is not available for that email.')
-      setPending(false)
-      return
-    }
     const result = await signUp.email({ email, password: String(data.get('password')), name: 'Altavox Admin' })
     if (result.error) setError('Account setup failed. The account may already exist.')
-    else { router.push('/admin/inquiries'); router.refresh() }
+    else { router.push('/sign-in'); router.refresh() }
     setPending(false)
   }
 
@@ -71,7 +64,7 @@ export default function AdminSetupForm() {
               type="email"
               autoComplete="email"
               className="mt-1.5 w-full rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 text-xs text-white placeholder-slate-400 outline-none focus:border-[#f26522] focus:bg-white/15 transition"
-              placeholder="yurianarshad@gmail.com"
+              placeholder="admin@example.com"
             />
           </div>
 

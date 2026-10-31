@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'motion/react'
 import {
   Terminal,
   Play,
@@ -14,7 +15,8 @@ import {
   Layers,
   Copy,
   Check,
-  ShieldCheck
+  ShieldCheck,
+  Info
 } from 'lucide-react'
 
 type TabType = 'routeros' | 'sims' | 'cloud'
@@ -224,23 +226,30 @@ export function LiveTerminalSandbox() {
           const isHighlight = log.includes('[WEBHOOK]') || log.includes('[SUCCESS]') || log.includes('[RENDER]') || log.includes('[VERIFIED]')
           const isWarn = log.includes('[SYNC]') || log.includes('[AUTH]')
           return (
-            <div
-              key={idx}
+            <motion.div
+              key={`${idx}-${log.slice(0, 20)}`}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
               className={`flex items-start gap-2 ${
                 isHighlight ? 'text-emerald-300 font-semibold' : isWarn ? 'text-cyan-300' : 'text-slate-300'
               }`}
             >
               <span className="text-[#f26522] shrink-0 font-bold">›</span>
               <span className="break-all">{log}</span>
-            </div>
+            </motion.div>
           )
         })}
 
         {isRunning && (
-          <div className="flex items-center gap-2 text-orange-400 pt-1 animate-pulse">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-2 text-orange-400 pt-1 animate-pulse"
+          >
             <span className="text-[#f26522]">›</span>
             <span>Processing operational protocol command...</span>
-          </div>
+          </motion.div>
         )}
       </div>
 

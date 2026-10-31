@@ -33,6 +33,7 @@ import {
   Activity,
   ArrowUpRight
 } from 'lucide-react'
+import { motion } from 'motion/react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { AltavoxCourseCard } from '@/components/altavox-course-card'
@@ -41,6 +42,7 @@ import { CurriculumModal } from '@/components/curriculum-modal'
 import { CareerAdvisorModal } from '@/components/career-advisor-modal'
 import { ArchitectureCalculator } from '@/components/architecture-calculator'
 import { LiveTerminalSandbox } from '@/components/live-terminal-sandbox'
+import { TechStackTicker } from '@/components/tech-stack-ticker'
 import { coursesData, courseCategories, CourseItem } from '@/lib/courses-data'
 
 export default function HomePage() {
@@ -154,7 +156,12 @@ export default function HomePage() {
             <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
               
               {/* Left Column: Mission & Core Value */}
-              <div className="lg:col-span-7 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-7 space-y-6"
+              >
                 
                 {/* Main Hero Headline */}
                 <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-5xl leading-[1.15]">
@@ -182,7 +189,7 @@ export default function HomePage() {
                         const el = document.getElementById('systems-section')
                         el?.scrollIntoView({ behavior: 'smooth' })
                       }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-[#f26522] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-[#f26522] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition cursor-pointer"
                     >
                       Find System
                     </button>
@@ -199,7 +206,7 @@ export default function HomePage() {
                           const el = document.getElementById('systems-section')
                           el?.scrollIntoView({ behavior: 'smooth' })
                         }}
-                        className="rounded-md bg-white/10 px-2.5 py-1 text-slate-200 hover:bg-[#f26522] hover:text-white transition"
+                        className="rounded-md bg-white/10 px-2.5 py-1 text-slate-200 hover:bg-[#f26522] hover:text-white transition cursor-pointer"
                       >
                         {tag}
                       </button>
@@ -219,7 +226,7 @@ export default function HomePage() {
 
                   <button
                     onClick={() => handleOpenDemo()}
-                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md hover:bg-white/20 transition"
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md hover:bg-white/20 transition cursor-pointer"
                   >
                     <Calendar className="size-4 text-[#f26522]" />
                     <span>Book Live Technical Demo</span>
@@ -227,17 +234,22 @@ export default function HomePage() {
 
                   <button
                     onClick={() => setAdvisorModalOpen(true)}
-                    className="flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3.5 text-xs font-semibold text-cyan-200 hover:text-white hover:bg-white/5 transition"
+                    className="flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3.5 text-xs font-semibold text-cyan-200 hover:text-white hover:bg-white/5 transition cursor-pointer"
                   >
                     <Sparkles className="size-3.5" />
                     <span>AI Systems Advisor</span>
                   </button>
                 </div>
 
-              </div>
+              </motion.div>
 
               {/* Right Column: Interactive Hero Live Cockpit Preview Card */}
-              <div className="lg:col-span-5">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-5"
+              >
                 <div className="relative rounded-2xl border border-white/15 bg-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
                   {/* Floating Live Indicator */}
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
@@ -313,7 +325,7 @@ export default function HomePage() {
                     <div className="pt-2 flex gap-3">
                       <button
                         onClick={() => handleOpenDemo('Jaslyn Net — Carrier-Grade ISP Billing & MikroTik Automation Platform')}
-                        className="flex-1 rounded-xl bg-[#f26522] py-3 text-center text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition"
+                        className="flex-1 rounded-xl bg-[#f26522] py-3 text-center text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition cursor-pointer"
                       >
                         Reserve System Demo
                       </button>
@@ -326,38 +338,29 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* CORE TECHNOLOGIES & INFRASTRUCTURE STRIP */}
+        {/* CORE TECHNOLOGIES & INFRASTRUCTURE STRIP (NOW IN MOTION) */}
         {/* ======================================================== */}
-        <section className="bg-white border-b border-slate-200 py-8">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-xs font-bold uppercase tracking-wider text-slate-500">
-              Technologies used across Altavox engineering work
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 opacity-90">
-              {techPartners.map((tech) => (
-                <div key={tech.name} className="flex items-center gap-2 rounded-lg bg-slate-50 px-3.5 py-2 border border-slate-200 shadow-xs">
-                  <Server className="size-3.5 text-[#07294d]" />
-                  <span className="text-xs font-bold text-slate-800">{tech.name}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">({tech.tag})</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <TechStackTicker />
 
         {/* ======================================================== */}
         {/* INTERACTIVE PRODUCTION COCKPIT & LIVE TERMINAL SANDBOX */}
         {/* ======================================================== */}
-        <section className="bg-[#030d17] py-16 border-b border-slate-800 text-white">
+        <section className="bg-[#030d17] py-16 border-b border-slate-800 text-white relative overflow-hidden">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8"
+            >
               <div>
                 <span className="inline-block rounded-full bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                   Live Interactive Sandbox
@@ -374,9 +377,16 @@ export default function HomePage() {
                 <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
                 <span>Simulated Production Socket Connected</span>
               </div>
-            </div>
+            </motion.div>
 
-            <LiveTerminalSandbox />
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <LiveTerminalSandbox />
+            </motion.div>
           </div>
         </section>
 
@@ -386,7 +396,13 @@ export default function HomePage() {
         <section id="systems-section" className="py-16 sm:py-24 bg-slate-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+            >
               <div>
                 <span className="inline-block rounded bg-orange-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Altavox Platforms & Tracks
@@ -406,15 +422,21 @@ export default function HomePage() {
                 <span>View Full Projects Registry</span>
                 <ArrowRight className="size-4" />
               </Link>
-            </div>
+            </motion.div>
 
             {/* Category Filter Tabs */}
-            <div className="mt-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none"
+            >
               {courseCategories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === category
                       ? 'bg-[#07294d] text-white shadow-md'
                       : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'
@@ -423,17 +445,24 @@ export default function HomePage() {
                   {category}
                 </button>
               ))}
-            </div>
+            </motion.div>
 
             {/* Systems Grid */}
             <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredCourses.map((item) => (
-                <AltavoxCourseCard
+              {filteredCourses.map((item, idx) => (
+                <motion.div
                   key={item.id}
-                  course={item}
-                  onViewCurriculum={handleOpenCurriculum}
-                  onBookDemo={handleOpenDemo}
-                />
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.5, delay: Math.min(idx * 0.08, 0.4), ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <AltavoxCourseCard
+                    course={item}
+                    onViewCurriculum={handleOpenCurriculum}
+                    onBookDemo={handleOpenDemo}
+                  />
+                </motion.div>
               ))}
             </div>
 
@@ -460,7 +489,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="bg-gradient-to-b from-white to-slate-50 py-16 sm:py-20 border-b border-slate-200">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-center max-w-3xl mx-auto mb-10"
+            >
               <span className="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                 Enterprise Planning & ROI Tool
               </span>
@@ -470,11 +505,18 @@ export default function HomePage() {
               <p className="mt-2 text-sm sm:text-base text-slate-600">
                 Model your organization&apos;s workload across ISP billing, education SIMS, or enterprise cloud platforms to estimate monthly labor saved and recommended deployment hardware.
               </p>
-            </div>
+            </motion.div>
 
-            <ArchitectureCalculator
-              onSelectSetup={(summary) => handleOpenDemo(summary)}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ArchitectureCalculator
+                onSelectSetup={(summary) => handleOpenDemo(summary)}
+              />
+            </motion.div>
           </div>
         </section>
 
@@ -483,7 +525,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="bg-gradient-to-r from-[#07294d] to-[#0d3b66] text-white py-14 border-y border-white/10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="grid gap-8 lg:grid-cols-12 lg:items-center"
+            >
               
               <div className="lg:col-span-8 space-y-4">
                 <div className="inline-flex items-center gap-2 rounded-full bg-[#f26522]/20 border border-[#f26522]/40 px-3 py-1 text-xs font-bold text-orange-200">
@@ -499,14 +547,14 @@ export default function HomePage() {
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <button
                     onClick={() => setAdvisorModalOpen(true)}
-                    className="flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#e05312] transition"
+                    className="flex items-center gap-2 rounded-xl bg-[#f26522] px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-[#e05312] transition cursor-pointer"
                   >
                     <Sparkles className="size-4" />
                     <span>Launch AI Systems Advisor</span>
                   </button>
                   <button
                     onClick={() => handleOpenDemo()}
-                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-semibold text-white hover:bg-white/20 transition cursor-pointer"
                   >
                     <span>Talk to a Systems Engineer</span>
                   </button>
@@ -543,7 +591,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -552,7 +600,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="py-20 bg-white border-b border-slate-200">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-center max-w-3xl mx-auto"
+            >
               <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                 Our Guiding Principles
               </span>
@@ -562,12 +616,19 @@ export default function HomePage() {
               <p className="mt-3 text-base text-slate-600">
                 We approach technology as a working part of the organization, not a layer of decoration. That means listening carefully, defining the real problem, and building the smallest dependable system that can carry the work forward.
               </p>
-            </div>
+            </motion.div>
 
             <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               
               {/* Pillar 1 */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition duration-200"
+              >
                 <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
                   <span className="font-mono text-sm font-bold text-[#f26522]">01</span>
                 </div>
@@ -577,10 +638,17 @@ export default function HomePage() {
                 <p className="mt-2 text-xs leading-6 text-slate-600">
                   Understand the real operation before choosing the technology stack. We diagnose workflow friction before writing a single line of production code.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Pillar 2 */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition duration-200"
+              >
                 <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
                   <span className="font-mono text-sm font-bold text-amber-400">02</span>
                 </div>
@@ -590,10 +658,17 @@ export default function HomePage() {
                 <p className="mt-2 text-xs leading-6 text-slate-600">
                   Prefer simple, observable systems over unnecessary complexity. Every network call, payment webhook, and database transaction is strictly auditable.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Pillar 3 */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition duration-200"
+              >
                 <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
                   <span className="font-mono text-sm font-bold text-cyan-300">03</span>
                 </div>
@@ -603,10 +678,17 @@ export default function HomePage() {
                 <p className="mt-2 text-xs leading-6 text-slate-600">
                   Build for the operators who will maintain the system daily. Intuitive cockpits, comprehensive documentation, and zero mysterious vendor lock-in.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Pillar 4 */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 hover:border-[#f26522] hover:shadow-lg transition duration-200"
+              >
                 <div className="flex size-12 items-center justify-center rounded-xl bg-[#07294d] text-white">
                   <span className="font-mono text-sm font-bold text-emerald-400">04</span>
                 </div>
@@ -616,7 +698,7 @@ export default function HomePage() {
                 <p className="mt-2 text-xs leading-6 text-slate-600">
                   Failover routing, sub-millisecond connection pools, and container isolation ensure that when the load spikes, your services stay responsive.
                 </p>
-              </div>
+              </motion.div>
 
             </div>
           </div>
@@ -627,7 +709,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="py-20 bg-slate-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+            >
               <div>
                 <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Evidence Over Exaggeration
@@ -649,14 +737,19 @@ export default function HomePage() {
                 <span className="text-sm font-bold text-slate-800">4.9 / 5.0 Reliability</span>
                 <span className="text-xs text-slate-500">(Verified Deployments)</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Case Studies Grid */}
             <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {caseStudies.map((study) => (
-                <div
+              {caseStudies.map((study, idx) => (
+                <motion.div
                   key={study.name}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition duration-200"
                 >
                   <div>
                     {/* Header with Outcome Badge */}
@@ -700,7 +793,7 @@ export default function HomePage() {
                       Read Case Study →
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -712,7 +805,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="py-20 bg-white border-b border-slate-200">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+            >
               <div>
                 <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                   Field Notes & Architecture
@@ -732,13 +831,18 @@ export default function HomePage() {
                 <span>Browse All Articles</span>
                 <ArrowRight className="size-4" />
               </Link>
-            </div>
+            </motion.div>
 
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {articles.map((art, idx) => (
-                <div
+                <motion.div
                   key={idx}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col justify-between hover:border-[#f26522] hover:bg-white hover:shadow-md transition"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 flex flex-col justify-between hover:border-[#f26522] hover:bg-white hover:shadow-md transition duration-200"
                 >
                   <div>
                     <div className="flex items-center justify-between text-xs">
@@ -760,7 +864,7 @@ export default function HomePage() {
                     <span>Read Full Note</span>
                     <ArrowUpRight className="size-3.5" />
                   </Link>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -771,7 +875,13 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="bg-slate-50 py-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="rounded-3xl bg-gradient-to-br from-[#07294d] to-[#041a33] text-white p-8 sm:p-12 lg:p-16 shadow-xl relative overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-3xl bg-gradient-to-br from-[#07294d] to-[#041a33] text-white p-8 sm:p-12 lg:p-16 shadow-xl relative overflow-hidden"
+            >
               <div className="max-w-2xl space-y-4">
                 <span className="rounded-md bg-[#f26522] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                   Engage Altavox Engineering
@@ -808,7 +918,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -817,14 +927,20 @@ export default function HomePage() {
         {/* ======================================================== */}
         <section className="py-20 bg-white border-t border-slate-200">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-center"
+            >
               <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f26522]">
                 Technical Inquiries
               </span>
               <h2 className="mt-3 text-3xl font-extrabold text-[#07294d]">
                 Frequently Asked Technical Questions
               </h2>
-            </div>
+            </motion.div>
 
             <div className="mt-10 space-y-4">
               {[
@@ -845,7 +961,14 @@ export default function HomePage() {
                   a: 'The Altavox Tech Academy is our technical skill development wing, offering 100% live instructor-led tracks in AWS Cloud Architecture, Salesforce Platform Development, Cyber Security, and QA Automation to help engineering teams and career switchers gain practical certifications.'
                 }
               ].map((faq, idx) => (
-                <div key={idx} className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-xs">
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.45, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-xs"
+                >
                   <h4 className="text-sm font-bold text-[#07294d] flex items-center gap-2">
                     <HelpCircle className="size-4 text-[#f26522] shrink-0" />
                     <span>{faq.q}</span>
@@ -853,23 +976,29 @@ export default function HomePage() {
                   <p className="mt-2 text-xs leading-6 text-slate-600 pl-6">
                     {faq.a}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <div className="mt-12 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-12 text-center"
+            >
               <p className="text-sm text-slate-600">
                 Have specific architectural or integration requirements?
               </p>
               <div className="mt-4 flex justify-center gap-4">
                 <Link
                   href="/contact"
-                  className="rounded-xl bg-[#07294d] px-6 py-3 text-xs font-bold text-white hover:bg-[#051c36] transition"
+                  className="rounded-xl bg-[#07294d] px-6 py-3 text-xs font-bold text-white hover:bg-[#051c36] transition cursor-pointer"
                 >
                   Contact Altavox Engineering Desk
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 

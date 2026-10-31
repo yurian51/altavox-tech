@@ -91,7 +91,7 @@ export default function HomePage() {
       outcome: 'Automated billing workflows',
       previous: 'Manual bank slip verification & late-night reconnect tickets',
       current: 'Payment-triggered provisioning workflows, subject to configured integrations',
-      image: '/public/projects/jaslyn-net-live.png',
+      image: '/projects/jaslyn-net-live.png',
       quote: 'Jaslyn Net is presented as an ISP operations platform integrating billing, subscriber identity, and network automation.'
     },
     {
@@ -101,7 +101,7 @@ export default function HomePage() {
       outcome: 'School administration workflows',
       previous: 'Physical ledger books, paper receipt booklets, lost student files',
       current: 'Unified web portal for admissions, fee reconciliation, and PDF gradebooks',
-      image: '/public/projects/sammena-live.png',
+      image: '/projects/sammena-live.png',
       quote: 'Sammena School uses a school information management platform for its public website and administration workflows.'
     },
     {
@@ -538,7 +538,7 @@ export default function HomePage() {
                       <p className="font-semibold text-white">Carrier NOC Telemetry</p>
                       <p className="text-[11px] text-slate-300">→ NetBill-NOC Multi-Site</p>
                     </div>
-                    <span className="font-bold text-emerald-400">99.99% Uptime</span>
+                    <span className="font-bold text-emerald-400">Network monitoring design</span>
                   </div>
                 </div>
               </div>
@@ -646,8 +646,8 @@ export default function HomePage() {
                     <Star key={i} className="size-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-slate-800">4.9 / 5.0 Reliability</span>
-                <span className="text-xs text-slate-500">(Verified Deployments)</span>
+                <span className="text-sm font-bold text-slate-800">Engineering case studies</span>
+                <span className="text-xs text-slate-500">(Selected project work)</span>
               </div>
             </div>
 
@@ -671,7 +671,7 @@ export default function HomePage() {
                       {study.title}
                     </h3>
 
-                    {/* Review Quote */}
+                    {/* Project overview */}
                     <p className="mt-3 text-xs leading-6 text-slate-700 italic">
                       &quot;{study.quote}&quot;
                     </p>

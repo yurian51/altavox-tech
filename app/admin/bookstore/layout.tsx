@@ -7,6 +7,6 @@ export const dynamic = 'force-dynamic'
 
 export default async function BookstoreAdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user || !isAdminEmail(session.user.email)) redirect('/sign-in')
+  if (!session?.user || !isAdminEmail(session.user.email, session.user.emailVerified)) redirect('/sign-in')
   return children
 }

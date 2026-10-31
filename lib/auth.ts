@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production' && (!process.env.BETTER_AUTH_SECRET ||
 }
 
 export const auth = betterAuth({
-  database: pool,
+  ...(pool ? { database: pool } : {}),
   secret: process.env.BETTER_AUTH_SECRET ?? 'local-development-only-secret-change-before-deploy-123456',
   baseURL,
   emailAndPassword: { enabled: true, autoSignIn: true },

@@ -92,7 +92,7 @@ export function AltavoxHeader() {
             </a>
             <div className="hidden xl:flex items-center gap-1.5 text-emerald-400">
               <span className="flex size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Systems: 100% Operational</span>
+              <span>Engineering & Digital Systems</span>
             </div>
           </div>
 
@@ -265,6 +265,7 @@ export function AltavoxHeader() {
                 onFocus={() => {
                   if (searchQuery.length > 0) setSearchOpen(true)
                 }}
+                aria-label="Search Altavox systems and courses"
                 placeholder="Search systems, ISP billing, MikroTik, SIMS, Cloud..."
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-[#f26522] focus:bg-white focus:outline-none transition shadow-inner"
               />

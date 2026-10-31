@@ -12,7 +12,7 @@ import { AdminSignOut } from '@/components/admin-sign-out'
 export default async function AdminInquiriesPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user || !isAdminEmail(session.user.email)) redirect('/sign-in')
-  const rows = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(100)
+  const rows = db ? await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(100) : []
 
   return (
     <main className="min-h-screen bg-[#07294d] px-6 py-12 text-white font-sans">
@@ -34,6 +34,7 @@ export default async function AdminInquiriesPage() {
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Enterprise Inquiries & Proposals</h1>
             <p className="mt-1 text-xs text-slate-300">Client inquiries received via public intake and proposal forms.</p>
+            {!db && <p role="alert" className="mt-3 rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-xs text-amber-100">Database connection is unavailable. Records are not being displayed from a demo source.</p>}
           </div>
           <span className="text-xs font-mono text-[#f26522] font-bold bg-[#f26522]/10 px-3 py-1 rounded-full border border-[#f26522]/30">{rows.length} Total Records</span>
         </div>

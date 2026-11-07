@@ -1,15 +1,17 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import { ArrowUpRight, Check, ExternalLink, Monitor, PhoneCall, Sparkles, Activity, ShieldCheck, ArrowRight } from 'lucide-react'
+import { ArrowUpRight, Check, ExternalLink, Monitor, PhoneCall, Sparkles, Activity, ShieldCheck, ArrowRight, LockKeyhole } from 'lucide-react'
 import { AltavoxHeader } from '@/components/altavox-header'
 import { AltavoxFooter } from '@/components/altavox-footer'
 import { projects } from '@/lib/site-data'
+import { ProjectPreview } from '@/components/project-preview'
 
-const screenshotUrl = (site: string) =>
-  'https://image.thum.io/get/width/1440/crop/1000/noanimate/' + site
+const projectScreenshots: Record<string, string> = {
+  'jaslyn-net': '/projects/jaslyn-net-live.png',
+  sammena: '/projects/sammena-live.png',
+}
 
 export default function ProjectsPage() {
   return (
@@ -29,26 +31,26 @@ export default function ProjectsPage() {
             >
               <div className="inline-flex items-center gap-2 rounded-full bg-[#f26522]/20 border border-[#f26522]/40 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-orange-200 mb-4">
                 <Activity className="size-3.5 text-[#f26522]" />
-                <span>Production Deployments & Blueprints</span>
+                <span>Featured Projects & Engineering Blueprints</span>
               </div>
               
               <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
                 <div className="lg:col-span-8 space-y-4">
                   <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                    Production Systems. <span className="text-[#f26522]">Built for Real Operations.</span>
+                    Software Platforms. <span className="text-[#f26522]">Built for Real Operations.</span>
                   </h1>
                   <p className="max-w-2xl text-base sm:text-lg text-slate-200 leading-relaxed">
-                    We focus our engineering work on connectivity infrastructure, ISP billing automation, and unified school information systems. Explore live architectures for Jaslyn Net and Sammena.
+                    We focus our engineering work on connectivity infrastructure, ISP billing automation, and unified school information systems. Explore the work behind Jaslyn Net and Sammena.
                   </p>
                 </div>
                 
                 <div className="lg:col-span-4 border-l-2 border-[#f26522] pl-6 py-2 bg-white/5 rounded-r-2xl border border-white/10 backdrop-blur-md">
-                  <span className="block text-3xl font-extrabold text-white font-mono">03</span>
+                  <span className="block text-3xl font-extrabold text-white font-mono">{projects.length.toString().padStart(2, '0')}</span>
                   <span className="text-xs uppercase font-bold tracking-wider text-orange-300">
-                    Carrier-Grade Live Initiatives
+                    Featured Platforms
                   </span>
                   <p className="text-[11px] text-slate-300 mt-1">
-                    Direct socket testing & real-time webhook reconciliation
+                    Connectivity systems & education technology
                   </p>
                 </div>
               </div>
@@ -64,17 +66,18 @@ export default function ProjectsPage() {
                 Our Portfolio
               </span>
               <h2 className="mt-2 text-2xl sm:text-4xl font-extrabold text-[#07294d]">
-                Platforms in Production & Development
+                Featured Platforms & Engineering Work
               </h2>
             </div>
             <p className="max-w-md text-xs sm:text-sm text-slate-500">
-              Each platform is engineered with strict database constraints, live subscriber telemetry, and automated operator runbooks.
+              Explore the two platforms currently featured by Altavox Tech. Status labels reflect the project lifecycle, not a live uptime check.
             </p>
           </div>
 
           <div className="space-y-16">
             {projects.map((project, index) => (
               <article
+                id={project.slug}
                 key={project.slug}
                 className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm hover:border-[#f26522] transition-colors duration-150"
               >
@@ -84,9 +87,9 @@ export default function ProjectsPage() {
                       <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#f26522]">
                         0{index + 1} // {project.category}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
-                        <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        Verified Active
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 border border-slate-200 px-2.5 py-0.5 text-[11px] font-semibold text-slate-700">
+                        <span className="size-1.5 rounded-full bg-slate-400" />
+                        {project.status}
                       </span>
                     </div>
 
@@ -121,42 +124,29 @@ export default function ProjectsPage() {
                         <a
                           href={project.url}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 rounded-xl bg-[#f26522] px-5 py-3 text-xs font-bold text-white shadow-md hover:bg-[#e05312] transition cursor-pointer"
                         >
-                          <span>Visit Live Platform</span>
+                          <span>Open Project Website</span>
                           <ExternalLink className="size-3.5" />
                         </a>
                       )}
                       <Link
-                        href="/courses/jaslyn-net"
+                        href={`/contact?project=${encodeURIComponent(project.name)}`}
                         className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-xs font-semibold text-[#07294d] hover:bg-slate-100 transition"
                       >
-                        <span>View Blueprint</span>
+                        <span>Enquire about this project</span>
                         <ArrowRight className="size-3.5" />
                       </Link>
                     </div>
                   </div>
 
-                  {/* Project Screenshot / Visual Preview */}
                   <div className="lg:col-span-7">
-                    <div className="mb-3 flex items-center justify-between text-xs text-slate-500">
-                      <span className="font-mono font-bold uppercase text-slate-400">Live Infrastructure Node</span>
-                      <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                        <Monitor className="size-3" /> Production Verified
-                      </span>
-                    </div>
-
-                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-slate-300 bg-slate-100 shadow-lg group">
-                      <Image
-                        src={screenshotUrl(project.url || '')}
-                        alt={`${project.name} live platform screenshot`}
-                        fill
-                        unoptimized
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
-                        className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
-                      />
-                    </div>
+                    <ProjectPreview
+                      projectName={project.name}
+                      projectUrl={project.url}
+                      screenshot={projectScreenshots[project.slug] ?? '/projects/jaslyn-net-live.png'}
+                    />
                   </div>
                 </div>
               </article>
